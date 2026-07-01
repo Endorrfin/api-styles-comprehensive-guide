@@ -1,0 +1,12 @@
+# Rename to `.gitignore` in the guide root. Standard §4.7.
+node_modules/
+dist/
+dist-*/
+_ci/
+preview-*.html
+scripts/_*
+.DS_Store
+*.log
+
+# Out-of-standard reference material — never committed inside a guide
+_examples/
