@@ -126,6 +126,31 @@ export const glossary: GlossaryEntry[] = [
       en: 'A persistent, full-duplex TCP connection established by upgrading an HTTP request; both peers send framed messages until either closes.',
       uk: 'Постійне, full-duplex TCP-зʼєднання, створене апгрейдом HTTP-запиту; обидва peers шлють framed-повідомлення, доки хтось не закриє.',
     },
+    seeAlso: ['Full-duplex', 'CSWSH', 'Subprotocol'],
+  },
+  {
+    term: 'Full-duplex',
+    def: {
+      en: 'A channel where both ends can send at the same time. WebSockets are full-duplex; SSE is one-way (server→client) and REST is request/response.',
+      uk: 'Канал, де обидва кінці можуть слати водночас. WebSockets full-duplex; SSE односторонній (server→client), а REST — request/response.',
+    },
+    seeAlso: ['WebSocket'],
+  },
+  {
+    term: 'Subprotocol',
+    def: {
+      en: 'An application protocol negotiated via the Sec-WebSocket-Protocol header on top of the raw WebSocket pipe — e.g. graphql-transport-ws or STOMP. The server picks exactly one.',
+      uk: 'Прикладний протокол, узгоджений через заголовок Sec-WebSocket-Protocol поверх сирого WebSocket-каналу — напр. graphql-transport-ws чи STOMP. Сервер обирає рівно один.',
+    },
+    seeAlso: ['WebSocket'],
+  },
+  {
+    term: 'CSWSH',
+    def: {
+      en: 'Cross-Site WebSocket Hijacking — a CSRF on the WebSocket handshake: because CORS does not gate WebSockets, cookie-only auth lets any origin open an authenticated socket. Defend with an Origin allowlist + a per-connection token.',
+      uk: 'Cross-Site WebSocket Hijacking — CSRF на рукостисканні WebSocket: оскільки CORS не гейтить WebSockets, автентифікація лише через cookie дозволяє будь-якому origin відкрити автентифікований сокет. Захист — Origin allowlist + per-connection токен.',
+    },
+    seeAlso: ['WebSocket'],
   },
   {
     term: 'SSE',

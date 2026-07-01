@@ -26,6 +26,8 @@ export const sims: Record<string, ComponentType> = {
   'grpc-wire': lazyNamed(() => import('../components/sims/GrpcWireSim'), 'GrpcWireSim'),
   // CHANGED (s6): graphql-nplus1 — signature interactive for m9 (resolver fan-out vs DataLoader batch).
   'graphql-nplus1': lazyNamed(() => import('../components/sims/GraphqlNplus1Sim'), 'GraphqlNplus1Sim'),
+  // CHANGED (s7): websocket-frames — signature interactive for m12 (handshake + full-duplex timeline).
+  'websocket-frames': lazyNamed(() => import('../components/sims/WebsocketFramesSim'), 'WebsocketFramesSim'),
 };
 
 // ── Figures ───────────────────────────────────────────────────────────────────
@@ -58,6 +60,11 @@ export const figures: Record<string, ComponentType> = {
   'graphql-over-under-fetching': lazyNamed(
     () => import('../components/figures/GraphqlOverUnderFetching'),
     'GraphqlOverUnderFetching',
+  ),
+  // CHANGED (s7): websocket-frame-anatomy — the RFC 6455 frame bit layout for m12.
+  'websocket-frame-anatomy': lazyNamed(
+    () => import('../components/figures/WebsocketFrameAnatomy'),
+    'WebsocketFrameAnatomy',
   ),
 };
 

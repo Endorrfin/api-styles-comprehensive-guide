@@ -64,6 +64,10 @@ navigable stubs; 4 sim engines; smoke at 127 checks.**
 (pure N+1/DataLoader planner `lib/graphql.ts` + `scripts/test-graphql.ts` — naive fan-out N+1 vs a
 de-duplicated batch to 2); figure `graphql-over-under-fetching`; +4 GraphQL glossary terms. **7 modules
 authored, 18 navigable stubs; 5 sim engines; smoke at 139 checks.**
+**Built (S7):** signature `m12-websockets` (real-time; 8 topics) + the signature sim `websocket-frames`
+(pure timeline `lib/ws.ts` + `scripts/test-ws.ts` — HTTP Upgrade→101 then a full-duplex frame timeline,
+masking rule, ping→pong); figure `websocket-frame-anatomy`; +4 WebSocket glossary terms. **8 modules
+authored, 17 navigable stubs; 6 sim engines; smoke at 151 checks.**
 
 ## 4. Content / data model (the contract)
 **Terminology:** **Section** (top-level) → **Module** (navigable, skippable) → **Topic** (deep-linkable
@@ -137,7 +141,8 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S4 (done)** — `m3-http-transport` + `http-multiplexing`; `m4-data-formats`.
 - **S5 (done)** — `m10-grpc` + `grpc-wire`.
 - **S6 (done)** — `m9-graphql` + `graphql-nplus1`.
-- **S7–S9** — the remaining deep styles + their sims (WebSockets, WebRTC, Webhooks, SSE).
+- **S7 (done)** — `m12-websockets` + `websocket-frames`.
+- **S8–S9** — the remaining deep styles + their sims (WebRTC, Webhooks, SSE).
 - **S10** — right-sized styles (OData, SOAP, JSON-RPC, tRPC, async messaging).
 - **S11–S12** — Section IV cross-cutting (m17–m23).
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
@@ -237,3 +242,22 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   engines**) · smoke (**139 checks**, 5 sims + 10 figures EN+UK) · build (71 modules, code-split,
   `--outDir dist-s6`). *Branch:* `s6-graphql`. *Commit:* `feat: author m9 (GraphQL) + graphql-nplus1
   DataLoader sim`. *Open items:* S7 = `m12-websockets` + `websocket-frames`.
+- **S7** (2026-07-01) — **WebSockets.** Authored the signature **`m12-websockets`** (senior, real-time;
+  8 topics: upgrade-handshake → frames-opcodes (figure) → full-duplex (sim) → ping-pong-keepalive →
+  subprotocols → scaling-sticky-fanout → backpressure → security-origin-wss, closing on a use/avoid
+  verdict + a WS/SSE/WebRTC compare; 6 key points, 3 pitfalls, 2 interview, 8 sources). Built the
+  signature interactive **`websocket-frames`**: pure deterministic timeline `src/lib/ws.ts` (HTTP
+  Upgrade→101 handshake, then a scripted full-duplex frame exchange — text/binary + a ping/pong pair +
+  the closing handshake, masking derived from direction) + `scripts/test-ws.ts` (golden: handshake-first
+  →101, opcodes, client-masked/server-unmasked rule, ping→pong, full-duplex overlap, leading-byte
+  FIN|opcode, determinism) + `WebsocketFramesSim.tsx` (two-rail sequence-diagram timeline, play/step/reset,
+  “show bytes” toggle, reduced-motion, ARIA + live region); figure `websocket-frame-anatomy` (RFC 6455
+  frame bit-layout); +4 glossary terms (Full-duplex, Subprotocol, CSWSH + WebSocket cross-links).
+  Web-verified the facts (RFC 6455 handshake / `Sec-WebSocket-Accept` magic GUID 258EAFA5… / opcodes /
+  client-masking rule / ping 0x9·pong 0xA; close codes 1000/1001/1006; RFC 8441 & RFC 9220 WS over
+  HTTP/2 & HTTP/3 via Extended CONNECT, 9220 little production uptake by 2026; RFC 7692 permessage-deflate;
+  CORS does not gate WS → CSWSH, defend with Origin allowlist + per-connection token). **All gates
+  GREEN**: typecheck · lint · check:data (**8 authored** / 25) · test (**6 engines**) · smoke (**151
+  checks**, 6 sims + 11 figures EN+UK) · build (75 modules, code-split, `--outDir dist-s7`). *Branch:*
+  `s7-websockets`. *Commit:* `feat: author m12 (WebSockets) + websocket-frames timeline sim`. *Open
+  items:* S8 = `m14-webrtc` + `webrtc-connect`.

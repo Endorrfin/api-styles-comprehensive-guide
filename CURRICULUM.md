@@ -122,7 +122,7 @@ Turn the whole guide into a decision. The picker and the mental-models recap.
    `lib/compass.ts` + `test-compass.ts` + sim, now the landing hero).
 4. **S4 (done):** `m3-http-transport` + `http-multiplexing`; `m4-data-formats`.
 5. **S5 (done):** `m10-grpc` + `grpc-wire`. **S6 (done):** `m9-graphql` + `graphql-nplus1`.
-6. **S7–S8:** `m12-websockets` + `websocket-frames`; `m14-webrtc` + `webrtc-connect`.
+6. **S7 (done):** `m12-websockets` + `websocket-frames`. **S8:** `m14-webrtc` + `webrtc-connect`.
 7. **S9:** `m15-webhooks` + `webhook-delivery`; `m13-sse`.
 8. **S10:** `m6-odata`, `m7-soap-xml`, `m8-json-rpc`, `m11-trpc`, `m16-async-messaging` (right-sized).
 9. **S11–S12:** Section IV cross-cutting (m17–m23).
