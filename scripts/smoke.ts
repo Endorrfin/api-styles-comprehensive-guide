@@ -70,6 +70,8 @@ function ok(cond: boolean, msg: string): void {
 const SIM_CANARIES: Record<string, string[]> = {
   RestRequestLifecycleSim: ["/articles/42"],
   StyleCompassSim: ["REST", "gRPC"], // s3 · style names are language-independent
+  HttpMultiplexingSim: ["HTTP/1.1", "HTTP/3"], // s4 · protocol names render in any state
+  GrpcWireSim: ["Article", "int64"], // s5 · schema block renders in any state
 };
 const FIG_CANARIES: Record<string, string[]> = {
   RestAnatomy: ["GET /articles/42"],
@@ -78,6 +80,9 @@ const FIG_CANARIES: Record<string, string[]> = {
   InProcessVsNetwork: ["client"], // s3
   DecisionAxes: ["Timing"], // s3
   CouplingSpectrum: ["gRPC"], // s3
+  HttpConnectionModels: ["HTTP/3"], // s4
+  EncodingSize: ["Protobuf"], // s4
+  GrpcCallTypes: ["Unary", "Bidirectional"], // s5
 };
 
 async function main(): Promise<void> {
