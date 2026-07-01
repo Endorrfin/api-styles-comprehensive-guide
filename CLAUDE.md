@@ -60,6 +60,10 @@ navigable stubs; 3 sim engines; smoke at 115 checks.**
 **Built (S5):** signature `m10-grpc` (contract-first) + the signature sim `grpc-wire` (protobuf byte
 encoder `lib/grpc.ts` + `scripts/test-grpc.ts`); figure `grpc-call-types`. **6 modules authored, 19
 navigable stubs; 4 sim engines; smoke at 127 checks.**
+**Built (S6):** signature `m9-graphql` (contract-first; 10 topics) + the signature sim `graphql-nplus1`
+(pure N+1/DataLoader planner `lib/graphql.ts` + `scripts/test-graphql.ts` — naive fan-out N+1 vs a
+de-duplicated batch to 2); figure `graphql-over-under-fetching`; +4 GraphQL glossary terms. **7 modules
+authored, 18 navigable stubs; 5 sim engines; smoke at 139 checks.**
 
 ## 4. Content / data model (the contract)
 **Terminology:** **Section** (top-level) → **Module** (navigable, skippable) → **Topic** (deep-linkable
@@ -132,7 +136,8 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S3 (done)** — `m1-what-is-an-api` + `m2-decision-axes` + `style-compass` landing map.
 - **S4 (done)** — `m3-http-transport` + `http-multiplexing`; `m4-data-formats`.
 - **S5 (done)** — `m10-grpc` + `grpc-wire`.
-- **S6–S9** — the remaining deep styles + their sims (GraphQL, WebSockets, WebRTC, Webhooks, SSE).
+- **S6 (done)** — `m9-graphql` + `graphql-nplus1`.
+- **S7–S9** — the remaining deep styles + their sims (WebSockets, WebRTC, Webhooks, SSE).
 - **S10** — right-sized styles (OData, SOAP, JSON-RPC, tRPC, async messaging).
 - **S11–S12** — Section IV cross-cutting (m17–m23).
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
@@ -213,3 +218,22 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   sims + 9 figures EN+UK) · build (code-split, `--outDir dist-s5`). *Branch:* `s5-grpc`. *Commit:* `feat:
   author m10 (gRPC) + grpc-wire protobuf encoder sim`. *Open items:* S6 = `m9-graphql` +
   `graphql-nplus1` (the N+1 problem + DataLoader batching).
+- **S6** (2026-07-01) — **GraphQL.** Authored the signature **`m9-graphql`** (senior, contract-first;
+  10 topics ordered why→how→cost→fix→operate: schema-sdl → queries-mutations-subscriptions →
+  over-under-fetching (figure) → resolvers → the-n-plus-1-problem → dataloader-batching (sim) →
+  schema-evolution → persisted-queries → security-depth-complexity → federation, closing on a use/avoid
+  verdict; 6 key points, 3 pitfalls, 2 interview, 9 sources). Built the signature interactive
+  **`graphql-nplus1`**: pure deterministic planner `src/lib/graphql.ts` (list query + naive per-post
+  author queries vs a de-duplicated DataLoader batch) + `scripts/test-graphql.ts` (golden: naive = N+1,
+  batch = 2, dedup to distinct `IN()`, deterministic) + `GraphqlNplus1Sim.tsx` (posts count + DataLoader
+  toggle, stepped query-log reveal with play/step/reset, reduced-motion, N+1-vs-2 comparison bars, ARIA +
+  live region); figure `graphql-over-under-fetching`; +4 glossary terms (Resolver, DataLoader, Federation
+  + N+1 cross-links). Web-verified the version-sensitive facts (GraphQL **September 2025** spec edition —
+  first full edition since Oct 2021, adds schema coordinates + `oneOf` input objects; GraphQL-over-HTTP
+  media type `application/graphql-response+json`; DataLoader batches within one event-loop tick +
+  per-request cache; `graphql-ws` replaced the deprecated `subscriptions-transport-ws`; APQ ≠ safelisting
+  — persisted/trusted documents are the security feature; Apollo Router in Rust composes subgraphs →
+  supergraph). **All gates GREEN**: typecheck · lint · check:data (**7 authored** / 25) · test (**5
+  engines**) · smoke (**139 checks**, 5 sims + 10 figures EN+UK) · build (71 modules, code-split,
+  `--outDir dist-s6`). *Branch:* `s6-graphql`. *Commit:* `feat: author m9 (GraphQL) + graphql-nplus1
+  DataLoader sim`. *Open items:* S7 = `m12-websockets` + `websocket-frames`.

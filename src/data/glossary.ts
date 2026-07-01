@@ -95,6 +95,30 @@ export const glossary: GlossaryEntry[] = [
       en: 'One query for a list plus one query per item — an accidental fan-out of database calls. Batched with a DataLoader that coalesces per-item lookups.',
       uk: 'Один запит на список плюс по одному на елемент — випадковий fan-out викликів до БД. Батчиться через DataLoader, що склеює per-item звернення.',
     },
+    seeAlso: ['DataLoader', 'Resolver'],
+  },
+  {
+    term: 'Resolver',
+    def: {
+      en: 'The function behind a GraphQL field — (obj, args, context, info) → value. Execution walks the query tree calling a resolver per field, which is what makes the N+1 problem easy to introduce.',
+      uk: 'Функція за GraphQL-полем — (obj, args, context, info) → значення. Виконання йде деревом query, кличучи resolver на кожне поле, — саме тому легко отримати проблему N+1.',
+    },
+    seeAlso: ['N+1 problem', 'DataLoader'],
+  },
+  {
+    term: 'DataLoader',
+    def: {
+      en: 'A per-request utility that batches every key loaded within one event-loop tick into a single query and caches them, collapsing GraphQL’s N+1 fan-out to 1 + 1.',
+      uk: 'Per-request утиліта, що батчить кожен ключ, завантажений у межах одного tick event loop, в один запит і кешує їх, згортаючи N+1 fan-out GraphQL до 1 + 1.',
+    },
+    seeAlso: ['N+1 problem'],
+  },
+  {
+    term: 'Federation',
+    def: {
+      en: 'Composing several independently owned GraphQL subgraphs into one supergraph that a router plans queries across — one graph to the client, many services behind it.',
+      uk: 'Композиція кількох незалежних GraphQL-subgraph-ів в один supergraph, по якому router планує запити — один граф для клієнта, багато сервісів за ним.',
+    },
   },
   {
     term: 'WebSocket',

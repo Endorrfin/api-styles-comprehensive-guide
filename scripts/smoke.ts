@@ -72,6 +72,7 @@ const SIM_CANARIES: Record<string, string[]> = {
   StyleCompassSim: ["REST", "gRPC"], // s3 · style names are language-independent
   HttpMultiplexingSim: ["HTTP/1.1", "HTTP/3"], // s4 · protocol names render in any state
   GrpcWireSim: ["Article", "int64"], // s5 · schema block renders in any state
+  GraphqlNplus1Sim: ["posts", "DataLoader"], // s6 · query block + toggle render in any state
 };
 const FIG_CANARIES: Record<string, string[]> = {
   RestAnatomy: ["GET /articles/42"],
@@ -83,6 +84,7 @@ const FIG_CANARIES: Record<string, string[]> = {
   HttpConnectionModels: ["HTTP/3"], // s4
   EncodingSize: ["Protobuf"], // s4
   GrpcCallTypes: ["Unary", "Bidirectional"], // s5
+  GraphqlOverUnderFetching: ["REST", "GraphQL"], // s6
 };
 
 async function main(): Promise<void> {

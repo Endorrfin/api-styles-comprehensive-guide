@@ -24,6 +24,8 @@ export const sims: Record<string, ComponentType> = {
   'http-multiplexing': lazyNamed(() => import('../components/sims/HttpMultiplexingSim'), 'HttpMultiplexingSim'),
   // CHANGED (s5): grpc-wire — signature interactive for m10 (protobuf byte encoder vs JSON).
   'grpc-wire': lazyNamed(() => import('../components/sims/GrpcWireSim'), 'GrpcWireSim'),
+  // CHANGED (s6): graphql-nplus1 — signature interactive for m9 (resolver fan-out vs DataLoader batch).
+  'graphql-nplus1': lazyNamed(() => import('../components/sims/GraphqlNplus1Sim'), 'GraphqlNplus1Sim'),
 };
 
 // ── Figures ───────────────────────────────────────────────────────────────────
@@ -52,6 +54,11 @@ export const figures: Record<string, ComponentType> = {
   'encoding-size': lazyNamed(() => import('../components/figures/EncodingSize'), 'EncodingSize'),
   // CHANGED (s5): grpc-call-types — the four gRPC call shapes for m10.
   'grpc-call-types': lazyNamed(() => import('../components/figures/GrpcCallTypes'), 'GrpcCallTypes'),
+  // CHANGED (s6): graphql-over-under-fetching — REST vs GraphQL fetching for m9.
+  'graphql-over-under-fetching': lazyNamed(
+    () => import('../components/figures/GraphqlOverUnderFetching'),
+    'GraphqlOverUnderFetching',
+  ),
 };
 
 export const getSim = (key: string): ComponentType | undefined => sims[key];
