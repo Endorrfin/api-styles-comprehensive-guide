@@ -21,11 +21,15 @@
   --tx2: #a7b4c2;
   --tx3: #6b7886;
 
-  /* ---- Primary accent: azure/cyan "protocol wire" (API Styles) ---- */
-  --accent: #38bdf8; /* sky-400 — primary on dark */
-  --accent-deep: #0369a1; /* sky-700 — fills / borders */
-  --accent-bright: #7dd3fc; /* sky-300 — headings / glow highlight */
-  --accent-soft: rgba(56, 189, 248, 0.14); /* tints / hover wash */
+  /* ---- Primary accent: calm violet × cyan "Signal" duotone (API Styles) ----
+     Tuned low-chroma for comfortable long-form reading — never neon. Violet = primary
+     (links/active/req-resp); cyan (--accent-2) = secondary (real-time/streaming, sim wire). */
+  --accent: #a78bfa; /* soft violet-400 — primary on dark */
+  --accent-deep: #6d4fce; /* muted violet — fills / borders */
+  --accent-bright: #c4b5fd; /* violet-300 — soft heading / glow highlight */
+  --accent-soft: rgba(167, 139, 250, 0.13); /* subtle tints / hover wash */
+  --accent-2: #4dc4d4; /* muted cyan/teal — secondary accent */
+  --accent-2-soft: rgba(77, 196, 212, 0.13);
 
   /* ---- Concept semantics (meaning-based; most internals diagrams) ---- */
   --c-query: #5b9bd5; /* query / read path / SQL / relational */
@@ -80,7 +84,7 @@
   --r-xl: 22px;
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-2: 0 6px 24px rgba(0, 0, 0, 0.36);
-  --shadow-glow: 0 0 0 1px rgba(56, 189, 248, 0.4), 0 8px 30px rgba(3, 105, 161, 0.22);
+  --shadow-glow: 0 0 0 1px rgba(167, 139, 250, 0.34), 0 8px 30px rgba(109, 79, 206, 0.2);
 
   /* ---- Layout metrics ---- */
   --sidebar-w: 290px;
@@ -119,11 +123,13 @@
   --tx2: #46586a; /* ~7:1 */
   --tx3: #6a7a8a; /* ~4.6:1 */
 
-  /* Accent — darker cyan so links/headings stay legible on white */
-  --accent: #0e7490;
-  --accent-deep: #155e75;
-  --accent-bright: #0e7490;
-  --accent-soft: rgba(14, 116, 144, 0.12);
+  /* Accent — darker violet + cyan so links/headings stay legible on white */
+  --accent: #6d28d9;
+  --accent-deep: #5b21b6;
+  --accent-bright: #6d28d9;
+  --accent-soft: rgba(109, 40, 217, 0.1);
+  --accent-2: #0e7490;
+  --accent-2-soft: rgba(14, 116, 144, 0.1);
 
   /* Concept semantics — darkened for contrast on light */
   --c-query: #2c6fb0;

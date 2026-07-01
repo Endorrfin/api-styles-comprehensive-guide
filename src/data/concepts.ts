@@ -9,12 +9,12 @@ import { m5 } from './modules/m5-rest';
  */
 
 export const sections: Section[] = [
-  { id: 's0-foundations', roman: '0', accent: '#7dd3fc', title: { en: 'Foundations', uk: 'Основи' } },
-  { id: 's1-req-resp-http', roman: 'I', accent: '#38bdf8', title: { en: 'Request/Response over HTTP', uk: 'Request/Response через HTTP' } },
-  { id: 's2-contract-first', roman: 'II', accent: '#a78bfa', title: { en: 'Contract-first & typed', uk: 'Contract-first і типізовані' } },
-  { id: 's3-realtime-events', roman: 'III', accent: '#34d399', title: { en: 'Real-time, push & event-driven', uk: 'Real-time, push та event-driven' } },
-  { id: 's4-cross-cutting', roman: 'IV', accent: '#f2a93b', title: { en: 'Cross-cutting concerns', uk: 'Наскрізні аспекти' } },
-  { id: 's5-choosing', roman: 'V', accent: '#22d3ee', title: { en: 'Choosing', uk: 'Вибір' } },
+  { id: 's0-foundations', roman: '0', accent: '#b6a6f0', title: { en: 'Foundations', uk: 'Основи' } },
+  { id: 's1-req-resp-http', roman: 'I', accent: '#a78bfa', title: { en: 'Request/Response over HTTP', uk: 'Request/Response через HTTP' } },
+  { id: 's2-contract-first', roman: 'II', accent: '#8b93e8', title: { en: 'Contract-first & typed', uk: 'Contract-first і типізовані' } },
+  { id: 's3-realtime-events', roman: 'III', accent: '#56c5d4', title: { en: 'Real-time, push & event-driven', uk: 'Real-time, push та event-driven' } },
+  { id: 's4-cross-cutting', roman: 'IV', accent: '#5cc0a4', title: { en: 'Cross-cutting concerns', uk: 'Наскрізні аспекти' } },
+  { id: 's5-choosing', roman: 'V', accent: '#c58bd6', title: { en: 'Choosing', uk: 'Вибір' } },
 ];
 
 type StubInput = {
