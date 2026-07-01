@@ -118,7 +118,8 @@ Turn the whole guide into a decision. The picker and the mental-models recap.
    `components/{layout,module,map,pages}` · blocks renderer) → author **`m5-rest`** + its signature sim
    **`rest-request-lifecycle`** (engine `src/lib/rest.ts` + `scripts/test-rest.ts` golden test) → wire the
    4 smoke TODOs → `npm run verify` green.
-3. **S3:** `m2-decision-axes` + `style-compass` (landing map) + `m1-what-is-an-api` (beginner on-ramp).
+3. **S3 (done):** `m1-what-is-an-api` (beginner on-ramp) + `m2-decision-axes` + `style-compass` (engine
+   `lib/compass.ts` + `test-compass.ts` + sim, now the landing hero).
 4. **S4:** `m3-http-transport` + `http-multiplexing`; `m4-data-formats`.
 5. **S5–S6:** `m10-grpc` + `grpc-wire`; `m9-graphql` + `graphql-nplus1`.
 6. **S7–S8:** `m12-websockets` + `websocket-frames`; `m14-webrtc` + `webrtc-connect`.

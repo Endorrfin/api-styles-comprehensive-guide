@@ -12,7 +12,7 @@ export function BlockView({ block }: { block: Block }) {
     case 'figure':
       return <FigureBlock fig={block.fig} caption={block.caption} />;
     case 'sim':
-      return <SimBlock sim={block.sim} />;
+      return <SimBlock sim={block.sim} caption={block.caption} />;
     case 'table':
       return <TableBlock head={block.head} rows={block.rows} caption={block.caption} />;
     case 'code':
@@ -47,16 +47,21 @@ function FigureBlock({ fig, caption }: { fig: string; caption?: Localized }) {
   );
 }
 
-function SimBlock({ sim }: { sim: string }) {
+function SimBlock({ sim, caption }: { sim: string; caption?: Localized }) {
+  const { t } = useLang();
   const Sim = getSim(sim);
   if (!Sim) return <div className="placeholder placeholder--sim">sim: {sim}</div>;
   return (
-    // CHANGED (S12): Suspense boundary for lazy-loaded sim chunks
-    <Suspense fallback={<div className="placeholder placeholder--sim">Loading simulator…</div>}>
-      <div className="sim-wrap">
-        <Sim />
-      </div>
-    </Suspense>
+    // CHANGED (S12): Suspense boundary for lazy-loaded sim chunks.
+    // CHANGED (s3): render the authored sim caption (was silently dropped — affects m5 & m2 sims).
+    <figure className="sim-figure">
+      <Suspense fallback={<div className="placeholder placeholder--sim">Loading simulator…</div>}>
+        <div className="sim-wrap">
+          <Sim />
+        </div>
+      </Suspense>
+      {caption && <figcaption className="sim-cap muted">{t(caption)}</figcaption>}
+    </figure>
   );
 }
 

@@ -18,6 +18,8 @@ export const sims: Record<string, ComponentType> = {
     () => import('../components/sims/RestRequestLifecycleSim'),
     'RestRequestLifecycleSim',
   ), // S2 · golden
+  // CHANGED (s3): style-compass — signature interactive for m2 + the landing hero.
+  'style-compass': lazyNamed(() => import('../components/sims/StyleCompassSim'), 'StyleCompassSim'),
 };
 
 // ── Figures ───────────────────────────────────────────────────────────────────
@@ -27,6 +29,17 @@ export const figures: Record<string, ComponentType> = {
     () => import('../components/figures/HttpStatusClasses'),
     'HttpStatusClasses',
   ), // S2
+  // CHANGED (s3): figures for m1 (foundations on-ramp) + m2 (decision axes).
+  'api-boundary': lazyNamed(() => import('../components/figures/ApiBoundary'), 'ApiBoundary'),
+  'in-process-vs-network': lazyNamed(
+    () => import('../components/figures/InProcessVsNetwork'),
+    'InProcessVsNetwork',
+  ),
+  'decision-axes': lazyNamed(() => import('../components/figures/DecisionAxes'), 'DecisionAxes'),
+  'coupling-spectrum': lazyNamed(
+    () => import('../components/figures/CouplingSpectrum'),
+    'CouplingSpectrum',
+  ),
 };
 
 export const getSim = (key: string): ComponentType | undefined => sims[key];
