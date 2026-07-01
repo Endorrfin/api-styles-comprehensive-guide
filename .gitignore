@@ -6,6 +6,10 @@ _ci/
 preview-*.html
 scripts/_*
 .DS_Store
+.idea/
+_test_ops/        # stray sandbox test dir — not part of the site
+_arhive/
+
 *.log
 
 # Out-of-standard reference material — never committed inside a guide

@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    // DOM libs + the React JSX runtime: the committed smoke (scripts/smoke.ts) + engine tests live in
+    // this Node project and import React components. The smoke uses createElement (no JSX) but the .tsx
+    // it imports needs the runtime. (Standard §4.6 / S16.)
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "moduleDetection": "force",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "types": ["node"]
+  },
+  "include": ["vite.config.ts", "scripts/**/*.ts"],
+  "exclude": ["scripts/_*"]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "api-styles-comprehensive-guide",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "homepage": "https://endorrfin.github.io/api-styles-comprehensive-guide/",
+  "license": "MIT",
+  "author": "Vasyl Krupka",
+  "description": "A deep, interactive, bilingual (EN/UA) guide to the architectural styles for building APIs — REST, GraphQL, gRPC, WebSockets, SSE, WebRTC, Webhooks, SOAP, OData.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit",
+    "lint": "eslint .",
+    "check:data": "tsx scripts/check-data.ts",
+    "test": "tsx scripts/run-tests.ts",
+    "smoke": "tsx --tsconfig tsconfig.app.json scripts/smoke.ts",
+    "verify": "npm run typecheck && npm run lint && npm run check:data && npm run test && npm run smoke && npm run build"
+  },
+  "//test+smoke": "standard §4.6. `test` auto-discovers scripts/test-*.ts (run-tests.ts) — green when none exist yet; add a pure engine in src/lib + scripts/test-<name>.ts and it's picked up. `smoke` SSR-renders every sim/figure/page (scripts/smoke.ts) — wire its 4 TODO spots after the golden module. Both run only meaningfully once the golden module exists; run `verify` from then on.",
+  "//meta-split": "When the guide grows, add the Claude-guide meta split (standard §4.4): scripts genMeta.ts + checkMeta.ts, then 'gen:meta': 'tsx scripts/genMeta.ts', 'predev'/'prebuild': 'npm run gen:meta', 'check:meta': 'tsx scripts/checkMeta.ts', and chain check:meta into typecheck/verify.",
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.0",
+    "@types/node": "^22.20.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.0",
+    "eslint": "^10.0.0",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "eslint-plugin-react-refresh": "^0.5.0",
+    "globals": "^17.0.0",
+    "tsx": "^4.22.0",
+    "typescript": "^6.0.0",
+    "typescript-eslint": "^8.62.0",
+    "vite": "^8.1.0"
+  }
+}

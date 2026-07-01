@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0E1217" />
+    <!-- Resolve theme before first paint to avoid a flash (dark is the brand default). -->
+    <script>
+      (function () {
+        try {
+          var m = localStorage.getItem('apiguide.theme');
+          var light =
+            m === 'light' ||
+            (m !== 'dark' &&
+              window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: light)').matches);
+          document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+          if (light) {
+            var mc = document.querySelector('meta[name="theme-color"]');
+            if (mc) mc.setAttribute('content', '#f5f7fa');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <meta
+      name="description"
+      content="Deep, interactive, bilingual (EN/UA) guide to the architectural styles for building APIs — REST, GraphQL, gRPC, WebSockets, SSE, WebRTC, Webhooks, SOAP, OData — with hero simulators."
+    />
+    <meta name="author" content="Vasyl Krupka" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="API Styles — The Comprehensive Guide" />
+    <meta property="og:title" content="API Styles — The Comprehensive Guide" />
+    <meta property="og:description" content="Deep, interactive, bilingual (EN/UA) guide to the architectural styles for building APIs, with hero simulators." />
+    <meta property="og:url" content="https://endorrfin.github.io/api-styles-comprehensive-guide/" />
+
+    <title>API Styles — The Comprehensive Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
