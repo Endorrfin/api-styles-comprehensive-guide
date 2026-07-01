@@ -9,6 +9,8 @@ import { m3 } from './modules/m3-http-transport';
 import { m4 } from './modules/m4-data-formats';
 // CHANGED (s5): gRPC authored (contract-first, signature).
 import { m10 } from './modules/m10-grpc';
+// CHANGED (s6): GraphQL authored (contract-first, signature).
+import { m9 } from './modules/m9-graphql';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -87,12 +89,7 @@ export const modules: Module[] = [
   }),
 
   // ── Section II · Contract-first & typed ────────────────────────────────────
-  stub({
-    id: 'm9-graphql', num: 9, section: 's2-contract-first', order: 1, level: 'senior', signature: true,
-    title: { en: 'GraphQL', uk: 'GraphQL' },
-    tagline: { en: 'One endpoint; the client shapes the response.', uk: 'Один endpoint; клієнт формує відповідь.' },
-    mentalModel: { en: 'A typed graph the client queries: ask for exactly the fields you need — the server resolves them, N+1 permitting.', uk: 'Типізований граф, який запитує клієнт: беріть саме потрібні поля — сервер їх резолвить, якщо не завадить N+1.' },
-  }),
+  m9, // ★ s6 — GraphQL (contract-first) + graphql-nplus1 sim (fully authored)
   m10, // ★ s5 — gRPC (contract-first) + grpc-wire sim (fully authored)
   stub({
     id: 'm11-trpc', num: 11, section: 's2-contract-first', order: 3, level: 'senior',

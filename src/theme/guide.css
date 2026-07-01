@@ -1084,3 +1084,274 @@
     transition: none;
   }
 }
+
+/* ── GraphQL N+1 / DataLoader sim (m9) ────────────────────────────────────────
+   c-danger (red) = the N+1 fan-out (one author query per post) · accent-2 (cyan) = the batched
+   DataLoader query. The query log grows a row per DB query as the clock steps. */
+.nq {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  padding: 1rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.nq-query {
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--tx2);
+  overflow-x: auto;
+}
+.nq-kw {
+  color: var(--accent-2);
+}
+.nq-query .nq-dim {
+  color: var(--tx3);
+}
+.nq-cmt {
+  color: var(--tx3);
+  font-style: italic;
+}
+
+.nq-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.nq-posts {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.nq-posts-label {
+  font-size: 0.8rem;
+  margin-right: 0.15rem;
+}
+.nq-post {
+  padding: 0.26rem 0.6rem;
+  border: 1px solid var(--line2);
+  border-radius: var(--r-sm);
+  background: var(--s2);
+  color: var(--tx3);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.nq-post.on {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  background: var(--accent-soft);
+}
+.nq-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  background: var(--s2);
+  color: var(--tx2);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.nq-toggle-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--tx3);
+  transition: background var(--dur) var(--ease);
+}
+.nq-toggle.on {
+  border-color: var(--accent-2);
+  color: var(--accent-2);
+  background: var(--accent-2-soft);
+}
+.nq-toggle.on .nq-toggle-dot {
+  background: var(--accent-2);
+}
+
+.nq-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.7rem 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  min-height: 6rem;
+}
+.nq-log-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+}
+.nq-db {
+  color: var(--tx2);
+  font-weight: 700;
+}
+.nq-count {
+  margin-left: auto;
+  color: var(--tx);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.nq-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.32rem 0.45rem;
+  border-radius: var(--r-sm);
+  border-left: 3px solid var(--line2);
+  background: var(--surface);
+  animation: nq-in var(--dur) var(--ease);
+}
+.nq-row.list {
+  border-left-color: var(--tx3);
+}
+.nq-row.per-item {
+  border-left-color: var(--c-danger);
+}
+.nq-row.batch {
+  border-left-color: var(--accent-2);
+}
+.nq-row-step {
+  flex: 0 0 auto;
+  width: 1.3rem;
+  text-align: right;
+  color: var(--tx3);
+  font-size: 0.72rem;
+}
+.nq-kind {
+  flex: 0 0 auto;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  color: var(--tx3);
+  background: var(--s2);
+  border: 1px solid var(--line2);
+}
+.nq-kind.per-item {
+  color: var(--c-danger);
+  border-color: var(--c-danger);
+  background: var(--c-danger-soft);
+}
+.nq-kind.batch {
+  color: var(--accent-2);
+  border-color: var(--accent-2);
+  background: var(--accent-2-soft);
+}
+.nq-sql {
+  flex: 1 1 12rem;
+  font-size: 0.74rem;
+  color: var(--tx2);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.nq-for {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+}
+@keyframes nq-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.nq-verdict {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--tx2);
+}
+
+.nq-size {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.nq-size-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.nq-size-tag {
+  flex: 0 0 5.5rem;
+  font-size: 0.78rem;
+  color: var(--tx2);
+}
+.nq-bar {
+  flex: 1 1 auto;
+  height: 8px;
+  background: var(--s3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.nq-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width var(--dur) var(--ease);
+}
+.nq-size-n {
+  flex: 0 0 2rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--tx2);
+}
+.nq-size-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+}
+.nq-live-bar {
+  flex: 0 0 38%;
+  height: 6px;
+  background: var(--s3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.nq-live-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width var(--dur) var(--ease);
+}
+
+.nq-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.nq-progress {
+  margin-left: auto;
+  font-size: 0.78rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nq-row {
+    animation: none;
+  }
+  .nq-bar-fill,
+  .nq-live-fill {
+    transition: none;
+  }
+}
