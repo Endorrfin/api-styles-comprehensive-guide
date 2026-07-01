@@ -69,10 +69,15 @@ function ok(cond: boolean, msg: string): void {
 // Technical terms that stay English in both langs make the best canaries.
 const SIM_CANARIES: Record<string, string[]> = {
   RestRequestLifecycleSim: ["/articles/42"],
+  StyleCompassSim: ["REST", "gRPC"], // s3 · style names are language-independent
 };
 const FIG_CANARIES: Record<string, string[]> = {
   RestAnatomy: ["GET /articles/42"],
   HttpStatusClasses: ["4xx"],
+  ApiBoundary: ["API"], // s3
+  InProcessVsNetwork: ["client"], // s3
+  DecisionAxes: ["Timing"], // s3
+  CouplingSpectrum: ["gRPC"], // s3
 };
 
 async function main(): Promise<void> {

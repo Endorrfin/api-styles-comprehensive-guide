@@ -2,6 +2,9 @@ import { modulesBySection, sections, COUNTS } from '../../data/concepts';
 import { useLang } from '../../i18n/lang';
 import { ui } from '../../i18n/ui';
 import { hrefModule } from '../../lib/hashRouter';
+// CHANGED (s3): the Style Compass is the landing hero — imported eagerly so the primary page has no
+// loading flash (it also lives in the m2 module via the registry).
+import { StyleCompassSim } from '../sims/StyleCompassSim';
 
 export function LandscapeMap() {
   const { t } = useLang();
@@ -22,14 +25,37 @@ export function LandscapeMap() {
           })}
         </p>
         <div className="map-cta">
-          <a className="btn btn-primary" href={hrefModule('m5-rest')}>
-            {t({ en: 'Start with REST →', uk: 'Почати з REST →' })}
+          <a className="btn btn-primary" href={hrefModule('m1-what-is-an-api')}>
+            {t({ en: 'Start from the basics →', uk: 'Почати з основ →' })}
+          </a>
+          <a className="btn" href={hrefModule('m5-rest')}>
+            {t({ en: 'Jump to REST', uk: 'До REST' })}
           </a>
           <span className="dim">
             {COUNTS.sections} {t(ui.sectionsLabel)} · {COUNTS.modules} {t(ui.modulesLabel)} · {COUNTS.sims}{' '}
             {t(ui.simsLabel)}
           </span>
         </div>
+      </section>
+
+      {/* ── The Style Compass: the interactive landing map ─────────────────── */}
+      <section className="map-compass" aria-label={t(ui.landscapeMap)}>
+        <header className="map-compass-head">
+          <h2>{t({ en: 'Start from your constraints', uk: 'Почни зі своїх обмежень' })}</h2>
+          <p className="dim">
+            {t({
+              en: 'Pick a scenario — or set the decision axes yourself — and the best-fit styles rise to the top. Then open one to go deep.',
+              uk: 'Обери сценарій — або задай осі рішення сам — і найкращі стилі піднімуться вгору. Потім відкрий один, щоб зануритись.',
+            })}
+          </p>
+        </header>
+        <StyleCompassSim />
+        <p className="map-compass-foot dim">
+          {t({ en: 'New here?', uk: 'Уперше тут?' })}{' '}
+          <a href={hrefModule('m2-decision-axes')}>
+            {t({ en: 'Learn what each axis means →', uk: 'Дізнайся, що означає кожна вісь →' })}
+          </a>
+        </p>
       </section>
 
       <div className="map-overview">

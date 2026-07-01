@@ -369,3 +369,253 @@
     transition: none;
   }
 }
+
+/* ── Landing: the Style Compass hero section ──────────────────────────────── */
+.map-compass {
+  margin-top: 2rem;
+}
+.map-compass-head h2 {
+  font-size: 1.15rem;
+  margin: 0 0 0.2rem;
+}
+.map-compass-head p {
+  margin: 0 0 0.9rem;
+  max-width: var(--reading-max);
+  font-size: 0.9rem;
+}
+.map-compass-foot {
+  margin-top: 0.7rem;
+  font-size: 0.86rem;
+}
+
+/* ── Sim caption (authored per sim block) ─────────────────────────────────── */
+.sim-figure {
+  margin: 0;
+}
+.sim-cap {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* ── Style Compass sim ────────────────────────────────────────────────────── */
+.compass {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  padding: 1rem 1.1rem 1.2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 330px) minmax(0, 1fr);
+  gap: 1.1rem 1.4rem;
+}
+.compass-presets {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.compass-presets-label {
+  font-size: 0.8rem;
+  margin-right: 0.15rem;
+}
+.compass-preset {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  background: var(--s2);
+  color: var(--tx2);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.compass-preset:hover {
+  color: var(--tx);
+  border-color: var(--accent);
+}
+.compass-preset.on {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  background: var(--accent-soft);
+}
+
+.compass-axes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 0;
+}
+.compass-axis {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.compass-axis-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+.compass-axis-name {
+  font-weight: 600;
+  font-size: 0.86rem;
+}
+.compass-axis-q {
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+.compass-axis-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.compass-opt {
+  padding: 0.26rem 0.55rem;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  background: var(--s2);
+  color: var(--tx3);
+  font: inherit;
+  font-size: 0.76rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.compass-opt:hover {
+  color: var(--tx);
+  border-color: var(--accent);
+}
+.compass-opt.on {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  background: var(--accent-soft);
+}
+/* "Any" reset reads as neutral, not as a chosen constraint */
+.compass-opt.any {
+  color: var(--tx3);
+}
+.compass-opt.any.on {
+  border-color: var(--line2);
+  color: var(--tx2);
+  background: transparent;
+}
+
+.compass-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.compass-results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.compass-verdict {
+  font-size: 0.9rem;
+  min-width: 0;
+}
+.compass-verdict-score {
+  font-size: 0.82rem;
+  color: var(--tx2);
+}
+.compass-reset {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  white-space: nowrap;
+}
+.compass-reset:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.compass-reset-n {
+  font-family: var(--font-mono);
+  color: var(--accent-bright);
+}
+
+.compass-styles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.compass-style {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--sc, var(--accent));
+  border-radius: var(--r-sm);
+  background: var(--s2);
+  color: var(--tx2);
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.compass-style:hover {
+  background: var(--s3);
+  color: var(--tx);
+}
+.compass-style.lead {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--sc, var(--accent));
+}
+.compass-style-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+.compass-style-name {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--tx);
+}
+.compass-crown {
+  color: var(--sc, var(--accent-bright));
+  margin-right: 0.35rem;
+  font-size: 0.85rem;
+}
+.compass-style-score {
+  font-size: 0.82rem;
+  color: var(--tx2);
+  flex: none;
+}
+.compass-style-blurb {
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+.compass-bar {
+  display: block;
+  height: 5px;
+  margin-top: 0.15rem;
+  background: var(--s3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.compass-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width var(--dur) var(--ease);
+}
+
+@media (max-width: 720px) {
+  .compass {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .compass-bar-fill,
+  .compass-opt,
+  .compass-preset {
+    transition: none;
+  }
+}

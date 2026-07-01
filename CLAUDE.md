@@ -48,8 +48,11 @@ CLAUDE.md · PROJECT-BRIEF.md · CURRICULUM.md · README.md + config (package.js
 **Built (S2):** the full React shell (`App`/`main`/`index.html`/`public`, `i18n`, `theme` incl. the
 azure/cyan `guide.css`, `lib/{hashRouter,registry,search,appState,utils,rest}`, `components/{layout,
 module,map,pages,sims,figures}`) ported/adapted from `../database guide` to the template contract
-(concepts-direct, `Section.title`, no meta-split yet). Golden `m5-rest` + sim `rest-request-lifecycle`
-authored; 24 modules are navigable stubs.
+(concepts-direct, `Section.title`, no meta-split yet). Golden `m5-rest` + sim `rest-request-lifecycle`.
+**Built (S3):** `m1-what-is-an-api` (beginner on-ramp) + `m2-decision-axes` (signature) + the
+`style-compass` engine/sim (`lib/compass.ts` + `scripts/test-compass.ts`), now the landing hero;
+figures `api-boundary`, `in-process-vs-network`, `decision-axes`, `coupling-spectrum`; `SimBlock` now
+renders authored captions. **3 modules authored, 22 navigable stubs.**
 
 ## 4. Content / data model (the contract)
 **Terminology:** **Section** (top-level) → **Module** (navigable, skippable) → **Topic** (deep-linkable
@@ -119,7 +122,7 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S1 (done)** — scaffold + PROJECT-BRIEF + CURRICULUM + CLAUDE + README.
 - **S2 (done)** — ported the shell (from `../database guide`) + **golden `m5-rest`** + sim
   `rest-request-lifecycle` + `scripts/test-rest.ts` + wired smoke's 4 TODOs + `npm run verify` green.
-- **S3** — `m2-decision-axes` + `style-compass` landing map + `m1-what-is-an-api` (beginner on-ramp).
+- **S3 (done)** — `m1-what-is-an-api` + `m2-decision-axes` + `style-compass` landing map.
 - **S4** — `m3-http-transport` + `http-multiplexing`; `m4-data-formats`.
 - **S5–S9** — the deep styles + their sims (gRPC, GraphQL, WebSockets, WebRTC, Webhooks, SSE).
 - **S10** — right-sized styles (OData, SOAP, JSON-RPC, tRPC, async messaging).
@@ -149,3 +152,23 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   · build (49 modules, code-split). *Branch:* `s2-golden-rest`. *Commit:* `feat: port shell + author
   golden REST module + rest-request-lifecycle sim`. *Open items:* S3 = `m2-decision-axes` +
   `style-compass` landing + `m1-what-is-an-api` (beginner on-ramp).
+- **S3** (2026-07-01) — **Foundations + the compass.** Authored the **beginner on-ramp `m1-what-is-an-api`**
+  (5 topics: interface-vs-implementation → api-as-contract → api-as-product → in-process-vs-network →
+  a-tiny-history; figures `api-boundary` + `in-process-vs-network`; key points, 3 pitfalls, 1 interview,
+  5 sources) and the **signature `m2-decision-axes`** (7 topics = the 7 axes: sync/async · flow ·
+  direction · initiative · encoding · topology · coupling; figures `decision-axes` + `coupling-spectrum`;
+  6 key points, 3 pitfalls, 2 interview, 6 sources). Built the signature interactive **`style-compass`**:
+  pure deterministic engine `src/lib/compass.ts` (7 axes × 12 style profiles, `scoreStyles`/`topMatch`) +
+  `scripts/test-compass.ts` (golden scenarios: reqresp-loose→REST, push+server→SSE/Webhooks, binary+tight→
+  gRPC, async+broker→messaging, bidi+push→WS/WebRTC) + `StyleCompassSim.tsx` (axis controls, live re-rank,
+  style cards deep-linking to modules, ARIA + live region, reduced-motion). Added **scenario presets**
+  (public-web→REST · typed-internal→gRPC · live-UI→SSE · two-way→WebSockets · async-events→messaging;
+  test-pinned) and **seeded the first** so the compass opens ranked, not on a flat all-"Any" state.
+  Made it the **landing hero** in `LandscapeMap` (eager import; also lazy in the registry for m2). Small
+  shared-renderer fix: `SimBlock`
+  now renders the authored sim caption (was dropped — also fixes m5's). Web-verified the history anchors
+  (term "API" 1968 Cotton & Greatorex · RPC 1984 Birrell & Nelson · REST 2000 Fielding · GraphQL & gRPC
+  2015). **All gates GREEN**: typecheck · lint · check:data (6/25, **3 authored**) · test (2 engines) ·
+  smoke (**101 checks**, 2 sims + 6 figures EN+UK) · build (57 modules, code-split, `--outDir dist-s3c`).
+  *Branch:* `s3-foundations-compass`. *Commit:* `feat: author m1 + m2 (decision axes) + style-compass
+  landing interactive`. *Open items:* S4 = `m3-http-transport` + `http-multiplexing`; `m4-data-formats`.

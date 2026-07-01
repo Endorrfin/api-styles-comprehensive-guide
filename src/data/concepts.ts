@@ -1,11 +1,14 @@
 import type { Level, Localized, Module, Section } from './types';
 // CHANGED (s2): m5-rest authored (golden). All other modules are navigable stubs until their session.
 import { m5 } from './modules/m5-rest';
+// CHANGED (s3): Foundations on-ramp + decision axes authored.
+import { m1 } from './modules/m1-what-is-an-api';
+import { m2 } from './modules/m2-decision-axes';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
- * 6 sections · 25 modules. m5-rest is fully authored; the rest are navigable stubs (empty topics)
- * filled in later sessions per CURRICULUM.md §G. A `stub()` produces the skeleton Module.
+ * 6 sections · 25 modules. m1, m2, m5-rest are fully authored; the rest are navigable stubs (empty
+ * topics) filled in later sessions per CURRICULUM.md §G. A `stub()` produces the skeleton Module.
  */
 
 export const sections: Section[] = [
@@ -52,18 +55,8 @@ function stub(s: StubInput): Module {
 
 export const modules: Module[] = [
   // ── Section 0 · Foundations ────────────────────────────────────────────────
-  stub({
-    id: 'm1-what-is-an-api', num: 1, section: 's0-foundations', order: 1, level: 'beginner',
-    title: { en: 'What is an API?', uk: 'Що таке API?' },
-    tagline: { en: 'The interface as a contract — and as a product.', uk: 'Інтерфейс як контракт — і як продукт.' },
-    mentalModel: { en: 'An API is a promise across a boundary: a stable contract that hides an implementation.', uk: 'API — це обіцянка через межу: стабільний контракт, що ховає реалізацію.' },
-  }),
-  stub({
-    id: 'm2-decision-axes', num: 2, section: 's0-foundations', order: 2, level: 'middle', signature: true,
-    title: { en: 'The decision axes', uk: 'Осі рішення' },
-    tagline: { en: 'The coordinate system that separates every style.', uk: 'Система координат, що розрізняє кожен стиль.' },
-    mentalModel: { en: 'Every style is a point on a few axes: sync/async, req-resp/stream/push, unary/bidi, text/binary, point-to-point/broker.', uk: 'Кожен стиль — точка на кількох осях: sync/async, req-resp/stream/push, unary/bidi, text/binary, point-to-point/broker.' },
-  }),
+  m1, // ★ s3 — beginner on-ramp (fully authored)
+  m2, // ★ s3 — decision axes + style-compass (fully authored)
   stub({
     id: 'm3-http-transport', num: 3, section: 's0-foundations', order: 3, level: 'senior', signature: true,
     title: { en: 'The HTTP transport substrate', uk: 'Транспортний субстрат HTTP' },
