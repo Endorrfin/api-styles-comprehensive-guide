@@ -11,6 +11,8 @@ import { m4 } from './modules/m4-data-formats';
 import { m10 } from './modules/m10-grpc';
 // CHANGED (s6): GraphQL authored (contract-first, signature).
 import { m9 } from './modules/m9-graphql';
+// CHANGED (s7): WebSockets authored (real-time, signature).
+import { m12 } from './modules/m12-websockets';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -99,12 +101,7 @@ export const modules: Module[] = [
   }),
 
   // ── Section III · Real-time, push & event-driven ───────────────────────────
-  stub({
-    id: 'm12-websockets', num: 12, section: 's3-realtime-events', order: 1, level: 'senior', signature: true,
-    title: { en: 'WebSockets', uk: 'WebSockets' },
-    tagline: { en: 'One socket, both sides talking at once.', uk: 'Один сокет, обидві сторони говорять водночас.' },
-    mentalModel: { en: 'Upgrade an HTTP request into a persistent full-duplex pipe: frames flow both ways until someone hangs up.', uk: 'Апгрейд HTTP-запиту в постійну full-duplex трубу: фрейми йдуть в обидва боки, доки хтось не закриє.' },
-  }),
+  m12, // ★ s7 — WebSockets (full-duplex) + websocket-frames sim (fully authored)
   stub({
     id: 'm13-sse', num: 13, section: 's3-realtime-events', order: 2, level: 'middle',
     title: { en: 'Server-Sent Events (SSE)', uk: 'Server-Sent Events (SSE)' },
