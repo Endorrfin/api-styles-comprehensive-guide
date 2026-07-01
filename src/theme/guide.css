@@ -1,0 +1,371 @@
+/*
+ * guide.css — additive styles for the API Styles shell components (S2). Loaded AFTER components.css
+ * so it fills gaps for classes this guide introduces (topbar controls, segmented toggle, landing grid)
+ * without editing the ported base. All values use the shared tokens.
+ */
+
+/* ── Top bar controls ─────────────────────────────────────────────────────── */
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--tx2);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.icon-btn:hover {
+  color: var(--tx);
+  border-color: var(--line2);
+}
+.sidebar-toggle {
+  display: none;
+}
+
+.ctl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--tx3);
+  font-size: 0.82rem;
+}
+.ctl-label {
+  white-space: nowrap;
+}
+.ctl select,
+.theme-select {
+  background: var(--surface);
+  color: var(--tx);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 0.34rem 0.5rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.ctl select:hover,
+.theme-select:hover {
+  border-color: var(--line2);
+}
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.seg-btn {
+  padding: 0.34rem 0.6rem;
+  background: var(--surface);
+  color: var(--tx3);
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.seg-btn + .seg-btn {
+  border-left: 1px solid var(--line);
+}
+.seg-btn.seg-on {
+  background: var(--accent-soft);
+  color: var(--accent-bright);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #06121b;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background: var(--accent-bright);
+  border-color: var(--accent-bright);
+}
+
+/* ── Landing "Style Compass" section grid ─────────────────────────────────── */
+.map-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+.map-section {
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--sec, var(--accent));
+  border-radius: var(--r-md);
+  background: var(--surface);
+  padding: 1rem 1.1rem 1.2rem;
+}
+.map-sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.map-sec-head h2 {
+  font-size: 1.02rem;
+  margin: 0;
+}
+.map-sec-head .side-roman {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+.map-mods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.map-mod {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: var(--r-sm);
+  color: var(--tx2);
+  text-decoration: none;
+}
+.map-mod:hover {
+  background: var(--s2);
+  color: var(--tx);
+}
+.map-mod-title {
+  flex: 1;
+}
+.map-mod .side-star {
+  color: var(--accent-bright);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .sidebar-toggle {
+    display: inline-grid;
+  }
+}
+
+/* ── Screen-reader-only utility ───────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Figures ──────────────────────────────────────────────────────────────── */
+.fig-svg {
+  width: 100%;
+  height: auto;
+  max-width: 720px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ── REST request-lifecycle sim ───────────────────────────────────────────── */
+.rest-sim {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  padding: 1rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.rest-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.rest-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.rest-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.6rem;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  background: var(--s2);
+  color: var(--tx3);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.rest-toggle:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.rest-toggle-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--line2);
+}
+.rest-toggle.on {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  background: var(--accent-soft);
+}
+.rest-toggle.on .rest-toggle-dot {
+  background: var(--accent);
+}
+.rest-maturity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+}
+.rest-lv {
+  padding: 0.28rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--s2);
+  color: var(--tx3);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.rest-lv.on {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  background: var(--accent-soft);
+}
+.rest-shape {
+  padding: 0.55rem 0.7rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: 0.85rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.rest-verb {
+  font-weight: 700;
+}
+.rest-pipeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.rest-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.5rem 0 0.5rem 0.2rem;
+  position: relative;
+  opacity: 0.45;
+  transition: opacity var(--dur) var(--ease);
+}
+.rest-step::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 1.4rem;
+  bottom: -0.5rem;
+  width: 2px;
+  background: var(--line);
+}
+.rest-step:last-child::before {
+  display: none;
+}
+.rest-step.on {
+  opacity: 1;
+}
+.rest-step-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--line2);
+  background: var(--surface);
+  margin-top: 0.15rem;
+  flex: none;
+  z-index: 1;
+}
+.rest-step.on .rest-step-dot {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.rest-step.current .rest-step-dot {
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+.rest-step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.rest-step-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.rest-step-outcome {
+  font-size: 0.82rem;
+}
+.rest-result {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.7rem 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+}
+.rest-status {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #06121b;
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--r-sm);
+  font-size: 0.95rem;
+  flex: none;
+}
+.rest-result-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 0;
+}
+.rest-meter {
+  height: 6px;
+  background: var(--s3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.rest-meter-fill {
+  display: block;
+  height: 100%;
+  transition: width var(--dur) var(--ease);
+}
+.rest-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.rest-progress {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rest-step,
+  .rest-meter-fill {
+    transition: none;
+  }
+}

@@ -1,0 +1,248 @@
+import type { Level, Localized, Module, Section } from './types';
+// CHANGED (s2): m5-rest authored (golden). All other modules are navigable stubs until their session.
+import { m5 } from './modules/m5-rest';
+
+/*
+ * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
+ * 6 sections · 25 modules. m5-rest is fully authored; the rest are navigable stubs (empty topics)
+ * filled in later sessions per CURRICULUM.md §G. A `stub()` produces the skeleton Module.
+ */
+
+export const sections: Section[] = [
+  { id: 's0-foundations', roman: '0', accent: '#7dd3fc', title: { en: 'Foundations', uk: 'Основи' } },
+  { id: 's1-req-resp-http', roman: 'I', accent: '#38bdf8', title: { en: 'Request/Response over HTTP', uk: 'Request/Response через HTTP' } },
+  { id: 's2-contract-first', roman: 'II', accent: '#a78bfa', title: { en: 'Contract-first & typed', uk: 'Contract-first і типізовані' } },
+  { id: 's3-realtime-events', roman: 'III', accent: '#34d399', title: { en: 'Real-time, push & event-driven', uk: 'Real-time, push та event-driven' } },
+  { id: 's4-cross-cutting', roman: 'IV', accent: '#f2a93b', title: { en: 'Cross-cutting concerns', uk: 'Наскрізні аспекти' } },
+  { id: 's5-choosing', roman: 'V', accent: '#22d3ee', title: { en: 'Choosing', uk: 'Вибір' } },
+];
+
+type StubInput = {
+  id: string;
+  num: number;
+  section: string;
+  order: number;
+  level: Level;
+  signature?: boolean;
+  title: Localized;
+  tagline: Localized;
+  mentalModel: Localized;
+  readMins?: number;
+};
+
+function stub(s: StubInput): Module {
+  return {
+    id: s.id,
+    num: s.num,
+    section: s.section,
+    order: s.order,
+    level: s.level,
+    signature: s.signature,
+    title: s.title,
+    tagline: s.tagline,
+    readMins: s.readMins ?? 8,
+    mentalModel: s.mentalModel,
+    topics: [],
+    keyPoints: [],
+    pitfalls: [],
+    seeAlso: [],
+    sources: [],
+  };
+}
+
+export const modules: Module[] = [
+  // ── Section 0 · Foundations ────────────────────────────────────────────────
+  stub({
+    id: 'm1-what-is-an-api', num: 1, section: 's0-foundations', order: 1, level: 'beginner',
+    title: { en: 'What is an API?', uk: 'Що таке API?' },
+    tagline: { en: 'The interface as a contract — and as a product.', uk: 'Інтерфейс як контракт — і як продукт.' },
+    mentalModel: { en: 'An API is a promise across a boundary: a stable contract that hides an implementation.', uk: 'API — це обіцянка через межу: стабільний контракт, що ховає реалізацію.' },
+  }),
+  stub({
+    id: 'm2-decision-axes', num: 2, section: 's0-foundations', order: 2, level: 'middle', signature: true,
+    title: { en: 'The decision axes', uk: 'Осі рішення' },
+    tagline: { en: 'The coordinate system that separates every style.', uk: 'Система координат, що розрізняє кожен стиль.' },
+    mentalModel: { en: 'Every style is a point on a few axes: sync/async, req-resp/stream/push, unary/bidi, text/binary, point-to-point/broker.', uk: 'Кожен стиль — точка на кількох осях: sync/async, req-resp/stream/push, unary/bidi, text/binary, point-to-point/broker.' },
+  }),
+  stub({
+    id: 'm3-http-transport', num: 3, section: 's0-foundations', order: 3, level: 'senior', signature: true,
+    title: { en: 'The HTTP transport substrate', uk: 'Транспортний субстрат HTTP' },
+    tagline: { en: 'HTTP/1.1 vs 2 vs 3 — and why it shapes your API.', uk: 'HTTP/1.1 проти 2 проти 3 — і чому це формує ваш API.' },
+    mentalModel: { en: 'The wire underneath decides your ceiling: multiplexing, head-of-line blocking, and QUIC change what a style can do.', uk: 'Дріт під низом визначає вашу стелю: multiplexing, head-of-line blocking і QUIC змінюють можливості стилю.' },
+  }),
+  stub({
+    id: 'm4-data-formats', num: 4, section: 's0-foundations', order: 4, level: 'middle',
+    title: { en: 'Data formats & serialization', uk: 'Формати даних і серіалізація' },
+    tagline: { en: 'JSON, Protobuf, XML — text vs binary, schema vs schemaless.', uk: 'JSON, Protobuf, XML — text проти binary, schema проти schemaless.' },
+    mentalModel: { en: 'The format is a trade of human-readability against size, speed, and a machine-checked schema.', uk: 'Формат — це обмін людиночитності на розмір, швидкість і машинно-перевірену schema.' },
+  }),
+
+  // ── Section I · Request/Response over HTTP ─────────────────────────────────
+  m5, // ★ GOLDEN — REST (fully authored)
+  stub({
+    id: 'm6-odata', num: 6, section: 's1-req-resp-http', order: 2, level: 'senior',
+    title: { en: 'OData', uk: 'OData' },
+    tagline: { en: 'A query language bolted onto REST.', uk: 'Мова запитів, прикручена до REST.' },
+    mentalModel: { en: 'OData turns a URL into a query: $filter, $select, $expand — SQL-like power over an HTTP resource.', uk: 'OData перетворює URL на запит: $filter, $select, $expand — SQL-подібна сила над HTTP-ресурсом.' },
+  }),
+  stub({
+    id: 'm7-soap-xml', num: 7, section: 's1-req-resp-http', order: 3, level: 'senior',
+    title: { en: 'SOAP / XML Web Services', uk: 'SOAP / XML Web Services' },
+    tagline: { en: 'The contract-heavy enterprise elder.', uk: 'Контрактно-важкий корпоративний старійшина.' },
+    mentalModel: { en: 'SOAP is an envelope + a WSDL contract + WS-* add-ons: rigid, verbose, and still alive in the enterprise.', uk: 'SOAP — це envelope + контракт WSDL + WS-* доповнення: жорсткий, багатослівний і досі живий у enterprise.' },
+  }),
+  stub({
+    id: 'm8-json-rpc', num: 8, section: 's1-req-resp-http', order: 4, level: 'middle',
+    title: { en: 'JSON-RPC & XML-RPC', uk: 'JSON-RPC і XML-RPC' },
+    tagline: { en: 'Call a function over HTTP — nothing more.', uk: 'Виклик функції через HTTP — не більше.' },
+    mentalModel: { en: 'RPC drops REST’s resources: you name a method and pass params. Minimal, symmetric, transport-agnostic.', uk: 'RPC відкидає ресурси REST: ви називаєте метод і передаєте params. Мінімально, симетрично, transport-agnostic.' },
+  }),
+
+  // ── Section II · Contract-first & typed ────────────────────────────────────
+  stub({
+    id: 'm9-graphql', num: 9, section: 's2-contract-first', order: 1, level: 'senior', signature: true,
+    title: { en: 'GraphQL', uk: 'GraphQL' },
+    tagline: { en: 'One endpoint; the client shapes the response.', uk: 'Один endpoint; клієнт формує відповідь.' },
+    mentalModel: { en: 'A typed graph the client queries: ask for exactly the fields you need — the server resolves them, N+1 permitting.', uk: 'Типізований граф, який запитує клієнт: беріть саме потрібні поля — сервер їх резолвить, якщо не завадить N+1.' },
+  }),
+  stub({
+    id: 'm10-grpc', num: 10, section: 's2-contract-first', order: 2, level: 'senior', signature: true,
+    title: { en: 'gRPC', uk: 'gRPC' },
+    tagline: { en: 'Protobuf contracts + HTTP/2 streaming.', uk: 'Protobuf-контракти + HTTP/2 streaming.' },
+    mentalModel: { en: 'A typed method call over HTTP/2: protobuf on the wire, four streaming shapes, deadlines built in.', uk: 'Типізований виклик методу через HTTP/2: protobuf на дроті, чотири форми streaming, deadlines вбудовані.' },
+  }),
+  stub({
+    id: 'm11-trpc', num: 11, section: 's2-contract-first', order: 3, level: 'senior',
+    title: { en: 'tRPC', uk: 'tRPC' },
+    tagline: { en: 'End-to-end types with no schema, no codegen.', uk: 'Наскрізні типи без schema, без codegen.' },
+    mentalModel: { en: 'The TypeScript type IS the contract: import server types into the client — zero drift, TS-only.', uk: 'Тип TypeScript І Є контрактом: імпортуй серверні типи в клієнт — нуль дрейфу, тільки TS.' },
+  }),
+
+  // ── Section III · Real-time, push & event-driven ───────────────────────────
+  stub({
+    id: 'm12-websockets', num: 12, section: 's3-realtime-events', order: 1, level: 'senior', signature: true,
+    title: { en: 'WebSockets', uk: 'WebSockets' },
+    tagline: { en: 'One socket, both sides talking at once.', uk: 'Один сокет, обидві сторони говорять водночас.' },
+    mentalModel: { en: 'Upgrade an HTTP request into a persistent full-duplex pipe: frames flow both ways until someone hangs up.', uk: 'Апгрейд HTTP-запиту в постійну full-duplex трубу: фрейми йдуть в обидва боки, доки хтось не закриє.' },
+  }),
+  stub({
+    id: 'm13-sse', num: 13, section: 's3-realtime-events', order: 2, level: 'middle',
+    title: { en: 'Server-Sent Events (SSE)', uk: 'Server-Sent Events (SSE)' },
+    tagline: { en: 'Server push over plain HTTP — the simple one.', uk: 'Server push через звичайний HTTP — простий варіант.' },
+    mentalModel: { en: 'A one-way text stream the browser auto-reconnects: perfect when only the server needs to talk.', uk: 'Односторонній текстовий потік, який браузер сам перепідключає: ідеально, коли говорити треба лише серверу.' },
+  }),
+  stub({
+    id: 'm14-webrtc', num: 14, section: 's3-realtime-events', order: 3, level: 'staff', signature: true,
+    title: { en: 'WebRTC', uk: 'WebRTC' },
+    tagline: { en: 'Peer-to-peer media & data — the hard one.', uk: 'Peer-to-peer медіа та дані — складний варіант.' },
+    mentalModel: { en: 'Browsers talk directly: signaling introduces them, ICE/STUN/TURN punch through NAT, DTLS/SRTP secure the pipe.', uk: 'Браузери говорять напряму: signaling знайомить, ICE/STUN/TURN пробивають NAT, DTLS/SRTP захищають трубу.' },
+  }),
+  stub({
+    id: 'm15-webhooks', num: 15, section: 's3-realtime-events', order: 4, level: 'senior', signature: true,
+    title: { en: 'Webhooks', uk: 'Webhooks' },
+    tagline: { en: 'A reverse API: they call you on an event.', uk: 'Зворотний API: вам телефонують на подію.' },
+    mentalModel: { en: 'Register a URL; the provider POSTs an event to it. At-least-once delivery means you design for retries, dedup, and signatures.', uk: 'Реєструєш URL; провайдер POST-ить подію на нього. At-least-once доставка означає дизайн під retries, dedup і підписи.' },
+  }),
+  stub({
+    id: 'm16-async-messaging', num: 16, section: 's3-realtime-events', order: 5, level: 'senior',
+    title: { en: 'Async messaging landscape', uk: 'Ландшафт async messaging' },
+    tagline: { en: 'MQTT, AMQP, Kafka — when an API is a message.', uk: 'MQTT, AMQP, Kafka — коли API — це повідомлення.' },
+    mentalModel: { en: 'A broker decouples sender from receiver in time: publish an event, let consumers read at their own pace.', uk: 'Брокер розчіплює відправника й отримувача в часі: публікуй подію, хай consumers читають у своєму темпі.' },
+  }),
+
+  // ── Section IV · Cross-cutting concerns ────────────────────────────────────
+  stub({
+    id: 'm17-auth-identity', num: 17, section: 's4-cross-cutting', order: 1, level: 'senior',
+    title: { en: 'Authentication & authorization', uk: 'Автентифікація та авторизація' },
+    tagline: { en: 'API keys, OAuth 2.1, OIDC, JWT, mTLS.', uk: 'API keys, OAuth 2.1, OIDC, JWT, mTLS.' },
+    mentalModel: { en: 'AuthN proves who; AuthZ decides what. Every style carries the proof differently — header, metadata, or signature.', uk: 'AuthN доводить хто; AuthZ вирішує що. Кожен стиль несе доказ по-своєму — header, metadata чи підпис.' },
+  }),
+  stub({
+    id: 'm18-versioning', num: 18, section: 's4-cross-cutting', order: 2, level: 'senior',
+    title: { en: 'Versioning & evolution', uk: 'Версіонування та еволюція' },
+    tagline: { en: 'Change the contract without breaking callers.', uk: 'Змінюй контракт, не ламаючи клієнтів.' },
+    mentalModel: { en: 'A public API is a promise you must keep: add, never remove; deprecate, then sunset — or version explicitly.', uk: 'Публічний API — це обіцянка: додавай, не прибирай; deprecate, потім sunset — або версіонуй явно.' },
+  }),
+  stub({
+    id: 'm19-errors-status', num: 19, section: 's4-cross-cutting', order: 3, level: 'middle',
+    title: { en: 'Errors & status semantics', uk: 'Помилки та семантика статусів' },
+    tagline: { en: 'Problem Details (RFC 9457), gRPC status, GraphQL errors.', uk: 'Problem Details (RFC 9457), gRPC status, GraphQL errors.' },
+    mentalModel: { en: 'An error is data, not a stack trace: a typed, machine-readable shape the client can act on.', uk: 'Помилка — це дані, а не stack trace: типізована машиночитна форма, на яку клієнт може реагувати.' },
+  }),
+  stub({
+    id: 'm20-pagination-limits', num: 20, section: 's4-cross-cutting', order: 4, level: 'senior',
+    title: { en: 'Pagination & rate limiting', uk: 'Пагінація та rate limiting' },
+    tagline: { en: 'Cursor vs offset; 429 and the token bucket.', uk: 'Cursor проти offset; 429 і token bucket.' },
+    mentalModel: { en: 'Never return an unbounded list, never accept unbounded load: page with a cursor, shed with a limit.', uk: 'Ніколи не віддавай безмежний список і не приймай безмежне навантаження: сторінкуй cursor-ом, відсікай limit-ом.' },
+  }),
+  stub({
+    id: 'm21-idempotency', num: 21, section: 's4-cross-cutting', order: 5, level: 'staff',
+    title: { en: 'Idempotency, reliability & delivery', uk: 'Idempotency, надійність і доставка' },
+    tagline: { en: 'At-least-once is the default; design for retries.', uk: 'At-least-once — це дефолт; проєктуй під retries.' },
+    mentalModel: { en: 'The network will deliver twice or not at all: an idempotency key makes a retry safe to repeat.', uk: 'Мережа доставить двічі або жодного разу: idempotency key робить retry безпечним для повтору.' },
+  }),
+  stub({
+    id: 'm22-security-threats', num: 22, section: 's4-cross-cutting', order: 6, level: 'staff',
+    title: { en: 'Security & threat models', uk: 'Безпека та моделі загроз' },
+    tagline: { en: 'Injection, SSRF, CORS/CSRF, DoS, deserialization.', uk: 'Injection, SSRF, CORS/CSRF, DoS, deserialization.' },
+    mentalModel: { en: 'Every input is hostile until proven otherwise: validate at the boundary, least-privilege behind it.', uk: 'Кожен вхід ворожий, доки не доведено інше: валідуй на межі, least-privilege за нею.' },
+  }),
+  stub({
+    id: 'm23-observability', num: 23, section: 's4-cross-cutting', order: 7, level: 'senior',
+    title: { en: 'Observability & gateways', uk: 'Observability та gateways' },
+    tagline: { en: 'Tracing, gateways/BFF, schema registries, contract testing.', uk: 'Tracing, gateways/BFF, schema registries, contract testing.' },
+    mentalModel: { en: 'You cannot fix what you cannot see: a request carries a trace id from edge gateway to the last hop.', uk: 'Не полагодиш те, чого не бачиш: запит несе trace id від edge gateway до останнього стрибка.' },
+  }),
+
+  // ── Section V · Choosing ───────────────────────────────────────────────────
+  stub({
+    id: 'm24-decision-framework', num: 24, section: 's5-choosing', order: 1, level: 'staff', signature: true,
+    title: { en: 'The decision framework', uk: 'Фреймворк рішення' },
+    tagline: { en: 'Pick a style per boundary — and defend it.', uk: 'Обери стиль під boundary — і захисти вибір.' },
+    mentalModel: { en: 'There is no best style, only a best fit per boundary: latency, payload, streaming, reach, and coupling decide.', uk: 'Немає найкращого стилю, є найкращий fit під boundary: latency, payload, streaming, reach і coupling вирішують.' },
+  }),
+  stub({
+    id: 'm25-mental-models', num: 25, section: 's5-choosing', order: 2, level: 'beginner',
+    title: { en: 'Mental models & when-NOT gallery', uk: 'Ментальні моделі та галерея коли-НЕ' },
+    tagline: { en: 'One line per style; when NOT to use each.', uk: 'Один рядок на стиль; коли НЕ використовувати кожен.' },
+    mentalModel: { en: 'Master the one-liners and you can place, compare, and reject any style on demand.', uk: 'Опануй однорядковики — і зможеш розмістити, порівняти й відкинути будь-який стиль на вимогу.' },
+  }),
+];
+
+// ── Lookups ────────────────────────────────────────────────────────────────
+const moduleById = new Map(modules.map((m) => [m.id, m]));
+const sectionById = new Map(sections.map((s) => [s.id, s]));
+
+export function getModule(id: string): Module | undefined {
+  return moduleById.get(id);
+}
+export function getSection(id: string): Section | undefined {
+  return sectionById.get(id);
+}
+export function modulesBySection(sectionId: string): Module[] {
+  return modules.filter((m) => m.section === sectionId).sort((a, b) => a.order - b.order);
+}
+/** Previous / next module in global order (by `num`). */
+export function adjacentModules(id: string): { prev?: Module; next?: Module } {
+  const ordered = [...modules].sort((a, b) => a.num - b.num);
+  const i = ordered.findIndex((m) => m.id === id);
+  if (i === -1) return {};
+  return { prev: ordered[i - 1], next: ordered[i + 1] };
+}
+/** A module is "authored" (vs a navigable stub) once it has topics. */
+export function isAuthored(m: Module): boolean {
+  return m.topics.length > 0;
+}
+
+export const LEVELS: Level[] = ['beginner', 'middle', 'senior', 'staff'];
+
+export const COUNTS = {
+  sections: sections.length,
+  modules: modules.length,
+  sims: modules.filter((m) => m.signature).length,
+};
+
+// Alias for the SSR smoke (scripts/smoke.ts imports `MODULES`).
+export const MODULES = modules;
+
+export type { Level, Localized, Module, Section };
