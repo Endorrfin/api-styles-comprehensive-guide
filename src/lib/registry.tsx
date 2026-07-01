@@ -20,6 +20,10 @@ export const sims: Record<string, ComponentType> = {
   ), // S2 · golden
   // CHANGED (s3): style-compass — signature interactive for m2 + the landing hero.
   'style-compass': lazyNamed(() => import('../components/sims/StyleCompassSim'), 'StyleCompassSim'),
+  // CHANGED (s4): http-multiplexing — signature interactive for m3 (HTTP/1.1 vs 2 vs 3 + packet loss).
+  'http-multiplexing': lazyNamed(() => import('../components/sims/HttpMultiplexingSim'), 'HttpMultiplexingSim'),
+  // CHANGED (s5): grpc-wire — signature interactive for m10 (protobuf byte encoder vs JSON).
+  'grpc-wire': lazyNamed(() => import('../components/sims/GrpcWireSim'), 'GrpcWireSim'),
 };
 
 // ── Figures ───────────────────────────────────────────────────────────────────
@@ -40,6 +44,14 @@ export const figures: Record<string, ComponentType> = {
     () => import('../components/figures/CouplingSpectrum'),
     'CouplingSpectrum',
   ),
+  // CHANGED (s4): figures for m3 (HTTP connection models) + m4 (relative encoding size).
+  'http-connection-models': lazyNamed(
+    () => import('../components/figures/HttpConnectionModels'),
+    'HttpConnectionModels',
+  ),
+  'encoding-size': lazyNamed(() => import('../components/figures/EncodingSize'), 'EncodingSize'),
+  // CHANGED (s5): grpc-call-types — the four gRPC call shapes for m10.
+  'grpc-call-types': lazyNamed(() => import('../components/figures/GrpcCallTypes'), 'GrpcCallTypes'),
 };
 
 export const getSim = (key: string): ComponentType | undefined => sims[key];

@@ -619,3 +619,468 @@
     transition: none;
   }
 }
+
+/* ── HTTP multiplexing sim (m3) ───────────────────────────────────────────────
+   accent (violet) = HTTP/1.1 connections · accent-2 (cyan) = multiplexed streams ·
+   c-danger (red)  = a lost packet's retransmit / stalled streams. */
+.mux {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  padding: 1rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.mux-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.mux-protos {
+  display: inline-flex;
+  border: 1px solid var(--line2);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.mux-proto {
+  padding: 0.34rem 0.7rem;
+  background: var(--s2);
+  color: var(--tx3);
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.mux-proto + .mux-proto {
+  border-left: 1px solid var(--line2);
+}
+.mux-proto.on {
+  background: var(--accent-soft);
+  color: var(--accent-bright);
+}
+.mux-opts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.mux-reqs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.mux-reqs-label {
+  font-size: 0.8rem;
+}
+.mux-req {
+  padding: 0.26rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--s2);
+  color: var(--tx3);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.mux-req.on {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  background: var(--accent-soft);
+}
+.mux-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.6rem;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  background: var(--s2);
+  color: var(--tx3);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.mux-toggle-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--line2);
+}
+.mux-toggle.on {
+  border-color: var(--c-danger);
+  color: var(--c-danger);
+  background: var(--c-danger-soft);
+}
+.mux-toggle.on .mux-toggle-dot {
+  background: var(--c-danger);
+}
+
+.mux-stage {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 0.75rem 0.8rem;
+}
+.mux-lanes-wrap {
+  position: relative;
+  --tagw: 34px;
+}
+.mux-lanes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.mux-lane {
+  display: flex;
+  align-items: center;
+  height: 24px;
+}
+.mux-lane-tag {
+  flex: 0 0 var(--tagw);
+  padding-right: 0.4rem;
+  font-size: 0.66rem;
+  color: var(--tx3);
+  text-align: right;
+}
+.mux-lane-track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 100%;
+  background: var(--s2);
+  border-radius: 3px;
+}
+.mux-seg {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  border-radius: 3px;
+  background: var(--s3);
+  box-shadow: inset 0 0 0 1px var(--line2);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.mux-seg.stalled {
+  box-shadow: inset 0 0 0 1px var(--c-danger);
+}
+.mux-seg-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+  transition: width var(--dur) var(--ease);
+}
+.mux-seg-id {
+  position: relative;
+  z-index: 1;
+  padding-left: 3px;
+  font-size: 0.6rem;
+  color: var(--tx);
+  opacity: 0.75;
+}
+.mux-seg.active {
+  box-shadow: inset 0 0 0 1px var(--accent-bright);
+}
+.mux-playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent-bright);
+  left: calc(var(--tagw) + (100% - var(--tagw)) * var(--frac, 0));
+  transition: left var(--dur) var(--ease);
+  pointer-events: none;
+}
+
+.mux-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.7rem;
+}
+.mux-badge {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #06121b;
+  padding: 0.2rem 0.45rem;
+  border-radius: var(--r-sm);
+  font-size: 0.8rem;
+}
+.mux-transport {
+  font-size: 0.8rem;
+}
+.mux-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--tx2);
+}
+.mux-stalled.hot {
+  color: var(--c-danger);
+  font-weight: 700;
+}
+.mux-verdict {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: var(--tx2);
+}
+.mux-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.mux-progress {
+  margin-left: auto;
+  font-size: 0.8rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mux-seg-fill,
+  .mux-playhead {
+    transition: none;
+  }
+}
+
+/* ── gRPC / protobuf wire encoder sim (m10) ───────────────────────────────────
+   accent (violet) = tag byte · s3/grey = length prefix · accent-2 (cyan) = value bytes. */
+.gw {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  padding: 1rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.gw-schema {
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--tx2);
+  overflow-x: auto;
+}
+.gw-kw {
+  color: var(--accent-2);
+}
+.gw-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.gw-field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.gw-field-label {
+  flex: 0 0 3rem;
+  font-size: 0.8rem;
+  color: var(--tx3);
+}
+.gw-ids,
+.gw-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.gw-id,
+.gw-tag {
+  padding: 0.26rem 0.55rem;
+  border: 1px solid var(--line2);
+  border-radius: var(--r-sm);
+  background: var(--s2);
+  color: var(--tx3);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.gw-tag {
+  border-radius: 999px;
+}
+.gw-id.on,
+.gw-tag.on {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  background: var(--accent-soft);
+}
+.gw-title-input {
+  background: var(--bg);
+  color: var(--tx);
+  border: 1px solid var(--line2);
+  border-radius: var(--r-sm);
+  padding: 0.28rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  width: 8rem;
+}
+.gw-title-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.gw-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+}
+.gw-record {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.gw-record-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+.gw-record-name {
+  color: var(--accent-bright);
+  font-weight: 600;
+}
+.gw-record-val {
+  color: var(--tx2);
+}
+.gw-record-wire {
+  margin-left: auto;
+  font-size: 0.72rem;
+}
+.gw-bytes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.gw-byte {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.16rem 0.3rem;
+  border-radius: 3px;
+  min-width: 1.5rem;
+  text-align: center;
+}
+.gw-byte.tag {
+  background: var(--accent);
+  color: #06121b;
+  font-weight: 700;
+}
+.gw-byte.len {
+  background: var(--s3);
+  color: var(--tx2);
+  border: 1px solid var(--line2);
+}
+.gw-byte.val {
+  background: var(--accent-2);
+  color: #06121b;
+}
+.gw-empty {
+  margin: 0;
+  font-size: 0.82rem;
+}
+.gw-omitted {
+  margin: 0;
+  font-size: 0.8rem;
+}
+.gw-omitted-name {
+  text-decoration: line-through;
+  color: var(--tx3);
+}
+
+.gw-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.76rem;
+  color: var(--tx3);
+}
+.gw-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.gw-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+.gw-swatch.tag {
+  background: var(--accent);
+}
+.gw-swatch.len {
+  background: var(--s3);
+  border: 1px solid var(--line2);
+}
+.gw-swatch.val {
+  background: var(--accent-2);
+}
+
+.gw-size {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.gw-size-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.gw-size-tag {
+  flex: 0 0 4.5rem;
+  font-size: 0.78rem;
+  color: var(--tx2);
+}
+.gw-bar {
+  flex: 1 1 auto;
+  height: 8px;
+  background: var(--s3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.gw-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width var(--dur) var(--ease);
+}
+.gw-size-n {
+  flex: 0 0 3rem;
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--tx2);
+}
+.gw-size-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+}
+.gw-reset {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gw-bar-fill {
+    transition: none;
+  }
+}

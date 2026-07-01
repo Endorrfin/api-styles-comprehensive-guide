@@ -53,6 +53,13 @@ module,map,pages,sims,figures}`) ported/adapted from `../database guide` to the 
 `style-compass` engine/sim (`lib/compass.ts` + `scripts/test-compass.ts`), now the landing hero;
 figures `api-boundary`, `in-process-vs-network`, `decision-axes`, `coupling-spectrum`; `SimBlock` now
 renders authored captions. **3 modules authored, 22 navigable stubs.**
+**Built (S4):** signature `m3-http-transport` (senior) + `m4-data-formats` (middle); the signature sim
+`http-multiplexing` (engine `lib/http.ts` + `scripts/test-http.ts` — HTTP/1.1·2·3 scheduling with a
+packet-loss/HOL model); figures `http-connection-models`, `encoding-size`. **5 modules authored, 20
+navigable stubs; 3 sim engines; smoke at 115 checks.**
+**Built (S5):** signature `m10-grpc` (contract-first) + the signature sim `grpc-wire` (protobuf byte
+encoder `lib/grpc.ts` + `scripts/test-grpc.ts`); figure `grpc-call-types`. **6 modules authored, 19
+navigable stubs; 4 sim engines; smoke at 127 checks.**
 
 ## 4. Content / data model (the contract)
 **Terminology:** **Section** (top-level) → **Module** (navigable, skippable) → **Topic** (deep-linkable
@@ -123,8 +130,9 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S2 (done)** — ported the shell (from `../database guide`) + **golden `m5-rest`** + sim
   `rest-request-lifecycle` + `scripts/test-rest.ts` + wired smoke's 4 TODOs + `npm run verify` green.
 - **S3 (done)** — `m1-what-is-an-api` + `m2-decision-axes` + `style-compass` landing map.
-- **S4** — `m3-http-transport` + `http-multiplexing`; `m4-data-formats`.
-- **S5–S9** — the deep styles + their sims (gRPC, GraphQL, WebSockets, WebRTC, Webhooks, SSE).
+- **S4 (done)** — `m3-http-transport` + `http-multiplexing`; `m4-data-formats`.
+- **S5 (done)** — `m10-grpc` + `grpc-wire`.
+- **S6–S9** — the remaining deep styles + their sims (GraphQL, WebSockets, WebRTC, Webhooks, SSE).
 - **S10** — right-sized styles (OData, SOAP, JSON-RPC, tRPC, async messaging).
 - **S11–S12** — Section IV cross-cutting (m17–m23).
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
@@ -172,3 +180,36 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   smoke (**101 checks**, 2 sims + 6 figures EN+UK) · build (57 modules, code-split, `--outDir dist-s3c`).
   *Branch:* `s3-foundations-compass`. *Commit:* `feat: author m1 + m2 (decision axes) + style-compass
   landing interactive`. *Open items:* S4 = `m3-http-transport` + `http-multiplexing`; `m4-data-formats`.
+- **S4** (2026-07-01) — **Transport & formats.** Authored the signature **`m3-http-transport`** (senior;
+  7 topics: tcp-udp-tls → http1-1 → http2-multiplexing → http3-quic → head-of-line-blocking →
+  keep-alive-pooling → how-transport-shapes-style; figure `http-connection-models`; 6 key points, 3
+  pitfalls, 2 interview, 7 sources) and **`m4-data-formats`** (middle; 8 topics: json → xml → protobuf →
+  messagepack-cbor → text-vs-binary-tradeoffs → schema-vs-schemaless → content-negotiation → compression;
+  figure `encoding-size`; 6 key points, 3 pitfalls, 2 interview, 7 sources). Built the signature
+  interactive **`http-multiplexing`**: pure deterministic engine `src/lib/http.ts` (schedules N requests
+  under HTTP/1.1/2/3 with a packet-loss + head-of-line-blocking model) + `scripts/test-http.ts` (golden:
+  multiplexing beats HTTP/1.1 past the 6-connection cap; under loss HTTP/2 stalls **all** streams, HTTP/3
+  stalls **one**, HTTP/1.1 HOL is per-connection) + `HttpMultiplexingSim.tsx` (protocol switch,
+  requests 4/8/12, Lose-a-packet toggle, stepped-clock Gantt with a swept playhead, reduced-motion, ARIA +
+  live region). Web-verified the version-sensitive facts (RFC 9110–9114 · QUIC 9000/9001 · HPACK 7541 ·
+  QPACK 9204 · Extensible Priorities 9218 · TLS 1.3 8446 · JSON 8259 · CBOR 8949 · Brotli 7932 · zstd 8878
+  · HTTP/2 server push removed from Chrome 2022). **All gates GREEN**: typecheck · lint · check:data
+  (**5 authored** / 25) · test (**3 engines**) · smoke (**115 checks**, 3 sims + 8 figures EN+UK) · build
+  (63 modules, code-split, `--outDir dist-s4`). *Branch:* `s4-transport-formats`. *Commit:* `feat: author
+  m3 (HTTP transport) + m4 (data formats) + http-multiplexing sim`. *Open items:* S5–S6 = `m10-grpc` +
+  `grpc-wire`; `m9-graphql` + `graphql-nplus1`.
+- **S5** (2026-07-01) — **gRPC.** Authored the signature **`m10-grpc`** (senior, contract-first; 8 topics:
+  protobuf-idl → http2-transport → four-call-types → wire-encoding-varint-tag → deadlines-cancellation →
+  status-codes → grpc-web → streaming-backpressure, closing on a use/avoid verdict; figure
+  `grpc-call-types`; 6 key points, 3 pitfalls, 2 interview, 7 sources). Built the signature interactive
+  **`grpc-wire`**: pure deterministic protobuf encoder `src/lib/grpc.ts` (tag `(field<<3)|wire`, varint,
+  length-delimited strings, proto3 default omission, JSON-size comparison) + `scripts/test-grpc.ts`
+  (golden: `varint(300)=[AC 02]`, `tag(2,LEN)=0x12`, exact message bytes, proto3 omission, Protobuf <
+  JSON) + `GrpcWireSim.tsx` (edit id/title/tags → live byte stream with tag/len/value cells, omitted
+  defaults struck through, size bar vs JSON; SSR-safe, ARIA + live region). Web-verified the facts (four
+  call types over HTTP/2 streams · protobuf wire format · status carried in HTTP/2 trailers → gRPC-Web
+  needs a proxy · HTTP/2 flow-control backpressure · deadlines default OFF). **All gates GREEN**:
+  typecheck · lint · check:data (**6 authored** / 25) · test (**4 engines**) · smoke (**127 checks**, 4
+  sims + 9 figures EN+UK) · build (code-split, `--outDir dist-s5`). *Branch:* `s5-grpc`. *Commit:* `feat:
+  author m10 (gRPC) + grpc-wire protobuf encoder sim`. *Open items:* S6 = `m9-graphql` +
+  `graphql-nplus1` (the N+1 problem + DataLoader batching).

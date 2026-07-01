@@ -4,6 +4,11 @@ import { m5 } from './modules/m5-rest';
 // CHANGED (s3): Foundations on-ramp + decision axes authored.
 import { m1 } from './modules/m1-what-is-an-api';
 import { m2 } from './modules/m2-decision-axes';
+// CHANGED (s4): HTTP transport substrate + data formats authored.
+import { m3 } from './modules/m3-http-transport';
+import { m4 } from './modules/m4-data-formats';
+// CHANGED (s5): gRPC authored (contract-first, signature).
+import { m10 } from './modules/m10-grpc';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -57,18 +62,8 @@ export const modules: Module[] = [
   // ── Section 0 · Foundations ────────────────────────────────────────────────
   m1, // ★ s3 — beginner on-ramp (fully authored)
   m2, // ★ s3 — decision axes + style-compass (fully authored)
-  stub({
-    id: 'm3-http-transport', num: 3, section: 's0-foundations', order: 3, level: 'senior', signature: true,
-    title: { en: 'The HTTP transport substrate', uk: 'Транспортний субстрат HTTP' },
-    tagline: { en: 'HTTP/1.1 vs 2 vs 3 — and why it shapes your API.', uk: 'HTTP/1.1 проти 2 проти 3 — і чому це формує ваш API.' },
-    mentalModel: { en: 'The wire underneath decides your ceiling: multiplexing, head-of-line blocking, and QUIC change what a style can do.', uk: 'Дріт під низом визначає вашу стелю: multiplexing, head-of-line blocking і QUIC змінюють можливості стилю.' },
-  }),
-  stub({
-    id: 'm4-data-formats', num: 4, section: 's0-foundations', order: 4, level: 'middle',
-    title: { en: 'Data formats & serialization', uk: 'Формати даних і серіалізація' },
-    tagline: { en: 'JSON, Protobuf, XML — text vs binary, schema vs schemaless.', uk: 'JSON, Protobuf, XML — text проти binary, schema проти schemaless.' },
-    mentalModel: { en: 'The format is a trade of human-readability against size, speed, and a machine-checked schema.', uk: 'Формат — це обмін людиночитності на розмір, швидкість і машинно-перевірену schema.' },
-  }),
+  m3, // ★ s4 — HTTP transport substrate + http-multiplexing sim (fully authored)
+  m4, // s4 — data formats & serialization + encoding-size figure (fully authored)
 
   // ── Section I · Request/Response over HTTP ─────────────────────────────────
   m5, // ★ GOLDEN — REST (fully authored)
@@ -98,12 +93,7 @@ export const modules: Module[] = [
     tagline: { en: 'One endpoint; the client shapes the response.', uk: 'Один endpoint; клієнт формує відповідь.' },
     mentalModel: { en: 'A typed graph the client queries: ask for exactly the fields you need — the server resolves them, N+1 permitting.', uk: 'Типізований граф, який запитує клієнт: беріть саме потрібні поля — сервер їх резолвить, якщо не завадить N+1.' },
   }),
-  stub({
-    id: 'm10-grpc', num: 10, section: 's2-contract-first', order: 2, level: 'senior', signature: true,
-    title: { en: 'gRPC', uk: 'gRPC' },
-    tagline: { en: 'Protobuf contracts + HTTP/2 streaming.', uk: 'Protobuf-контракти + HTTP/2 streaming.' },
-    mentalModel: { en: 'A typed method call over HTTP/2: protobuf on the wire, four streaming shapes, deadlines built in.', uk: 'Типізований виклик методу через HTTP/2: protobuf на дроті, чотири форми streaming, deadlines вбудовані.' },
-  }),
+  m10, // ★ s5 — gRPC (contract-first) + grpc-wire sim (fully authored)
   stub({
     id: 'm11-trpc', num: 11, section: 's2-contract-first', order: 3, level: 'senior',
     title: { en: 'tRPC', uk: 'tRPC' },
