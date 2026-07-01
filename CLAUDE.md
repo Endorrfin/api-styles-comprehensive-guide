@@ -75,8 +75,11 @@ fallback**, ARIA + live region. Keys: `style-compass` · `http-multiplexing` · 
 `style-picker`. No WASM/real network engine — all simulated deterministically.
 
 ## 7. Theme / brand
-Dark editorial; palette in `theme/tokens.css` with domain accent **azure/cyan ("protocol wire")**. Fonts
-**Fraunces** (display) · **Inter** · **JetBrains Mono**. Per-section accent tints within the locked palette.
+Dark editorial; palette in `theme/tokens.css` with a **calm violet × cyan "Signal" duotone** (low-chroma
+for reading comfort): `--accent` violet `#a78bfa` (primary — links/active/req-resp), `--accent-2` cyan
+`#4dc4d4` (secondary — real-time/streaming, sim wire, signature ★). Light theme darkens to violet `#6d28d9`
+/ cyan `#0e7490`. Section accents run a violet→cyan spectrum. Fonts **Fraunces** (display) · **Inter** ·
+**JetBrains Mono**.
 
 ## 8. Internationalization
 **Author EN first, UA second.** Keep **ALL technical terms English** in UA (REST, resolver, protobuf,
