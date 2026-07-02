@@ -1833,3 +1833,255 @@
     font-size: 0.68rem;
   }
 }
+
+/* ── WebhookDeliverySim (m15) — CHANGED (s9) ───────────────────────────────────
+   Two lanes: Provider · Consumer. Colours: violet = provider bookkeeping (sign/queue),
+   cyan = delivery attempts + processing, amber = backoff waits, danger = failures/
+   timeouts/double effects, commit-green = verified/acked. */
+.wh-controls-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.7rem;
+}
+.wh-scenarios {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.wh-scenario {
+  padding: 0.32rem 0.7rem;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  background: var(--s2);
+  color: var(--tx2);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.wh-scenario.on {
+  border-color: var(--accent-2);
+  color: var(--accent-2);
+  background: var(--accent-2-soft);
+}
+.wh-scenario-tag {
+  font-size: 0.66rem;
+  opacity: 0.85;
+  padding-left: 0.15rem;
+}
+.wh-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line2);
+  border-radius: 999px;
+  background: var(--s2);
+  color: var(--tx2);
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-left: auto;
+}
+.wh-toggle-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--tx3);
+  transition: background var(--dur) var(--ease);
+}
+.wh-toggle.on {
+  border-color: var(--c-commit);
+  color: var(--c-commit);
+  background: var(--c-commit-soft);
+}
+.wh-toggle.on .wh-toggle-dot {
+  background: var(--c-commit);
+}
+.wh-rails {
+  display: grid;
+  grid-template-columns: 34px 1.2fr 44px 1.2fr;
+  align-items: center;
+  gap: 0.4rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--line2);
+}
+.wh-rail-label {
+  grid-column: 2;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--tx2);
+}
+.wh-mid-label {
+  grid-column: 3;
+  text-align: center;
+  font-size: 0.66rem;
+  color: var(--tx3);
+  white-space: nowrap;
+}
+.wh-rail-label-r {
+  grid-column: 4;
+  text-align: right;
+}
+.wh-timeline {
+  list-style: none;
+  margin: 0.5rem 0 0.6rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.32rem;
+  min-height: 120px;
+}
+.wh-row {
+  display: grid;
+  grid-template-columns: 34px 1.2fr 44px 1.2fr;
+  align-items: center;
+  gap: 0.4rem;
+  animation: wh-in var(--dur) var(--ease);
+}
+.wh-row.gap {
+  opacity: 0.85;
+}
+.wh-tick {
+  font-size: 0.7rem;
+  color: var(--tx3);
+}
+.wh-cell {
+  min-width: 0;
+}
+.wh-cell.consumer {
+  display: flex;
+  justify-content: flex-start;
+}
+.wh-cell.provider {
+  display: flex;
+  justify-content: flex-end;
+}
+.wh-arrow {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--accent-2);
+}
+.wh-arrow.none {
+  visibility: hidden;
+}
+.wh-arrow.fail {
+  color: var(--c-danger);
+}
+.wh-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.24rem 0.55rem;
+  border-radius: 8px;
+  border: 1px solid var(--line2);
+  background: var(--s2);
+  max-width: 100%;
+}
+.wh-pill.event,
+.wh-pill.sign {
+  border-style: dashed;
+  border-color: var(--accent);
+  background: var(--c-storage-soft);
+}
+.wh-pill.attempt {
+  border-color: var(--accent-2);
+  background: var(--accent-2-soft);
+}
+.wh-pill.verify {
+  border-color: var(--c-commit);
+  background: var(--c-commit-soft);
+}
+.wh-pill.process {
+  border-color: var(--accent-2);
+  background: var(--accent-2-soft);
+}
+.wh-pill.duplicate {
+  border-style: dotted;
+  border-color: var(--c-commit);
+  background: var(--c-commit-soft);
+}
+.wh-pill.backoff {
+  border-style: dotted;
+  border-color: var(--c-analytics);
+  background: var(--c-analytics-soft);
+}
+.wh-pill.response {
+  border-color: var(--c-commit);
+  background: var(--c-commit-soft);
+}
+.wh-pill.fail,
+.wh-pill.timeout,
+.wh-pill.dead-letter {
+  border-color: var(--c-danger);
+  background: var(--c-danger-soft);
+}
+.wh-plabel {
+  font-size: 0.74rem;
+  color: var(--tx);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wh-ok {
+  font-size: 0.74rem;
+  color: var(--c-commit);
+}
+.wh-pill.fail .wh-ok,
+.wh-pill.timeout .wh-ok {
+  color: var(--c-danger);
+}
+@keyframes wh-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.wh-status {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+  font-size: 0.78rem;
+}
+.wh-effects {
+  color: var(--c-commit);
+}
+.wh-effects.fail {
+  color: var(--c-danger);
+  font-weight: 700;
+}
+.wh-progress {
+  margin-left: auto;
+  font-size: 0.78rem;
+}
+.wh-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wh-row {
+    animation: none;
+  }
+  .wh-toggle-dot {
+    transition: none;
+  }
+}
+@media (max-width: 720px) {
+  .wh-rails,
+  .wh-row {
+    grid-template-columns: 26px 1.2fr 30px 1.2fr;
+  }
+  .wh-plabel {
+    font-size: 0.68rem;
+  }
+  .wh-toggle {
+    margin-left: 0;
+  }
+}

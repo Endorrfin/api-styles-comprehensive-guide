@@ -158,6 +158,41 @@ export const glossary: GlossaryEntry[] = [
       en: 'Server-Sent Events — a one-way text/event-stream from server to browser over HTTP, with automatic reconnect and Last-Event-ID resume.',
       uk: 'Server-Sent Events — односторонній text/event-stream від сервера до браузера через HTTP, з автоперепідключенням і resume через Last-Event-ID.',
     },
+    // CHANGED (s9): cross-link the new Last-Event-ID entry.
+    seeAlso: ['Last-Event-ID', 'WebSocket'],
+  },
+  // CHANGED (s9): SSE + webhook-reliability terms authored with m13/m15.
+  {
+    term: 'Last-Event-ID',
+    def: {
+      en: 'The request header EventSource sends on reconnect, carrying the last id: it processed — the server’s cue to resume the stream from that point instead of restarting.',
+      uk: 'Заголовок запиту, який EventSource шле при reconnect, несучи останній оброблений id:, — сигнал серверу відновити потік з того місця, а не почати заново.',
+    },
+    seeAlso: ['SSE'],
+  },
+  {
+    term: 'HMAC',
+    def: {
+      en: 'Hash-based Message Authentication Code (RFC 2104) — a keyed hash over a message proving it came from a holder of the shared secret. Webhook signatures are typically HMAC-SHA256 over the raw body (plus id/timestamp).',
+      uk: 'Hash-based Message Authentication Code (RFC 2104) — хеш із ключем над повідомленням, що доводить походження від власника спільного секрету. Підписи webhook — зазвичай HMAC-SHA256 над сирим тілом (плюс id/timestamp).',
+    },
+    seeAlso: ['Webhook'],
+  },
+  {
+    term: 'At-least-once delivery',
+    def: {
+      en: 'The delivery promise where nothing is lost but retries may duplicate: a lost ack means re-delivery. The consumer converts it to an exactly-once EFFECT by deduplicating on an idempotency key.',
+      uk: 'Обіцянка доставки, де ніщо не губиться, але retries можуть дублювати: загублений ack означає передоставку. Consumer перетворює її на exactly-once ЕФЕКТ дедуплікацією за idempotency key.',
+    },
+    seeAlso: ['Webhook', 'Idempotency key'],
+  },
+  {
+    term: 'Dead-letter queue',
+    def: {
+      en: 'Where deliveries land after the retry budget is exhausted — inspectable, alertable, and redeliverable once the endpoint is fixed, instead of silently dropped.',
+      uk: 'Куди потрапляють доставки після вичерпання бюджету retries — їх видно, на них алертять і їх можна передоставити після ремонту endpoint-а, замість тихого відкидання.',
+    },
+    seeAlso: ['Webhook', 'At-least-once delivery'],
   },
   {
     term: 'WebRTC',

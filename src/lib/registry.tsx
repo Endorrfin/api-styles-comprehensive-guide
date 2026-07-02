@@ -30,6 +30,8 @@ export const sims: Record<string, ComponentType> = {
   'websocket-frames': lazyNamed(() => import('../components/sims/WebsocketFramesSim'), 'WebsocketFramesSim'),
   // CHANGED (s8): webrtc-connect — signature interactive for m14 (signaling → ICE → DTLS → P2P data).
   'webrtc-connect': lazyNamed(() => import('../components/sims/WebrtcConnectSim'), 'WebrtcConnectSim'),
+  // CHANGED (s9): webhook-delivery — signature interactive for m15 (at-least-once + backoff + dedup).
+  'webhook-delivery': lazyNamed(() => import('../components/sims/WebhookDeliverySim'), 'WebhookDeliverySim'),
 };
 
 // ── Figures ───────────────────────────────────────────────────────────────────
@@ -72,6 +74,11 @@ export const figures: Record<string, ComponentType> = {
   'webrtc-connection-paths': lazyNamed(
     () => import('../components/figures/WebrtcConnectionPaths'),
     'WebrtcConnectionPaths',
+  ),
+  // CHANGED (s9): sse-stream-anatomy — the text/event-stream format + reconnect loop for m13.
+  'sse-stream-anatomy': lazyNamed(
+    () => import('../components/figures/SseStreamAnatomy'),
+    'SseStreamAnatomy',
   ),
 };
 

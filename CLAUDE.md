@@ -72,6 +72,11 @@ authored, 17 navigable stubs; 6 sim engines; smoke at 151 checks.**
 (pure scenario engine `lib/webrtc.ts` + `scripts/test-webrtc.ts` — signaling → trickle ICE → checks →
 DTLS → P2P data across open/NAT/symmetric-NAT scenarios); figure `webrtc-connection-paths`; +4 WebRTC
 glossary terms. **9 modules authored, 16 navigable stubs; 7 sim engines; smoke at 163 checks.**
+**Built (S9):** signature `m15-webhooks` (8 topics) + the signature sim `webhook-delivery` (pure engine
+`lib/webhook.ts` + `scripts/test-webhook.ts` — sign → attempts → ×4 backoff → dedup/DLQ across
+healthy/flaky/down endpoints + an idempotency toggle: 1 effect vs the double-charge 2) and
+`m13-sse` (5 topics, figure `sse-stream-anatomy`); +4 reliability/SSE glossary terms. **11 modules
+authored, 14 navigable stubs; 8 sim engines; smoke at 175 checks.**
 
 ## 4. Content / data model (the contract)
 **Terminology:** **Section** (top-level) → **Module** (navigable, skippable) → **Topic** (deep-linkable
@@ -147,8 +152,9 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S6 (done)** — `m9-graphql` + `graphql-nplus1`.
 - **S7 (done)** — `m12-websockets` + `websocket-frames`.
 - **S8 (done)** — `m14-webrtc` + `webrtc-connect`.
-- **S9** — `m15-webhooks` + `webhook-delivery`; `m13-sse`.
-- **S10** — right-sized styles (OData, SOAP, JSON-RPC, tRPC, async messaging).
+- **S9 (done)** — `m15-webhooks` + `webhook-delivery`; `m13-sse`.
+- **S10** — right-sized styles (OData, SOAP, JSON-RPC, tRPC, async messaging) + the **meta split**
+  (standard §4.4 — the eager `index` chunk passed 450 kB in S9; time to split).
 - **S11–S12** — Section IV cross-cutting (m17–m23).
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
 
@@ -297,3 +303,38 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   (**163 checks**, 7 sims + 12 figures EN+UK) · build (code-split, `--outDir dist-s8b`). *Branch:*
   `s8-webrtc`. *Commit:* `feat: author m14 (WebRTC) + webrtc-connect NAT-scenario sim`. *Open items:*
   S9 = `m15-webhooks` + `webhook-delivery`; `m13-sse`.
+- **S9** (2026-07-02) — **Webhooks + SSE.** Authored the signature **`m15-webhooks`** (senior; 8 topics:
+  reverse-api-callbacks → delivery-at-least-once → retries-backoff (sim + a Stripe-vs-GitHub policy
+  table) → idempotency-keys → signature-verification-hmac (Standard-Webhooks verify code:
+  raw body · ±5 min window · rotation · byte-length-guarded `timingSafeEqual`) → replay-and-ordering →
+  dead-letter → vs-polling-vs-websockets + verdict; 6 key points, 3 pitfalls, 2 senior interview Q&A
+  (consumer + provider chairs), 7 sources) and **`m13-sse`** (middle; 5 topics: text-event-stream
+  (figure + server/browser code) → auto-reconnect-last-event-id → vs-websockets (compare) →
+  http2-multiplexing-caveat (6-per-origin h1 cap + buffering proxies) → when-sse-is-enough incl. the
+  LLM-token-streaming renaissance; 6 key points, 3 pitfalls, 1 interview, 6 sources). Built the
+  signature interactive **`webhook-delivery`**: pure deterministic engine `src/lib/webhook.ts` — three
+  endpoint scenarios (healthy / flaky / down) × a **consumer-dedups toggle**; the flaky script is the
+  thesis: 500 → backoff → success-with-LOST-ACK → re-delivery of the same `evt_42` → dedup ON = 1
+  business effect, OFF = 2 (the double charge); down ends in the dead-letter queue — +
+  `scripts/test-webhook.ts` (golden: sign-before-send, same-id re-delivery, verify-before-process,
+  ×4 backoff schedule, dedup=1/no-dedup=2 effects, down ⇒ 0 effects + DLQ-last, determinism, distinct
+  scenario lengths) + `WebhookDeliverySim.tsx` (scenario switch + dedup toggle, Provider/Consumer
+  rails, attempts/effects counters with a ⚠ double-effect state, play/step/reset, reduced-motion,
+  ARIA + live region); figure `sse-stream-anatomy` (the wire format + the Last-Event-ID resume loop);
+  +4 glossary terms (Last-Event-ID, HMAC, At-least-once delivery, Dead-letter queue + SSE cross-link).
+  Web-verified the version-sensitive facts (**Standard Webhooks** `webhook-id/-timestamp/-signature`,
+  HMAC-SHA256 `v1,<base64>`, space-delimited rotation, adopted by OpenAI/Anthropic/Google/Twilio/
+  PagerDuty · **Stripe** `Stripe-Signature: t=,v1=` over `t.payload`, 5-min default tolerance,
+  exponential retries up to 3 days then endpoint disabled · **GitHub** `X-Hub-Signature-256:
+  sha256=<hex>` over the body only, NO auto-retry, manual/API redelivery within 3 days · WHATWG SSE
+  fields + `Last-Event-ID` · the ~6-connections-per-origin h1 cap, lifted by h2 · OpenAI/Anthropic
+  stream over SSE). **QA pass:** independent subagent review → no P1s; fixed 2 P2s (the verify sample
+  now compares BYTE lengths before `timingSafeEqual` and signs the raw timestamp header; the SSE
+  figure's reconnect panel moved below the annotation rows — no more overlap) + 2 nitpicks
+  (provider-side timeouts no longer draw a reply arrow; count-neutral live-region labels);
+  re-verified green. **All gates GREEN**: typecheck · lint · check:data (**11 authored** / 25) · test
+  (**8 engines**) · smoke (**175 checks**, 8 sims + 13 figures EN+UK) · build (code-split,
+  `--outDir dist-s9b`; eager index chunk now ~450 kB → meta split scheduled for S10). *Branch:*
+  `s9-webhooks-sse`. *Commit:* `feat: author m15 (Webhooks) + webhook-delivery sim + m13 (SSE)`.
+  *Open items:* S10 = right-sized styles (`m6-odata`, `m7-soap-xml`, `m8-json-rpc`, `m11-trpc`,
+  `m16-async-messaging`) + the meta split (standard §4.4).
