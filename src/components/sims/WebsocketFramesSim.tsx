@@ -94,7 +94,7 @@ export function WebsocketFramesSim() {
                 <>
                   <span className="ws-op mono">{opName(e.opcode)}</span>
                   <span className="ws-plabel">{e.label}</span>
-                  {!e.fin && <span className="ws-fin mono" title="FIN=0 (more frames follow)">FIN 0</span>}
+                  {!e.fin && <span className="ws-fin mono" title={t({ en: 'FIN=0 — more frames follow (fragmented message)', uk: 'FIN=0 — далі ще фрейми (фрагментоване повідомлення)' })}>FIN 0</span>}
                   {e.masked && <span className="ws-mask mono" title={t({ en: 'client→server frames are masked', uk: 'фрейми client→server масковані' })}>MASK</span>}
                   {showBytes && e.opcode !== undefined && (
                     <span className="ws-byte mono" title={t({ en: 'leading byte: FIN | opcode', uk: 'провідний байт: FIN | opcode' })}>

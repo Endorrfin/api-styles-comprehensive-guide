@@ -74,6 +74,7 @@ const SIM_CANARIES: Record<string, string[]> = {
   GrpcWireSim: ["Article", "int64"], // s5 · schema block renders in any state
   GraphqlNplus1Sim: ["posts", "DataLoader"], // s6 · query block + toggle render in any state
   WebsocketFramesSim: ["Client", "Server"], // s7 · rail headers render in any state
+  WebrtcConnectSim: ["Peer A", "TURN"], // s8 · rail header + scenario tag render in any state
 };
 const FIG_CANARIES: Record<string, string[]> = {
   RestAnatomy: ["GET /articles/42"],
@@ -87,6 +88,7 @@ const FIG_CANARIES: Record<string, string[]> = {
   GrpcCallTypes: ["Unary", "Bidirectional"], // s5
   GraphqlOverUnderFetching: ["REST", "GraphQL"], // s6
   WebsocketFrameAnatomy: ["opcode", "MASK"], // s7
+  WebrtcConnectionPaths: ["STUN", "TURN"], // s8
 };
 
 async function main(): Promise<void> {

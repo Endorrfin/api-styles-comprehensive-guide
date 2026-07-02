@@ -15,7 +15,7 @@
 
 export type Dir = 'c2s' | 's2c'; // client→server · server→client
 
-// The opcodes this sim shows (RFC 6455 §5.2). 0x0 continuation is mentioned in the module, not scripted.
+// The opcodes this sim shows (RFC 6455 §5.2); 0x0 continuation appears in the fragmented message below.
 export type Opcode = 0x0 | 0x1 | 0x2 | 0x8 | 0x9 | 0xa;
 export const OP = {
   continuation: 0x0,
@@ -63,8 +63,9 @@ function frame(t: number, dir: Dir, opcode: Opcode, label: string, fin = true): 
 /*
  * The scripted conversation. Ticks 0–1 are the handshake; from tick 2 the socket is open and both sides
  * send freely. Tick 4 carries a frame in EACH direction (server push + client ping) to make full-duplex
- * concurrency visible; the ping (0x9, tick 4) is answered by a pong (0xA, tick 5); ticks 8–9 are the
- * closing handshake.
+ * concurrency visible; the ping (0x9, tick 4) is answered by a pong (0xA, tick 5); ticks 8–9 are ONE
+ * message fragmented across a text frame (FIN=0) and a continuation frame (0x0, FIN=1); ticks 10–11 are
+ * the closing handshake.
  */
 export const SCRIPT: WsEvent[] = [
   { t: 0, dir: 'c2s', kind: 'handshake-req', http: 'GET /chat · Upgrade: websocket' },
@@ -77,8 +78,10 @@ export const SCRIPT: WsEvent[] = [
   frame(5, 's2c', OP.text, 'AAPL 191.4'),
   frame(6, 'c2s', OP.binary, 'order.bin'),
   frame(7, 's2c', OP.text, 'order filled'),
-  frame(8, 'c2s', OP.close, 'close 1000'),
-  frame(9, 's2c', OP.close, 'close 1000'),
+  frame(8, 's2c', OP.text, 'daily report…', false), // fragmented message — first frame, FIN=0
+  frame(9, 's2c', OP.continuation, '…report (cont.)'), // continuation frame (0x0), FIN=1 completes it
+  frame(10, 'c2s', OP.close, 'close 1000'),
+  frame(11, 's2c', OP.close, 'close 1000'),
 ];
 
 /** The last tick in the script (the clock's end). */

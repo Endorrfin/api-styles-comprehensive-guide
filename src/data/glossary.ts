@@ -173,6 +173,8 @@ export const glossary: GlossaryEntry[] = [
       en: 'Interactive Connectivity Establishment — the procedure that gathers candidate addresses (via STUN/TURN) and picks a working path between two peers.',
       uk: 'Interactive Connectivity Establishment — процедура, що збирає candidate-адреси (через STUN/TURN) і обирає робочий шлях між двома peers.',
     },
+    // CHANGED (s8): cross-link the new STUN/TURN entries.
+    seeAlso: ['STUN', 'TURN'],
   },
   {
     term: 'Signaling',
@@ -180,6 +182,41 @@ export const glossary: GlossaryEntry[] = [
       en: 'The out-of-band channel (often WebSocket) two WebRTC peers use to exchange session descriptions and candidates before the direct connection forms.',
       uk: 'Позасмуговий канал (часто WebSocket), яким два WebRTC-peers обмінюються session descriptions і candidates до утворення прямого зʼєднання.',
     },
+    // CHANGED (s8): cross-link SDP now that m14 is authored.
+    seeAlso: ['SDP', 'WebRTC'],
+  },
+  // CHANGED (s8): WebRTC terms authored with m14.
+  {
+    term: 'SDP',
+    def: {
+      en: 'Session Description Protocol — the text blob an offer/answer exchanges: media sections, codecs, ICE credentials, and the DTLS fingerprint. Move it opaquely; don’t edit it.',
+      uk: 'Session Description Protocol — текстовий blob, яким обмінюється offer/answer: медіа-секції, кодеки, ICE-креденшели та DTLS-fingerprint. Переноси його непрозоро; не редагуй.',
+    },
+    seeAlso: ['Signaling', 'WebRTC'],
+  },
+  {
+    term: 'STUN',
+    def: {
+      en: 'Session Traversal Utilities for NAT — a tiny “what address do you see me as?” service that yields server-reflexive (srflx) candidates and powers ICE connectivity checks.',
+      uk: 'Session Traversal Utilities for NAT — крихітний сервіс «якою адресою ти мене бачиш?», що дає server-reflexive (srflx) candidates і живить ICE-перевірки звʼязності.',
+    },
+    seeAlso: ['ICE', 'TURN'],
+  },
+  {
+    term: 'TURN',
+    def: {
+      en: 'Traversal Using Relays around NAT — a relay peers fall back to when no direct pair works (symmetric NAT, blocked UDP). It forwards DTLS ciphertext it cannot read — costing bandwidth, not confidentiality.',
+      uk: 'Traversal Using Relays around NAT — relay, на який peers відкочуються, коли жодна пряма пара не працює (симетричний NAT, заблокований UDP). Він пересилає DTLS-шифротекст, який не може прочитати, — коштує трафік, не конфіденційність.',
+    },
+    seeAlso: ['ICE', 'STUN'],
+  },
+  {
+    term: 'Data channel',
+    def: {
+      en: 'WebRTC’s byte pipe: SCTP over DTLS between peers, with per-channel delivery knobs (ordered/unordered, reliable/lossy) — from TCP-like to UDP-like on one connection.',
+      uk: 'Байтовий канал WebRTC: SCTP через DTLS між peers, із ручками доставки на канал (ordered/unordered, reliable/lossy) — від TCP-подібного до UDP-подібного на одному зʼєднанні.',
+    },
+    seeAlso: ['WebRTC', 'Full-duplex'],
   },
   {
     term: 'Webhook',

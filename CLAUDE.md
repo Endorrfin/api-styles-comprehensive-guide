@@ -68,6 +68,10 @@ authored, 18 navigable stubs; 5 sim engines; smoke at 139 checks.**
 (pure timeline `lib/ws.ts` + `scripts/test-ws.ts` — HTTP Upgrade→101 then a full-duplex frame timeline,
 masking rule, ping→pong); figure `websocket-frame-anatomy`; +4 WebSocket glossary terms. **8 modules
 authored, 17 navigable stubs; 6 sim engines; smoke at 151 checks.**
+**Built (S8):** signature `m14-webrtc` (staff, real-time; 7 topics) + the signature sim `webrtc-connect`
+(pure scenario engine `lib/webrtc.ts` + `scripts/test-webrtc.ts` — signaling → trickle ICE → checks →
+DTLS → P2P data across open/NAT/symmetric-NAT scenarios); figure `webrtc-connection-paths`; +4 WebRTC
+glossary terms. **9 modules authored, 16 navigable stubs; 7 sim engines; smoke at 163 checks.**
 
 ## 4. Content / data model (the contract)
 **Terminology:** **Section** (top-level) → **Module** (navigable, skippable) → **Topic** (deep-linkable
@@ -142,7 +146,8 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S5 (done)** — `m10-grpc` + `grpc-wire`.
 - **S6 (done)** — `m9-graphql` + `graphql-nplus1`.
 - **S7 (done)** — `m12-websockets` + `websocket-frames`.
-- **S8–S9** — the remaining deep styles + their sims (WebRTC, Webhooks, SSE).
+- **S8 (done)** — `m14-webrtc` + `webrtc-connect`.
+- **S9** — `m15-webhooks` + `webhook-delivery`; `m13-sse`.
 - **S10** — right-sized styles (OData, SOAP, JSON-RPC, tRPC, async messaging).
 - **S11–S12** — Section IV cross-cutting (m17–m23).
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
@@ -258,6 +263,37 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   HTTP/2 & HTTP/3 via Extended CONNECT, 9220 little production uptake by 2026; RFC 7692 permessage-deflate;
   CORS does not gate WS → CSWSH, defend with Origin allowlist + per-connection token). **All gates
   GREEN**: typecheck · lint · check:data (**8 authored** / 25) · test (**6 engines**) · smoke (**151
-  checks**, 6 sims + 11 figures EN+UK) · build (75 modules, code-split, `--outDir dist-s7`). *Branch:*
+  checks**, 6 sims + 11 figures EN+UK) · build (75 modules, code-split, `--outDir dist-s7`). **QA pass:**
+  scripted a fragmented message (FIN=0 → continuation `0x0`) into `websocket-frames` so it demonstrates
+  fragmentation (retiring a dead FIN branch + the unused continuation opcode), localized the FIN tooltip,
+  and tightened the Sept-2025 GraphQL spec wording; an independent subagent review found no P1/P2 issues;
+  re-verified green (`dist-s7b`). *Branch:*
   `s7-websockets`. *Commit:* `feat: author m12 (WebSockets) + websocket-frames timeline sim`. *Open
   items:* S8 = `m14-webrtc` + `webrtc-connect`.
+- **S8** (2026-07-02) — **WebRTC.** Authored the signature **`m14-webrtc`** (staff, real-time; 7 topics:
+  p2p-media-and-data-channels (figure) → the-signaling-problem → sdp-offer-answer (JSEP) → ice-candidates
+  (sim) → stun-turn-nat-traversal → dtls-srtp-security → data-channel-vs-media, closing on a use/avoid
+  verdict + a WebRTC/WS-SSE compare; 6 key points, 3 pitfalls (no-TURN launches, WS-shaped jobs, mesh
+  group calls), 2 staff interview Q&A, 10 sources). Built the signature interactive **`webrtc-connect`**:
+  pure deterministic engine `src/lib/webrtc.ts` — three NAT scenarios (open→host, NATs→srflx via STUN,
+  symmetric→TURN relay), each a scripted timeline: offer/answer + trickled candidates ride the signaling
+  lane, connectivity checks probe pairs peer↔peer (failures visible), the surviving pair is nominated,
+  DTLS keys SRTP+SCTP, then full-duplex data that never touches the server — + `scripts/test-webrtc.ts`
+  (golden: JSEP ordering, signaling-only SDP/candidates, srflx-after-STUN / relay-after-TURN provenance,
+  per-scenario nominated pair, DTLS-before-data, full-duplex tick, determinism, distinct scenario lengths)
+  + `WebrtcConnectSim.tsx` (scenario switch, 3-lane timeline, phase chips, sig/p2p/TURN counters,
+  play/step/reset, reduced-motion, ARIA + live region); figure `webrtc-connection-paths` (signaling
+  triangle · direct DTLS path · TURN fallback); +4 glossary terms (SDP, STUN, TURN, Data channel + ICE/
+  Signaling cross-links). Web-verified the version-sensitive facts (JSEP = **RFC 9429**, Apr 2024,
+  obsoletes 8829 · suite 8825/8445/8838/8489/8656/8831/8832/5763-5764/7675/8828/8866 · W3C WebRTC 1.0
+  Rec updated 2025 · mDNS `.local` host candidates in all major browsers · ~20% of public-internet
+  connections need TURN, far more in enterprise · WHIP = **RFC 9725** (2025), WHEP still an IETF draft
+  mid-2026). **QA pass:** independent subagent review → fixed 1 P1 (the open-internet scenario now shows
+  public host addresses, so host↔host succeeding is coherent) + 4 P2s (mid-lane label no longer claims
+  P2P pills sit "under the servers", the SR live region announces TURN separately from p2p, scenario
+  buttons use `aria-pressed` instead of a keyboard-broken radio group, engine comment says cheapest-first)
+  + hedged the symmetric-NAT ("almost always") and consent-freshness (~30 s) wording; re-verified green.
+  **All gates GREEN**: typecheck · lint · check:data (**9 authored** / 25) · test (**7 engines**) · smoke
+  (**163 checks**, 7 sims + 12 figures EN+UK) · build (code-split, `--outDir dist-s8b`). *Branch:*
+  `s8-webrtc`. *Commit:* `feat: author m14 (WebRTC) + webrtc-connect NAT-scenario sim`. *Open items:*
+  S9 = `m15-webhooks` + `webhook-delivery`; `m13-sse`.

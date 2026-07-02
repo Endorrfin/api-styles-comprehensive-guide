@@ -13,6 +13,8 @@ import { m10 } from './modules/m10-grpc';
 import { m9 } from './modules/m9-graphql';
 // CHANGED (s7): WebSockets authored (real-time, signature).
 import { m12 } from './modules/m12-websockets';
+// CHANGED (s8): WebRTC authored (real-time, signature).
+import { m14 } from './modules/m14-webrtc';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -108,12 +110,7 @@ export const modules: Module[] = [
     tagline: { en: 'Server push over plain HTTP — the simple one.', uk: 'Server push через звичайний HTTP — простий варіант.' },
     mentalModel: { en: 'A one-way text stream the browser auto-reconnects: perfect when only the server needs to talk.', uk: 'Односторонній текстовий потік, який браузер сам перепідключає: ідеально, коли говорити треба лише серверу.' },
   }),
-  stub({
-    id: 'm14-webrtc', num: 14, section: 's3-realtime-events', order: 3, level: 'staff', signature: true,
-    title: { en: 'WebRTC', uk: 'WebRTC' },
-    tagline: { en: 'Peer-to-peer media & data — the hard one.', uk: 'Peer-to-peer медіа та дані — складний варіант.' },
-    mentalModel: { en: 'Browsers talk directly: signaling introduces them, ICE/STUN/TURN punch through NAT, DTLS/SRTP secure the pipe.', uk: 'Браузери говорять напряму: signaling знайомить, ICE/STUN/TURN пробивають NAT, DTLS/SRTP захищають трубу.' },
-  }),
+  m14, // ★ s8 — WebRTC (P2P) + webrtc-connect sim (fully authored)
   stub({
     id: 'm15-webhooks', num: 15, section: 's3-realtime-events', order: 4, level: 'senior', signature: true,
     title: { en: 'Webhooks', uk: 'Webhooks' },

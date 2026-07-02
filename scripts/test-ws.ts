@@ -85,6 +85,17 @@ const frames = tl.filter((e) => e.kind === 'frame');
   assert(closes.some((c) => c.dir === 'c2s') && closes.some((c) => c.dir === 's2c'), 'both peers send a close frame');
 }
 
+// 6b · Fragmentation (RFC 6455 §5.4): a data frame with FIN=0 is completed by a continuation frame (0x0).
+{
+  const frag = frames.find((f) => f.fin === false);
+  assert(frag !== undefined, 'the script fragments a message (a data frame with FIN=0)');
+  if (frag) {
+    assert(frag.control === false, 'only data frames are fragmented, never control frames');
+    const cont = frames.find((f) => f.t > frag.t && f.opcode === OP.continuation);
+    assert(cont !== undefined && cont.fin === true, 'a continuation frame (0x0, FIN=1) completes the fragmented message');
+  }
+}
+
 // 7 · Leading byte: FIN in bit 0, opcode in bits 4–7 → 0x80 | opcode when FIN set.
 {
   assert(firstByte(OP.text, true) === 0x81, 'firstByte(text, FIN) = 0x81');

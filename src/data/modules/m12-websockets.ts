@@ -158,8 +158,8 @@ Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=`,
           kind: 'sim',
           sim: 'websocket-frames',
           caption: {
-            en: 'Step the clock: GET → 101 opens the socket, then text/binary data and a ping/pong keepalive flow both ways independently, ending in a close handshake. Toggle “show bytes” to see each frame’s FIN|opcode leading byte.',
-            uk: 'Крокуй годинником: GET → 101 відкриває сокет, далі text/binary дані й ping/pong keepalive течуть в обидва боки незалежно, завершуючись close-рукостисканням. Увімкни «показати байти», щоб побачити провідний байт FIN|opcode кожного фрейму.',
+            en: 'Step the clock: GET → 101 opens the socket, then data and a ping/pong keepalive flow both ways, a message arrives fragmented (FIN=0 → continuation), and a close handshake ends it. Toggle “show bytes” to see each frame’s FIN|opcode leading byte.',
+            uk: 'Крокуй годинником: GET → 101 відкриває сокет, далі дані й ping/pong keepalive течуть в обидва боки, одне повідомлення приходить фрагментованим (FIN=0 → continuation), і close-рукостискання завершує. Увімкни «показати байти», щоб побачити провідний байт FIN|opcode кожного фрейму.',
           },
         },
         {

@@ -1,1 +1,1 @@
-{"root":["./vite.config.ts","./scripts/check-data.ts","./scripts/run-tests.ts","./scripts/smoke.ts","./scripts/test-compass.ts","./scripts/test-graphql.ts","./scripts/test-grpc.ts","./scripts/test-http.ts","./scripts/test-rest.ts","./scripts/test-ws.ts"],"version":"6.0.3"}
+{"root":["./vite.config.ts","./scripts/check-data.ts","./scripts/run-tests.ts","./scripts/smoke.ts","./scripts/test-compass.ts","./scripts/test-graphql.ts","./scripts/test-grpc.ts","./scripts/test-http.ts","./scripts/test-rest.ts","./scripts/test-webrtc.ts","./scripts/test-ws.ts"],"version":"6.0.3"}

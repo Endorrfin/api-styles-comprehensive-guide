@@ -28,6 +28,8 @@ export const sims: Record<string, ComponentType> = {
   'graphql-nplus1': lazyNamed(() => import('../components/sims/GraphqlNplus1Sim'), 'GraphqlNplus1Sim'),
   // CHANGED (s7): websocket-frames — signature interactive for m12 (handshake + full-duplex timeline).
   'websocket-frames': lazyNamed(() => import('../components/sims/WebsocketFramesSim'), 'WebsocketFramesSim'),
+  // CHANGED (s8): webrtc-connect — signature interactive for m14 (signaling → ICE → DTLS → P2P data).
+  'webrtc-connect': lazyNamed(() => import('../components/sims/WebrtcConnectSim'), 'WebrtcConnectSim'),
 };
 
 // ── Figures ───────────────────────────────────────────────────────────────────
@@ -65,6 +67,11 @@ export const figures: Record<string, ComponentType> = {
   'websocket-frame-anatomy': lazyNamed(
     () => import('../components/figures/WebsocketFrameAnatomy'),
     'WebsocketFrameAnatomy',
+  ),
+  // CHANGED (s8): webrtc-connection-paths — the signaling/STUN/TURN triangle vs the P2P path for m14.
+  'webrtc-connection-paths': lazyNamed(
+    () => import('../components/figures/WebrtcConnectionPaths'),
+    'WebrtcConnectionPaths',
   ),
 };
 
