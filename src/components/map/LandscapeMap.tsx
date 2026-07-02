@@ -1,4 +1,4 @@
-import { modulesBySection, sections, COUNTS } from '../../data/concepts';
+import { modulesBySection, sections, COUNTS } from '../../data/meta'; // CHANGED (s10a): meta split
 import { useLang } from '../../i18n/lang';
 import { ui } from '../../i18n/ui';
 import { hrefModule } from '../../lib/hashRouter';

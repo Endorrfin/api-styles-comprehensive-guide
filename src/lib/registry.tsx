@@ -80,6 +80,14 @@ export const figures: Record<string, ComponentType> = {
     () => import('../components/figures/SseStreamAnatomy'),
     'SseStreamAnatomy',
   ),
+  // CHANGED (s10a): figures for the right-sized Section-I modules — m6 (OData URL), m7 (SOAP envelope),
+  // m8 (JSON-RPC envelope).
+  'odata-query-anatomy': lazyNamed(
+    () => import('../components/figures/OdataQueryAnatomy'),
+    'OdataQueryAnatomy',
+  ),
+  'soap-envelope': lazyNamed(() => import('../components/figures/SoapEnvelope'), 'SoapEnvelope'),
+  'rpc-envelope': lazyNamed(() => import('../components/figures/RpcEnvelope'), 'RpcEnvelope'),
 };
 
 export const getSim = (key: string): ComponentType | undefined => sims[key];

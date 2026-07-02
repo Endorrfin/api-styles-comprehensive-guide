@@ -1,0 +1,1461 @@
+{
+  "sections": [
+    {
+      "id": "s0-foundations",
+      "roman": "0",
+      "accent": "#b6a6f0",
+      "title": {
+        "en": "Foundations",
+        "uk": "Основи"
+      }
+    },
+    {
+      "id": "s1-req-resp-http",
+      "roman": "I",
+      "accent": "#a78bfa",
+      "title": {
+        "en": "Request/Response over HTTP",
+        "uk": "Request/Response через HTTP"
+      }
+    },
+    {
+      "id": "s2-contract-first",
+      "roman": "II",
+      "accent": "#8b93e8",
+      "title": {
+        "en": "Contract-first & typed",
+        "uk": "Contract-first і типізовані"
+      }
+    },
+    {
+      "id": "s3-realtime-events",
+      "roman": "III",
+      "accent": "#56c5d4",
+      "title": {
+        "en": "Real-time, push & event-driven",
+        "uk": "Real-time, push та event-driven"
+      }
+    },
+    {
+      "id": "s4-cross-cutting",
+      "roman": "IV",
+      "accent": "#5cc0a4",
+      "title": {
+        "en": "Cross-cutting concerns",
+        "uk": "Наскрізні аспекти"
+      }
+    },
+    {
+      "id": "s5-choosing",
+      "roman": "V",
+      "accent": "#c58bd6",
+      "title": {
+        "en": "Choosing",
+        "uk": "Вибір"
+      }
+    }
+  ],
+  "modules": [
+    {
+      "id": "m1-what-is-an-api",
+      "num": 1,
+      "section": "s0-foundations",
+      "order": 1,
+      "level": "beginner",
+      "signature": false,
+      "title": {
+        "en": "What is an API?",
+        "uk": "Що таке API?"
+      },
+      "tagline": {
+        "en": "The interface as a contract — and as a product. The vocabulary the rest of this guide is built on.",
+        "uk": "Інтерфейс як контракт — і як продукт. Словник, на якому побудований решта посібника."
+      },
+      "mentalModel": {
+        "en": "An API is a promise across a boundary: a stable contract that lets one program use another without knowing how it works inside.",
+        "uk": "API — це обіцянка через межу: стабільний контракт, що дозволяє одній програмі користуватися іншою, не знаючи, як вона влаштована всередині."
+      },
+      "readMins": 12,
+      "topics": [
+        {
+          "id": "interface-vs-implementation",
+          "title": {
+            "en": "Interface vs implementation",
+            "uk": "Інтерфейс проти реалізації"
+          }
+        },
+        {
+          "id": "api-as-contract",
+          "title": {
+            "en": "The API as a contract",
+            "uk": "API як контракт"
+          }
+        },
+        {
+          "id": "api-as-product",
+          "title": {
+            "en": "The API as a product",
+            "uk": "API як продукт"
+          }
+        },
+        {
+          "id": "in-process-vs-network",
+          "title": {
+            "en": "In-process vs across a network",
+            "uk": "У процесі проти через мережу"
+          }
+        },
+        {
+          "id": "a-tiny-history",
+          "title": {
+            "en": "A tiny history",
+            "uk": "Коротка історія"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m2-decision-axes",
+        "m5-rest",
+        "m3-http-transport",
+        "m18-versioning"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m2-decision-axes",
+      "num": 2,
+      "section": "s0-foundations",
+      "order": 2,
+      "level": "middle",
+      "signature": true,
+      "title": {
+        "en": "The decision axes",
+        "uk": "Осі рішення"
+      },
+      "tagline": {
+        "en": "The coordinate system that separates every style — set the axes, watch the styles sort themselves.",
+        "uk": "Система координат, що розрізняє кожен стиль — задай осі й дивись, як стилі сортуються самі."
+      },
+      "mentalModel": {
+        "en": "No style is “best”. Each is a point on a few axes — sync/async, request/stream/push, unary/bidi, client/server-driven, text/binary, point-to-point/broker, loose/tight. Pick your point on each axis and the right style falls out.",
+        "uk": "Немає «найкращого» стилю. Кожен — точка на кількох осях: sync/async, request/stream/push, unary/bidi, client/server-driven, text/binary, point-to-point/broker, loose/tight. Обери свою точку на кожній осі — і потрібний стиль випливе сам."
+      },
+      "readMins": 16,
+      "topics": [
+        {
+          "id": "sync-vs-async",
+          "title": {
+            "en": "Sync vs async",
+            "uk": "Sync проти async"
+          }
+        },
+        {
+          "id": "reqresp-streaming-push",
+          "title": {
+            "en": "Request/response, streaming, push",
+            "uk": "Request/response, streaming, push"
+          }
+        },
+        {
+          "id": "unary-vs-bidirectional",
+          "title": {
+            "en": "Unary vs bidirectional",
+            "uk": "Unary проти bidirectional"
+          }
+        },
+        {
+          "id": "client-vs-server-driven",
+          "title": {
+            "en": "Client-driven vs server-driven",
+            "uk": "Client-driven проти server-driven"
+          }
+        },
+        {
+          "id": "text-vs-binary",
+          "title": {
+            "en": "Text vs binary",
+            "uk": "Text проти binary"
+          }
+        },
+        {
+          "id": "p2p-vs-broker",
+          "title": {
+            "en": "Point-to-point vs broker",
+            "uk": "Point-to-point проти broker"
+          }
+        },
+        {
+          "id": "coupling-spectrum",
+          "title": {
+            "en": "The coupling spectrum",
+            "uk": "Спектр звʼязності"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m1-what-is-an-api",
+        "m3-http-transport",
+        "m4-data-formats",
+        "m5-rest",
+        "m24-decision-framework"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m3-http-transport",
+      "num": 3,
+      "section": "s0-foundations",
+      "order": 3,
+      "level": "senior",
+      "signature": true,
+      "title": {
+        "en": "The HTTP transport substrate",
+        "uk": "Транспортний субстрат HTTP"
+      },
+      "tagline": {
+        "en": "HTTP/1.1 vs 2 vs 3 — one connection or many, and why head-of-line blocking decides your ceiling.",
+        "uk": "HTTP/1.1 проти 2 проти 3 — одне зʼєднання чи багато, і чому head-of-line blocking визначає вашу стелю."
+      },
+      "mentalModel": {
+        "en": "The wire underneath sets your ceiling. HTTP/1.1 serialises one response per connection; HTTP/2 multiplexes many streams over one TCP connection but a lost packet stalls them all; HTTP/3 puts streams on QUIC so loss stalls only one. Multiplexing and head-of-line blocking are the whole story.",
+        "uk": "Дріт під низом задає вашу стелю. HTTP/1.1 серіалізує одну відповідь на зʼєднання; HTTP/2 мультиплексує багато стрімів над одним TCP-зʼєднанням, але втрачений пакет зупиняє всі; HTTP/3 кладе стріми на QUIC, тож втрата зупиняє лише один. Multiplexing і head-of-line blocking — це вся суть."
+      },
+      "readMins": 18,
+      "topics": [
+        {
+          "id": "tcp-udp-tls",
+          "title": {
+            "en": "TCP, UDP & TLS — the substrate",
+            "uk": "TCP, UDP і TLS — субстрат"
+          }
+        },
+        {
+          "id": "http1-1",
+          "title": {
+            "en": "HTTP/1.1 — the baseline",
+            "uk": "HTTP/1.1 — базова лінія"
+          }
+        },
+        {
+          "id": "http2-multiplexing",
+          "title": {
+            "en": "HTTP/2 & multiplexing",
+            "uk": "HTTP/2 і multiplexing"
+          }
+        },
+        {
+          "id": "http3-quic",
+          "title": {
+            "en": "HTTP/3 & QUIC",
+            "uk": "HTTP/3 і QUIC"
+          }
+        },
+        {
+          "id": "head-of-line-blocking",
+          "title": {
+            "en": "Head-of-line blocking",
+            "uk": "Head-of-line blocking"
+          }
+        },
+        {
+          "id": "keep-alive-pooling",
+          "title": {
+            "en": "Keep-alive & connection pooling",
+            "uk": "Keep-alive і connection pooling"
+          }
+        },
+        {
+          "id": "how-transport-shapes-style",
+          "title": {
+            "en": "How transport shapes the style",
+            "uk": "Як транспорт формує стиль"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m2-decision-axes",
+        "m4-data-formats",
+        "m5-rest",
+        "m10-grpc",
+        "m13-sse",
+        "m12-websockets",
+        "m23-observability"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m4-data-formats",
+      "num": 4,
+      "section": "s0-foundations",
+      "order": 4,
+      "level": "middle",
+      "signature": false,
+      "title": {
+        "en": "Data formats & serialization",
+        "uk": "Формати даних і серіалізація"
+      },
+      "tagline": {
+        "en": "JSON, XML, Protobuf, MessagePack, CBOR — text vs binary, schema vs schemaless, and how HTTP carries them.",
+        "uk": "JSON, XML, Protobuf, MessagePack, CBOR — text проти binary, schema проти schemaless, і як HTTP їх несе."
+      },
+      "mentalModel": {
+        "en": "A format trades human-readability against size, speed, and a machine-checked schema. Text (JSON/XML) is debuggable and universal but big; binary (Protobuf) is compact and fast but needs a schema; MessagePack/CBOR sit between — binary bytes, no schema. Two axes decide: text↔binary and schemaless↔schema.",
+        "uk": "Формат міняє людиночитність на розмір, швидкість і машинно-перевірену schema. Text (JSON/XML) дебажний і універсальний, але великий; binary (Protobuf) компактний і швидкий, але потребує schema; MessagePack/CBOR посередині — binary-байти, без schema. Вирішують дві осі: text↔binary і schemaless↔schema."
+      },
+      "readMins": 16,
+      "topics": [
+        {
+          "id": "json",
+          "title": {
+            "en": "JSON — the default",
+            "uk": "JSON — дефолт"
+          }
+        },
+        {
+          "id": "xml",
+          "title": {
+            "en": "XML — the elder",
+            "uk": "XML — старійшина"
+          }
+        },
+        {
+          "id": "protobuf",
+          "title": {
+            "en": "Protobuf — the schema binary",
+            "uk": "Protobuf — schema-binary"
+          }
+        },
+        {
+          "id": "messagepack-cbor",
+          "title": {
+            "en": "MessagePack & CBOR — binary JSON",
+            "uk": "MessagePack і CBOR — binary JSON"
+          }
+        },
+        {
+          "id": "text-vs-binary-tradeoffs",
+          "title": {
+            "en": "Text vs binary trade-offs",
+            "uk": "Компроміси text проти binary"
+          }
+        },
+        {
+          "id": "schema-vs-schemaless",
+          "title": {
+            "en": "Schema vs schemaless",
+            "uk": "Schema проти schemaless"
+          }
+        },
+        {
+          "id": "content-negotiation",
+          "title": {
+            "en": "Content negotiation",
+            "uk": "Content negotiation"
+          }
+        },
+        {
+          "id": "compression",
+          "title": {
+            "en": "Compression",
+            "uk": "Compression"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m2-decision-axes",
+        "m3-http-transport",
+        "m5-rest",
+        "m7-soap-xml",
+        "m10-grpc",
+        "m18-versioning"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m5-rest",
+      "num": 5,
+      "section": "s1-req-resp-http",
+      "order": 1,
+      "level": "middle",
+      "signature": true,
+      "title": {
+        "en": "REST",
+        "uk": "REST"
+      },
+      "tagline": {
+        "en": "Resources, a uniform interface, and HTTP used as intended — the baseline every other style is measured against.",
+        "uk": "Ресурси, uniform interface і HTTP за призначенням — baseline, з яким порівнюють кожен інший стиль."
+      },
+      "mentalModel": {
+        "en": "REST is not \"JSON over HTTP\". It is a set of constraints — resources with a uniform interface, stateless requests, cacheable responses — that trade raw efficiency for evolvability, visibility, and scale.",
+        "uk": "REST — це не «JSON над HTTP». Це набір обмежень — ресурси з uniform interface, stateless-запити, кешовані відповіді — що обмінюють сиру ефективність на evolvability, видимість і масштаб."
+      },
+      "readMins": 18,
+      "topics": [
+        {
+          "id": "resources-and-uniform-interface",
+          "title": {
+            "en": "Resources & the uniform interface",
+            "uk": "Ресурси та uniform interface"
+          }
+        },
+        {
+          "id": "the-request-lifecycle",
+          "title": {
+            "en": "The request lifecycle",
+            "uk": "Життєвий цикл запиту"
+          }
+        },
+        {
+          "id": "methods-safe-idempotent",
+          "title": {
+            "en": "Methods: safe & idempotent",
+            "uk": "Методи: safe та idempotent"
+          }
+        },
+        {
+          "id": "status-codes-and-errors",
+          "title": {
+            "en": "Status codes & error semantics",
+            "uk": "Статус-коди та семантика помилок"
+          }
+        },
+        {
+          "id": "caching-and-conditional-requests",
+          "title": {
+            "en": "Caching & conditional requests",
+            "uk": "Кешування та conditional requests"
+          }
+        },
+        {
+          "id": "richardson-maturity-and-hateoas",
+          "title": {
+            "en": "Richardson maturity & HATEOAS",
+            "uk": "Richardson maturity та HATEOAS"
+          }
+        },
+        {
+          "id": "content-negotiation",
+          "title": {
+            "en": "Content negotiation",
+            "uk": "Content negotiation"
+          }
+        },
+        {
+          "id": "when-to-use-rest",
+          "title": {
+            "en": "When to use REST — and when not",
+            "uk": "Коли використовувати REST — а коли ні"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m3-http-transport",
+        "m6-odata",
+        "m9-graphql",
+        "m10-grpc",
+        "m19-errors-status",
+        "m20-pagination-limits"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m6-odata",
+      "num": 6,
+      "section": "s1-req-resp-http",
+      "order": 2,
+      "level": "senior",
+      "signature": false,
+      "title": {
+        "en": "OData",
+        "uk": "OData"
+      },
+      "tagline": {
+        "en": "A query language bolted onto REST.",
+        "uk": "Мова запитів, прикручена до REST."
+      },
+      "mentalModel": {
+        "en": "OData turns the URL into a query: REST gives you resources, OData adds a standardized **query grammar over them** — `$filter` is your WHERE, `$select` your projection, `$expand` your JOIN, `$orderby`/`$top`/`$skip` your ORDER BY and paging — all described by a machine-readable schema (`$metadata`), so generic clients (Excel, Power BI, admin grids) can query an API they have never seen.",
+        "uk": "OData перетворює URL на запит: REST дає ресурси, OData додає стандартизовану **граматику запитів над ними** — `$filter` — це твій WHERE, `$select` — проєкція, `$expand` — JOIN, `$orderby`/`$top`/`$skip` — ORDER BY і пагінація — і все описано машиночитною схемою (`$metadata`), тож генеричні клієнти (Excel, Power BI, адмін-гріди) можуть запитувати API, якого ніколи не бачили."
+      },
+      "readMins": 12,
+      "topics": [
+        {
+          "id": "query-over-rest",
+          "title": {
+            "en": "What OData adds to REST",
+            "uk": "Що OData додає до REST"
+          }
+        },
+        {
+          "id": "filter-select-expand",
+          "title": {
+            "en": "$filter, $select, $expand",
+            "uk": "$filter, $select, $expand"
+          }
+        },
+        {
+          "id": "orderby-top-skip",
+          "title": {
+            "en": "Ordering & paging: $orderby, $top, $skip",
+            "uk": "Сортування й пагінація: $orderby, $top, $skip"
+          }
+        },
+        {
+          "id": "metadata-csdl",
+          "title": {
+            "en": "$metadata & CSDL: the machine-readable schema",
+            "uk": "$metadata і CSDL: машиночитна схема"
+          }
+        },
+        {
+          "id": "batch",
+          "title": {
+            "en": "$batch: many operations, one request",
+            "uk": "$batch: багато операцій, один запит"
+          }
+        },
+        {
+          "id": "when-odata-wins",
+          "title": {
+            "en": "When OData wins",
+            "uk": "Коли OData виграє"
+          }
+        },
+        {
+          "id": "risks",
+          "title": {
+            "en": "Risks: the price of client-side power",
+            "uk": "Ризики: ціна сили на боці клієнта"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m5-rest",
+        "m9-graphql",
+        "m20-pagination-limits",
+        "m22-security-threats",
+        "m3-http-transport"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m7-soap-xml",
+      "num": 7,
+      "section": "s1-req-resp-http",
+      "order": 3,
+      "level": "senior",
+      "signature": false,
+      "title": {
+        "en": "SOAP / XML Web Services",
+        "uk": "SOAP / XML Web Services"
+      },
+      "tagline": {
+        "en": "The contract-heavy enterprise elder.",
+        "uk": "Контрактно-важкий корпоративний старійшина."
+      },
+      "mentalModel": {
+        "en": "SOAP is a **message in an envelope**, not a resource at a URL: every call is an XML **Envelope** (Header for machine-processed concerns like security and addressing, Body for the payload) described by a **WSDL contract** precise enough to generate client code — with an extension stack (**WS-Security, WS-ReliableMessaging…**) that solves enterprise problems *inside the message*, independent of transport. Verbose and rigid by today’s taste, it still runs the money.",
+        "uk": "SOAP — це **повідомлення в конверті**, а не ресурс за URL: кожен виклик — XML-**Envelope** (Header для машинно-оброблюваних аспектів на кшталт безпеки й адресації, Body для payload), описаний **WSDL-контрактом**, достатньо точним для генерації клієнтського коду, — з розширювальним стеком (**WS-Security, WS-ReliableMessaging…**), що розвʼязує enterprise-проблеми *всередині повідомлення*, незалежно від транспорту. Багатослівний і жорсткий на сьогоднішній смак — але гроші досі ганяє він."
+      },
+      "readMins": 13,
+      "topics": [
+        {
+          "id": "envelope-structure",
+          "title": {
+            "en": "The envelope: Header, Body, Fault",
+            "uk": "Конверт: Header, Body, Fault"
+          }
+        },
+        {
+          "id": "wsdl",
+          "title": {
+            "en": "WSDL: the contract that generates code",
+            "uk": "WSDL: контракт, що генерує код"
+          }
+        },
+        {
+          "id": "ws-security-ws-star",
+          "title": {
+            "en": "WS-Security & the WS-* stack",
+            "uk": "WS-Security і стек WS-*"
+          }
+        },
+        {
+          "id": "rpc-vs-document-style",
+          "title": {
+            "en": "RPC style vs document style",
+            "uk": "RPC-стиль проти document-стилю"
+          }
+        },
+        {
+          "id": "soap-vs-rest",
+          "title": {
+            "en": "SOAP vs REST: what actually differs",
+            "uk": "SOAP проти REST: що різниться насправді"
+          }
+        },
+        {
+          "id": "where-soap-survives",
+          "title": {
+            "en": "Where SOAP survives",
+            "uk": "Де SOAP виживає"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m5-rest",
+        "m4-data-formats",
+        "m10-grpc",
+        "m22-security-threats",
+        "m19-errors-status",
+        "m23-observability"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m8-json-rpc",
+      "num": 8,
+      "section": "s1-req-resp-http",
+      "order": 4,
+      "level": "middle",
+      "signature": false,
+      "title": {
+        "en": "JSON-RPC & XML-RPC",
+        "uk": "JSON-RPC і XML-RPC"
+      },
+      "tagline": {
+        "en": "Call a function over HTTP — nothing more.",
+        "uk": "Виклик функції через HTTP — не більше."
+      },
+      "mentalModel": {
+        "en": "JSON-RPC strips the API problem to its minimum: **name a method, pass params, correlate the reply by `id`**. No resources, no verbs, no status-code semantics — one tiny JSON envelope that works over *any* transport: HTTP, WebSockets, stdio, raw TCP. That smallness is why it keeps being rediscovered: your editor (LSP), Ethereum nodes, and the AI-agent era’s MCP all speak it.",
+        "uk": "JSON-RPC зрізає проблему API до мінімуму: **назви метод, передай params, скорелюй відповідь за `id`**. Без ресурсів, без дієслів, без семантики статус-кодів — один крихітний JSON-конверт, що працює через *будь-який* транспорт: HTTP, WebSockets, stdio, сирий TCP. Саме ця малість — причина, чому його перевідкривають знову і знову: ним говорять твій редактор (LSP), вузли Ethereum і MCP ери AI-агентів."
+      },
+      "readMins": 10,
+      "topics": [
+        {
+          "id": "rpc-over-http",
+          "title": {
+            "en": "RPC over HTTP: the minimal contract",
+            "uk": "RPC через HTTP: мінімальний контракт"
+          }
+        },
+        {
+          "id": "request-response-shape",
+          "title": {
+            "en": "The envelope: request, response, error",
+            "uk": "Конверт: request, response, error"
+          }
+        },
+        {
+          "id": "batch-notifications",
+          "title": {
+            "en": "Batches & notifications",
+            "uk": "Batch і notifications"
+          }
+        },
+        {
+          "id": "xml-rpc-origins",
+          "title": {
+            "en": "XML-RPC: where it all came from",
+            "uk": "XML-RPC: звідки все пішло"
+          }
+        },
+        {
+          "id": "vs-rest-vs-grpc",
+          "title": {
+            "en": "vs REST vs gRPC — and the verdict",
+            "uk": "Проти REST і gRPC — та вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m5-rest",
+        "m10-grpc",
+        "m7-soap-xml",
+        "m11-trpc",
+        "m19-errors-status",
+        "m12-websockets"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m9-graphql",
+      "num": 9,
+      "section": "s2-contract-first",
+      "order": 1,
+      "level": "senior",
+      "signature": true,
+      "title": {
+        "en": "GraphQL",
+        "uk": "GraphQL"
+      },
+      "tagline": {
+        "en": "One endpoint, a typed graph: the client asks for exactly the fields it needs — and the server pays for it.",
+        "uk": "Один endpoint, типізований граф: клієнт бере саме потрібні поля — а платить за це сервер."
+      },
+      "mentalModel": {
+        "en": "GraphQL is a typed graph you query by shape. Instead of many fixed endpoints each returning a fixed payload, there is **one endpoint** and a **schema**; the client sends a query whose shape *is* the response shape, asking for exactly the fields it needs across nested objects — in one round trip. Every field is resolved by a function. That flexibility is the whole point — and its cost lands on the server: a naive resolver tree quietly fans out into N+1 database calls, and an arbitrary client query is an open-ended bill.",
+        "uk": "GraphQL — це типізований граф, який ти запитуєш за формою. Замість багатьох фіксованих endpoint-ів, кожен з фіксованим payload, є **один endpoint** і **schema**; клієнт шле query, форма якого *і є* формою відповіді, беручи саме потрібні поля крізь вкладені обʼєкти — за один round trip. Кожне поле резолвить функція. Ця гнучкість — і є суть, а її ціна лягає на сервер: наївне дерево resolver-ів тихо розгортається в N+1 викликів до БД, а довільний клієнтський query — це рахунок без стелі."
+      },
+      "readMins": 20,
+      "topics": [
+        {
+          "id": "schema-sdl",
+          "title": {
+            "en": "The typed schema (SDL)",
+            "uk": "Типізована schema (SDL)"
+          }
+        },
+        {
+          "id": "queries-mutations-subscriptions",
+          "title": {
+            "en": "Queries, mutations & subscriptions",
+            "uk": "Queries, mutations і subscriptions"
+          }
+        },
+        {
+          "id": "over-under-fetching",
+          "title": {
+            "en": "Over- and under-fetching",
+            "uk": "Over- і under-fetching"
+          }
+        },
+        {
+          "id": "resolvers",
+          "title": {
+            "en": "Resolvers: how a field resolves",
+            "uk": "Resolver-и: як резолвиться поле"
+          }
+        },
+        {
+          "id": "the-n-plus-1-problem",
+          "title": {
+            "en": "The N+1 problem",
+            "uk": "Проблема N+1"
+          }
+        },
+        {
+          "id": "dataloader-batching",
+          "title": {
+            "en": "DataLoader batching",
+            "uk": "DataLoader batching"
+          }
+        },
+        {
+          "id": "schema-evolution",
+          "title": {
+            "en": "Schema evolution",
+            "uk": "Еволюція schema"
+          }
+        },
+        {
+          "id": "persisted-queries",
+          "title": {
+            "en": "Persisted queries & trusted documents",
+            "uk": "Persisted queries і trusted documents"
+          }
+        },
+        {
+          "id": "security-depth-complexity",
+          "title": {
+            "en": "Security: depth & complexity limits",
+            "uk": "Безпека: ліміти depth і complexity"
+          }
+        },
+        {
+          "id": "federation",
+          "title": {
+            "en": "Federation & when to use GraphQL",
+            "uk": "Federation і коли брати GraphQL"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m5-rest",
+        "m10-grpc",
+        "m11-trpc",
+        "m4-data-formats",
+        "m18-versioning",
+        "m19-errors-status"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m10-grpc",
+      "num": 10,
+      "section": "s2-contract-first",
+      "order": 2,
+      "level": "senior",
+      "signature": true,
+      "title": {
+        "en": "gRPC",
+        "uk": "gRPC"
+      },
+      "tagline": {
+        "en": "A typed method call over HTTP/2: Protobuf on the wire, four streaming shapes, deadlines built in.",
+        "uk": "Типізований виклик методу через HTTP/2: Protobuf на дроті, чотири форми streaming, deadlines вбудовані."
+      },
+      "mentalModel": {
+        "en": "gRPC is a function call across the network. You write a `.proto` contract, generate typed client and server stubs, and call a method as if it were local — Protobuf binary on the wire, HTTP/2 streams underneath, deadlines and status codes built in. You trade REST’s uniformity and reach for precision, speed, and end-to-end types.",
+        "uk": "gRPC — це виклик функції через мережу. Пишеш контракт `.proto`, генеруєш типізовані client і server stubs і викликаєш метод, ніби він локальний — Protobuf binary на дроті, HTTP/2-стріми під низом, deadlines і status codes вбудовані. Міняєш уніформність і доступність REST на точність, швидкість і наскрізні типи."
+      },
+      "readMins": 18,
+      "topics": [
+        {
+          "id": "protobuf-idl",
+          "title": {
+            "en": "The .proto contract",
+            "uk": "Контракт .proto"
+          }
+        },
+        {
+          "id": "http2-transport",
+          "title": {
+            "en": "Built on HTTP/2",
+            "uk": "Збудовано на HTTP/2"
+          }
+        },
+        {
+          "id": "four-call-types",
+          "title": {
+            "en": "The four call types",
+            "uk": "Чотири типи викликів"
+          }
+        },
+        {
+          "id": "wire-encoding-varint-tag",
+          "title": {
+            "en": "On the wire: tags & varints",
+            "uk": "На дроті: tags і varints"
+          }
+        },
+        {
+          "id": "deadlines-cancellation",
+          "title": {
+            "en": "Deadlines & cancellation",
+            "uk": "Deadlines і cancellation"
+          }
+        },
+        {
+          "id": "status-codes",
+          "title": {
+            "en": "Status codes",
+            "uk": "Status codes"
+          }
+        },
+        {
+          "id": "grpc-web",
+          "title": {
+            "en": "gRPC-Web & the browser",
+            "uk": "gRPC-Web і браузер"
+          }
+        },
+        {
+          "id": "streaming-backpressure",
+          "title": {
+            "en": "Backpressure & when to use gRPC",
+            "uk": "Backpressure і коли брати gRPC"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m3-http-transport",
+        "m4-data-formats",
+        "m9-graphql",
+        "m11-trpc",
+        "m5-rest",
+        "m19-errors-status"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m11-trpc",
+      "num": 11,
+      "section": "s2-contract-first",
+      "order": 3,
+      "level": "senior",
+      "signature": false,
+      "title": {
+        "en": "tRPC",
+        "uk": "tRPC"
+      },
+      "tagline": {
+        "en": "End-to-end types with no schema, no codegen.",
+        "uk": "Наскрізні типи без schema, без codegen."
+      },
+      "mentalModel": {
+        "en": "The TypeScript type IS the contract: import server types into the client — zero drift, TS-only.",
+        "uk": "Тип TypeScript І Є контрактом: імпортуй серверні типи в клієнт — нуль дрейфу, тільки TS."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m12-websockets",
+      "num": 12,
+      "section": "s3-realtime-events",
+      "order": 1,
+      "level": "senior",
+      "signature": true,
+      "title": {
+        "en": "WebSockets",
+        "uk": "WebSockets"
+      },
+      "tagline": {
+        "en": "One socket, both sides talking at once: an HTTP request that upgrades into a persistent full-duplex pipe.",
+        "uk": "Один сокет, обидві сторони говорять водночас: HTTP-запит, що апгрейдиться в постійну full-duplex трубу."
+      },
+      "mentalModel": {
+        "en": "A WebSocket is a persistent, **full-duplex** pipe. It is born as an ordinary HTTP request that asks to **Upgrade**; once the server answers `101 Switching Protocols`, HTTP framing falls away and both sides send message **frames** whenever they like, in either direction, over the one TCP connection — until someone sends a close frame. You trade HTTP’s statelessness and cacheability for a live, stateful, symmetric channel.",
+        "uk": "WebSocket — це постійна **full-duplex** труба. Він народжується як звичайний HTTP-запит, що просить **Upgrade**; щойно сервер відповідає `101 Switching Protocols`, HTTP-фреймінг зникає, і обидві сторони шлють **фрейми** повідомлень коли завгодно, в будь-якому напрямку, через одне TCP-зʼєднання — доки хтось не надішле close-фрейм. Ти міняєш statelessness і кешованість HTTP на живий, stateful, симетричний канал."
+      },
+      "readMins": 18,
+      "topics": [
+        {
+          "id": "upgrade-handshake",
+          "title": {
+            "en": "Born from an HTTP Upgrade",
+            "uk": "Народжений з HTTP Upgrade"
+          }
+        },
+        {
+          "id": "frames-opcodes",
+          "title": {
+            "en": "On the wire: frames & opcodes",
+            "uk": "На дроті: фрейми й opcodes"
+          }
+        },
+        {
+          "id": "full-duplex",
+          "title": {
+            "en": "Full-duplex: both sides, anytime",
+            "uk": "Full-duplex: обидві сторони, будь-коли"
+          }
+        },
+        {
+          "id": "ping-pong-keepalive",
+          "title": {
+            "en": "Ping / pong & keepalive",
+            "uk": "Ping / pong і keepalive"
+          }
+        },
+        {
+          "id": "subprotocols",
+          "title": {
+            "en": "Subprotocols: an app protocol on top",
+            "uk": "Subprotocols: прикладний протокол зверху"
+          }
+        },
+        {
+          "id": "scaling-sticky-fanout",
+          "title": {
+            "en": "Scaling: sticky sessions & fan-out",
+            "uk": "Масштабування: sticky sessions і fan-out"
+          }
+        },
+        {
+          "id": "backpressure",
+          "title": {
+            "en": "Backpressure & flow control",
+            "uk": "Backpressure і flow control"
+          }
+        },
+        {
+          "id": "security-origin-wss",
+          "title": {
+            "en": "Security & when to use WebSockets",
+            "uk": "Безпека і коли брати WebSockets"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m13-sse",
+        "m14-webrtc",
+        "m3-http-transport",
+        "m9-graphql",
+        "m5-rest",
+        "m15-webhooks"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m13-sse",
+      "num": 13,
+      "section": "s3-realtime-events",
+      "order": 2,
+      "level": "middle",
+      "signature": false,
+      "title": {
+        "en": "Server-Sent Events (SSE)",
+        "uk": "Server-Sent Events (SSE)"
+      },
+      "tagline": {
+        "en": "Server push over plain HTTP — the simple one.",
+        "uk": "Server push через звичайний HTTP — простий варіант."
+      },
+      "mentalModel": {
+        "en": "SSE is **one HTTP response that never ends**: the server keeps the connection open and writes text events down it; the browser’s `EventSource` parses them and — the killer feature — **reconnects by itself**, telling the server the last event id it saw so the stream can resume. One direction only (server→client), plain HTTP all the way: no upgrade, no frames, no new protocol.",
+        "uk": "SSE — це **одна HTTP-відповідь, що ніколи не закінчується**: сервер тримає зʼєднання відкритим і пише в нього текстові події; браузерний `EventSource` їх парсить і — вбивча фіча — **перепідключається сам**, кажучи серверу останній бачений id події, щоб потік відновився. Лише один напрямок (server→client), звичайний HTTP до кінця: без upgrade, без фреймів, без нового протоколу."
+      },
+      "readMins": 11,
+      "topics": [
+        {
+          "id": "text-event-stream",
+          "title": {
+            "en": "The wire: text/event-stream",
+            "uk": "На дроті: text/event-stream"
+          }
+        },
+        {
+          "id": "auto-reconnect-last-event-id",
+          "title": {
+            "en": "Auto-reconnect & Last-Event-ID",
+            "uk": "Авто-reconnect і Last-Event-ID"
+          }
+        },
+        {
+          "id": "vs-websockets",
+          "title": {
+            "en": "SSE vs WebSockets",
+            "uk": "SSE проти WebSockets"
+          }
+        },
+        {
+          "id": "http2-multiplexing-caveat",
+          "title": {
+            "en": "The HTTP/1.1 caveat (and buffering proxies)",
+            "uk": "Застереження HTTP/1.1 (і буферизуючі proxy)"
+          }
+        },
+        {
+          "id": "when-sse-is-enough",
+          "title": {
+            "en": "When SSE is enough",
+            "uk": "Коли SSE достатньо"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m12-websockets",
+        "m14-webrtc",
+        "m15-webhooks",
+        "m3-http-transport",
+        "m5-rest"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m14-webrtc",
+      "num": 14,
+      "section": "s3-realtime-events",
+      "order": 3,
+      "level": "staff",
+      "signature": true,
+      "title": {
+        "en": "WebRTC",
+        "uk": "WebRTC"
+      },
+      "tagline": {
+        "en": "Peer-to-peer media & data — the hard one.",
+        "uk": "Peer-to-peer медіа та дані — складний варіант."
+      },
+      "mentalModel": {
+        "en": "Every other style in this guide connects a client to a server. WebRTC connects two **peers** directly: a **signaling** channel you provide introduces them (SDP offer/answer), **ICE** with STUN/TURN punches a path through NATs, **DTLS** keys the encryption, and then media (**SRTP**) and data (**SCTP**) flow browser↔browser — your server drops out of the data path entirely.",
+        "uk": "Кожен інший стиль у цьому гіді зʼєднує клієнта з сервером. WebRTC зʼєднує два **peers** напряму: **signaling**-канал, який даєш ти, знайомить їх (SDP offer/answer), **ICE** зі STUN/TURN пробиває шлях крізь NAT-и, **DTLS** видає ключі шифрування — і далі медіа (**SRTP**) та дані (**SCTP**) течуть браузер↔браузер: твій сервер повністю випадає зі шляху даних."
+      },
+      "readMins": 19,
+      "topics": [
+        {
+          "id": "p2p-media-and-data-channels",
+          "title": {
+            "en": "Peer-to-peer media & data channels",
+            "uk": "Peer-to-peer медіа та data channels"
+          }
+        },
+        {
+          "id": "the-signaling-problem",
+          "title": {
+            "en": "The signaling problem: WebRTC ships without it",
+            "uk": "Проблема signaling: WebRTC іде без нього"
+          }
+        },
+        {
+          "id": "sdp-offer-answer",
+          "title": {
+            "en": "SDP offer / answer: the JSEP dance",
+            "uk": "SDP offer / answer: танець JSEP"
+          }
+        },
+        {
+          "id": "ice-candidates",
+          "title": {
+            "en": "ICE: candidates, checks, and the winning pair",
+            "uk": "ICE: candidates, перевірки й переможна пара"
+          }
+        },
+        {
+          "id": "stun-turn-nat-traversal",
+          "title": {
+            "en": "STUN, TURN & NAT traversal",
+            "uk": "STUN, TURN і проходження NAT"
+          }
+        },
+        {
+          "id": "dtls-srtp-security",
+          "title": {
+            "en": "DTLS & SRTP: security you can’t turn off",
+            "uk": "DTLS і SRTP: безпека, яку не вимкнеш"
+          }
+        },
+        {
+          "id": "data-channel-vs-media",
+          "title": {
+            "en": "Data channel vs media — and when to use WebRTC",
+            "uk": "Data channel проти медіа — і коли брати WebRTC"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m12-websockets",
+        "m13-sse",
+        "m3-http-transport",
+        "m16-async-messaging",
+        "m22-security-threats",
+        "m17-auth-identity"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m15-webhooks",
+      "num": 15,
+      "section": "s3-realtime-events",
+      "order": 4,
+      "level": "senior",
+      "signature": true,
+      "title": {
+        "en": "Webhooks",
+        "uk": "Webhooks"
+      },
+      "tagline": {
+        "en": "A reverse API: they call you on an event.",
+        "uk": "Зворотний API: вам телефонують на подію."
+      },
+      "mentalModel": {
+        "en": "A webhook flips the arrow: instead of you polling their API, **you register a URL and the provider POSTs events to it**. That makes you the server now — running a public endpoint on an unreliable network where delivery is **at-least-once** by design. Everything in this module follows from that: retries with backoff, duplicates you must de-duplicate, signatures you must verify, order you must not assume, and a dead-letter queue for what still fails.",
+        "uk": "Webhook розвертає стрілку: замість того, щоб ти опитував їхній API, **ти реєструєш URL, і провайдер POST-ить події на нього**. Тепер сервер — це ти: тримаєш публічний endpoint у ненадійній мережі, де доставка за дизайном **at-least-once**. Усе в цьому модулі випливає звідси: retries з backoff, дублікати, які мусиш дедуплікувати, підписи, які мусиш перевіряти, порядок, на який не можна покладатися, і dead-letter черга для того, що все одно впало."
+      },
+      "readMins": 18,
+      "topics": [
+        {
+          "id": "reverse-api-callbacks",
+          "title": {
+            "en": "The reverse API: callbacks over HTTP",
+            "uk": "Зворотний API: callbacks через HTTP"
+          }
+        },
+        {
+          "id": "delivery-at-least-once",
+          "title": {
+            "en": "Delivery is at-least-once",
+            "uk": "Доставка — at-least-once"
+          }
+        },
+        {
+          "id": "retries-backoff",
+          "title": {
+            "en": "Retries & exponential backoff",
+            "uk": "Retries та exponential backoff"
+          }
+        },
+        {
+          "id": "idempotency-keys",
+          "title": {
+            "en": "Idempotency keys: exactly-once effect",
+            "uk": "Idempotency keys: exactly-once ефект"
+          }
+        },
+        {
+          "id": "signature-verification-hmac",
+          "title": {
+            "en": "Signature verification (HMAC)",
+            "uk": "Перевірка підпису (HMAC)"
+          }
+        },
+        {
+          "id": "replay-and-ordering",
+          "title": {
+            "en": "Replay attacks & event ordering",
+            "uk": "Replay-атаки та порядок подій"
+          }
+        },
+        {
+          "id": "dead-letter",
+          "title": {
+            "en": "Dead-letter queues & silent death",
+            "uk": "Dead-letter черги та тиха смерть"
+          }
+        },
+        {
+          "id": "vs-polling-vs-websockets",
+          "title": {
+            "en": "Webhooks vs polling vs WebSockets",
+            "uk": "Webhooks проти polling проти WebSockets"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m21-idempotency",
+        "m13-sse",
+        "m12-websockets",
+        "m16-async-messaging",
+        "m17-auth-identity",
+        "m5-rest"
+      ],
+      "authored": true
+    },
+    {
+      "id": "m16-async-messaging",
+      "num": 16,
+      "section": "s3-realtime-events",
+      "order": 5,
+      "level": "senior",
+      "signature": false,
+      "title": {
+        "en": "Async messaging landscape",
+        "uk": "Ландшафт async messaging"
+      },
+      "tagline": {
+        "en": "MQTT, AMQP, Kafka — when an API is a message.",
+        "uk": "MQTT, AMQP, Kafka — коли API — це повідомлення."
+      },
+      "mentalModel": {
+        "en": "A broker decouples sender from receiver in time: publish an event, let consumers read at their own pace.",
+        "uk": "Брокер розчіплює відправника й отримувача в часі: публікуй подію, хай consumers читають у своєму темпі."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m17-auth-identity",
+      "num": 17,
+      "section": "s4-cross-cutting",
+      "order": 1,
+      "level": "senior",
+      "signature": false,
+      "title": {
+        "en": "Authentication & authorization",
+        "uk": "Автентифікація та авторизація"
+      },
+      "tagline": {
+        "en": "API keys, OAuth 2.1, OIDC, JWT, mTLS.",
+        "uk": "API keys, OAuth 2.1, OIDC, JWT, mTLS."
+      },
+      "mentalModel": {
+        "en": "AuthN proves who; AuthZ decides what. Every style carries the proof differently — header, metadata, or signature.",
+        "uk": "AuthN доводить хто; AuthZ вирішує що. Кожен стиль несе доказ по-своєму — header, metadata чи підпис."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m18-versioning",
+      "num": 18,
+      "section": "s4-cross-cutting",
+      "order": 2,
+      "level": "senior",
+      "signature": false,
+      "title": {
+        "en": "Versioning & evolution",
+        "uk": "Версіонування та еволюція"
+      },
+      "tagline": {
+        "en": "Change the contract without breaking callers.",
+        "uk": "Змінюй контракт, не ламаючи клієнтів."
+      },
+      "mentalModel": {
+        "en": "A public API is a promise you must keep: add, never remove; deprecate, then sunset — or version explicitly.",
+        "uk": "Публічний API — це обіцянка: додавай, не прибирай; deprecate, потім sunset — або версіонуй явно."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m19-errors-status",
+      "num": 19,
+      "section": "s4-cross-cutting",
+      "order": 3,
+      "level": "middle",
+      "signature": false,
+      "title": {
+        "en": "Errors & status semantics",
+        "uk": "Помилки та семантика статусів"
+      },
+      "tagline": {
+        "en": "Problem Details (RFC 9457), gRPC status, GraphQL errors.",
+        "uk": "Problem Details (RFC 9457), gRPC status, GraphQL errors."
+      },
+      "mentalModel": {
+        "en": "An error is data, not a stack trace: a typed, machine-readable shape the client can act on.",
+        "uk": "Помилка — це дані, а не stack trace: типізована машиночитна форма, на яку клієнт може реагувати."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m20-pagination-limits",
+      "num": 20,
+      "section": "s4-cross-cutting",
+      "order": 4,
+      "level": "senior",
+      "signature": false,
+      "title": {
+        "en": "Pagination & rate limiting",
+        "uk": "Пагінація та rate limiting"
+      },
+      "tagline": {
+        "en": "Cursor vs offset; 429 and the token bucket.",
+        "uk": "Cursor проти offset; 429 і token bucket."
+      },
+      "mentalModel": {
+        "en": "Never return an unbounded list, never accept unbounded load: page with a cursor, shed with a limit.",
+        "uk": "Ніколи не віддавай безмежний список і не приймай безмежне навантаження: сторінкуй cursor-ом, відсікай limit-ом."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m21-idempotency",
+      "num": 21,
+      "section": "s4-cross-cutting",
+      "order": 5,
+      "level": "staff",
+      "signature": false,
+      "title": {
+        "en": "Idempotency, reliability & delivery",
+        "uk": "Idempotency, надійність і доставка"
+      },
+      "tagline": {
+        "en": "At-least-once is the default; design for retries.",
+        "uk": "At-least-once — це дефолт; проєктуй під retries."
+      },
+      "mentalModel": {
+        "en": "The network will deliver twice or not at all: an idempotency key makes a retry safe to repeat.",
+        "uk": "Мережа доставить двічі або жодного разу: idempotency key робить retry безпечним для повтору."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m22-security-threats",
+      "num": 22,
+      "section": "s4-cross-cutting",
+      "order": 6,
+      "level": "staff",
+      "signature": false,
+      "title": {
+        "en": "Security & threat models",
+        "uk": "Безпека та моделі загроз"
+      },
+      "tagline": {
+        "en": "Injection, SSRF, CORS/CSRF, DoS, deserialization.",
+        "uk": "Injection, SSRF, CORS/CSRF, DoS, deserialization."
+      },
+      "mentalModel": {
+        "en": "Every input is hostile until proven otherwise: validate at the boundary, least-privilege behind it.",
+        "uk": "Кожен вхід ворожий, доки не доведено інше: валідуй на межі, least-privilege за нею."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m23-observability",
+      "num": 23,
+      "section": "s4-cross-cutting",
+      "order": 7,
+      "level": "senior",
+      "signature": false,
+      "title": {
+        "en": "Observability & gateways",
+        "uk": "Observability та gateways"
+      },
+      "tagline": {
+        "en": "Tracing, gateways/BFF, schema registries, contract testing.",
+        "uk": "Tracing, gateways/BFF, schema registries, contract testing."
+      },
+      "mentalModel": {
+        "en": "You cannot fix what you cannot see: a request carries a trace id from edge gateway to the last hop.",
+        "uk": "Не полагодиш те, чого не бачиш: запит несе trace id від edge gateway до останнього стрибка."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m24-decision-framework",
+      "num": 24,
+      "section": "s5-choosing",
+      "order": 1,
+      "level": "staff",
+      "signature": true,
+      "title": {
+        "en": "The decision framework",
+        "uk": "Фреймворк рішення"
+      },
+      "tagline": {
+        "en": "Pick a style per boundary — and defend it.",
+        "uk": "Обери стиль під boundary — і захисти вибір."
+      },
+      "mentalModel": {
+        "en": "There is no best style, only a best fit per boundary: latency, payload, streaming, reach, and coupling decide.",
+        "uk": "Немає найкращого стилю, є найкращий fit під boundary: latency, payload, streaming, reach і coupling вирішують."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    },
+    {
+      "id": "m25-mental-models",
+      "num": 25,
+      "section": "s5-choosing",
+      "order": 2,
+      "level": "beginner",
+      "signature": false,
+      "title": {
+        "en": "Mental models & when-NOT gallery",
+        "uk": "Ментальні моделі та галерея коли-НЕ"
+      },
+      "tagline": {
+        "en": "One line per style; when NOT to use each.",
+        "uk": "Один рядок на стиль; коли НЕ використовувати кожен."
+      },
+      "mentalModel": {
+        "en": "Master the one-liners and you can place, compare, and reject any style on demand.",
+        "uk": "Опануй однорядковики — і зможеш розмістити, порівняти й відкинути будь-який стиль на вимогу."
+      },
+      "readMins": 8,
+      "topics": [],
+      "seeAlso": [],
+      "authored": false
+    }
+  ]
+}

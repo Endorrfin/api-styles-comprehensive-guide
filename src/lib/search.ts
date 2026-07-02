@@ -1,5 +1,5 @@
 import type { Lang, Localized } from '../data/types';
-import { getSection, modules } from '../data/concepts';
+import { getSection, modules } from '../data/meta'; // CHANGED (s10a): meta split — search indexes metadata only
 import { glossary } from '../data/glossary';
 
 export type SearchKind = 'module' | 'topic' | 'glossary';

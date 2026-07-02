@@ -24,8 +24,9 @@ model it assumes · its limits · its alternatives · strengths/weaknesses · wh
 - **Bilingual at the data layer:** every human-readable string is a `Localized` value `{ en; uk }`.
 - **Figures and sims are referenced by key** and resolved via `lib/registry.tsx` (React.lazy). Content is
   edited **only** in `src/data/*`.
-- **Meta split:** `gen:meta` derives `src/data/meta.json`; the eager shell imports `src/data/meta.ts`, not
-  `concepts.ts`, so module bodies stay out of the initial bundle. (Add when the guide grows past ~6 modules.)
+- **Meta split (live since S10a):** `gen:meta` derives `src/data/meta.json` (committed; `check:meta` in
+  `typecheck` guards drift); the eager shell imports `src/data/meta.ts`, not `concepts.ts`, so module
+  bodies stay out of the initial bundle (eager index ~78 kB; bodies in the lazy `concepts` chunk).
 - **Guide-specific:** **decision-first framing** (§ PROJECT-BRIEF §5); **REST is the baseline** every later
   style is taught as a delta from; **Webhooks belong to Section III** (event/callback), not req/resp.
 
@@ -77,6 +78,10 @@ glossary terms. **9 modules authored, 16 navigable stubs; 7 sim engines; smoke a
 healthy/flaky/down endpoints + an idempotency toggle: 1 effect vs the double-charge 2) and
 `m13-sse` (5 topics, figure `sse-stream-anatomy`); +4 reliability/SSE glossary terms. **11 modules
 authored, 14 navigable stubs; 8 sim engines; smoke at 175 checks.**
+**Built (S10a):** the **meta split** (standard §4.4 — `genMeta`/`checkMeta`/`meta.ts`; eager index
+450→78 kB) + the right-sized Section-I styles `m6-odata` (figure `odata-query-anatomy`), `m7-soap-xml`
+(figure `soap-envelope`), `m8-json-rpc` (figure `rpc-envelope`); +4 glossary terms. **14 modules
+authored, 11 navigable stubs; 8 sim engines; smoke at 193 checks.**
 
 ## 4. Content / data model (the contract)
 **Terminology:** **Section** (top-level) → **Module** (navigable, skippable) → **Topic** (deep-linkable
@@ -127,7 +132,9 @@ Deferred/optional: PDF booklet; bilingual LinkedIn launch pack once enough modul
   why **before** doing it; (4) mark edits `// CHANGED (sN):`; (5) lint-aware; (6) reliability/security/
   best-practice first; (7) ask when unclear; (8) don't just agree — challenge wrong/partial reasoning.
 - **Session summary (end of EVERY session):** (1) what was done; (2) suggested **branch** (`sN-short-topic`)
-  + **commit message** (concise imperative) + short description; (3) challenges/questions.
+  + **commit message** (concise imperative) + short description + a **cleanup script** for any scratch
+  build dirs to delete (e.g. `rm -rf dist-s*`); (3) challenges/questions. Whenever the owner asks **"what's
+  next"**, also state whether **this session can continue or a fresh session is advised** (context budget).
 
 ## 11. Deploy
 GitHub Pages via Actions (`.github/workflows/deploy.yml`): typecheck → lint → check:data → test → smoke →
@@ -153,8 +160,9 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S7 (done)** — `m12-websockets` + `websocket-frames`.
 - **S8 (done)** — `m14-webrtc` + `webrtc-connect`.
 - **S9 (done)** — `m15-webhooks` + `webhook-delivery`; `m13-sse`.
-- **S10** — right-sized styles (OData, SOAP, JSON-RPC, tRPC, async messaging) + the **meta split**
-  (standard §4.4 — the eager `index` chunk passed 450 kB in S9; time to split).
+- **S10a (done)** — the **meta split** (standard §4.4; eager index 450→78 kB) + `m6-odata`,
+  `m7-soap-xml`, `m8-json-rpc` (Section I complete).
+- **S10b** — `m11-trpc` + `m16-async-messaging` (the remaining right-sized styles).
 - **S11–S12** — Section IV cross-cutting (m17–m23).
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
 
@@ -338,3 +346,30 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   `s9-webhooks-sse`. *Commit:* `feat: author m15 (Webhooks) + webhook-delivery sim + m13 (SSE)`.
   *Open items:* S10 = right-sized styles (`m6-odata`, `m7-soap-xml`, `m8-json-rpc`, `m11-trpc`,
   `m16-async-messaging`) + the meta split (standard §4.4).
+- **S10a** (2026-07-02) — **Meta split + Section I complete.** Implemented the **standard §4.4 meta
+  split**: `scripts/genMeta.ts` derives the committed `src/data/meta.json` (25 slim module records);
+  `src/data/meta.ts` mirrors the concepts API (sections · modules · LEVELS · COUNTS · getSection ·
+  modulesBySection · isAuthored); switched the six eager consumers (TopBar, Footer, Sidebar,
+  LandscapeMap, StyleCompassSim, lib/search) to meta — only the lazy ModulePage still imports bodies;
+  wired `gen:meta` as predev/prebuild and `check:meta` (drift guard) into `typecheck`. **Eager index
+  chunk 450 kB → 78 kB** (gzip 27); bodies live in the lazy `concepts` chunk (~500 kB). Authored the
+  right-sized Section-I styles: **`m6-odata`** (senior; 7 topics: query-over-rest → $filter/$select/
+  $expand (figure `odata-query-anatomy`) → $orderby/$top/$skip + @odata.nextLink → $metadata/CSDL →
+  $batch → when-OData-wins (compare) → risks + query-level-auth verdict; facts: 4.01 = current OASIS
+  Standard, 4.02 committee drafts, CSDL JSON since 4.01, MS Graph/SAP flagships), **`m7-soap-xml`**
+  (senior; 6 topics: envelope (figure `soap-envelope` + namespace-correct 1.2 sample) → WSDL (1.1
+  de-facto, 2.0 unadopted) → WS-Security/WS-* (message-level vs TLS) → rpc-vs-document (doc/literal
+  wrapped won) → SOAP-vs-REST (compare) → where-SOAP-survives + verdict; XXE pitfall), and
+  **`m8-json-rpc`** (middle; 5 topics: rpc-over-http → the envelope (figure `rpc-envelope`; reserved
+  codes) → batch & notifications → XML-RPC origins → vs-REST-vs-gRPC + verdict; the 2026 hook: **MCP
+  runs JSON-RPC 2.0** over stdio/Streamable HTTP, alongside LSP and Ethereum). +4 glossary terms (CSDL,
+  WSDL, WS-Security, Notification (JSON-RPC)). **QA pass:** independent subagent review (meta split
+  verified clean: consumer field coverage, eager graph body-free, genMeta/checkMeta parity, CI ordering)
+  → fixed 4 P1s (RpcEnvelope reserved-codes line overflow; undeclared `wsse` namespace in the m7
+  sample; SoapEnvelope UK footnote crossing its box; UK «караєш»→«карбуєш») + 1 P2 ("a decade
+  earlier"→"years before GraphQL") + the spelling cluster and a dead SVG prop; re-verified green.
+  **All gates GREEN**: typecheck (+check:meta) · lint · check:data (**14 authored** / 25) · test (8
+  engines) · smoke (**193 checks**, 8 sims + 16 figures EN+UK) · build (`--outDir dist-s10a2`, eager
+  index 78 kB). *Branch:* `s10a-meta-split-section1`. *Commit:* `feat: meta split (450→78 kB eager) +
+  author m6 (OData), m7 (SOAP), m8 (JSON-RPC)`. **Commit `src/data/meta.json`** — check:meta fails CI
+  without it. *Open items:* S10b = `m11-trpc` + `m16-async-messaging`.

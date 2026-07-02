@@ -1,4 +1,4 @@
-import { COUNTS } from '../../data/concepts';
+import { COUNTS } from '../../data/meta'; // CHANGED (s10a): meta split
 import { useLang } from '../../i18n/lang';
 import { ui } from '../../i18n/ui';
 

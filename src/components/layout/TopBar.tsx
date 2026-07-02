@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { LEVELS } from '../../data/concepts';
+import { LEVELS } from '../../data/meta'; // CHANGED (s10a): meta split — eager shell reads meta, not bodies
 import type { Level } from '../../data/types';
 import { useLang } from '../../i18n/lang';
 import { ui } from '../../i18n/ui';

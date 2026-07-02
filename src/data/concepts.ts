@@ -18,6 +18,10 @@ import { m14 } from './modules/m14-webrtc';
 // CHANGED (s9): Webhooks (signature) + SSE authored (real-time).
 import { m13 } from './modules/m13-sse';
 import { m15 } from './modules/m15-webhooks';
+// CHANGED (s10a): the right-sized Section-I styles authored (OData, SOAP, JSON-RPC).
+import { m6 } from './modules/m6-odata';
+import { m7 } from './modules/m7-soap-xml';
+import { m8 } from './modules/m8-json-rpc';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -76,24 +80,9 @@ export const modules: Module[] = [
 
   // ── Section I · Request/Response over HTTP ─────────────────────────────────
   m5, // ★ GOLDEN — REST (fully authored)
-  stub({
-    id: 'm6-odata', num: 6, section: 's1-req-resp-http', order: 2, level: 'senior',
-    title: { en: 'OData', uk: 'OData' },
-    tagline: { en: 'A query language bolted onto REST.', uk: 'Мова запитів, прикручена до REST.' },
-    mentalModel: { en: 'OData turns a URL into a query: $filter, $select, $expand — SQL-like power over an HTTP resource.', uk: 'OData перетворює URL на запит: $filter, $select, $expand — SQL-подібна сила над HTTP-ресурсом.' },
-  }),
-  stub({
-    id: 'm7-soap-xml', num: 7, section: 's1-req-resp-http', order: 3, level: 'senior',
-    title: { en: 'SOAP / XML Web Services', uk: 'SOAP / XML Web Services' },
-    tagline: { en: 'The contract-heavy enterprise elder.', uk: 'Контрактно-важкий корпоративний старійшина.' },
-    mentalModel: { en: 'SOAP is an envelope + a WSDL contract + WS-* add-ons: rigid, verbose, and still alive in the enterprise.', uk: 'SOAP — це envelope + контракт WSDL + WS-* доповнення: жорсткий, багатослівний і досі живий у enterprise.' },
-  }),
-  stub({
-    id: 'm8-json-rpc', num: 8, section: 's1-req-resp-http', order: 4, level: 'middle',
-    title: { en: 'JSON-RPC & XML-RPC', uk: 'JSON-RPC і XML-RPC' },
-    tagline: { en: 'Call a function over HTTP — nothing more.', uk: 'Виклик функції через HTTP — не більше.' },
-    mentalModel: { en: 'RPC drops REST’s resources: you name a method and pass params. Minimal, symmetric, transport-agnostic.', uk: 'RPC відкидає ресурси REST: ви називаєте метод і передаєте params. Мінімально, симетрично, transport-agnostic.' },
-  }),
+  m6, // s10a — OData (query-over-REST, fully authored)
+  m7, // s10a — SOAP/XML (enterprise contracts, fully authored)
+  m8, // s10a — JSON-RPC & XML-RPC (minimal RPC, fully authored)
 
   // ── Section II · Contract-first & typed ────────────────────────────────────
   m9, // ★ s6 — GraphQL (contract-first) + graphql-nplus1 sim (fully authored)

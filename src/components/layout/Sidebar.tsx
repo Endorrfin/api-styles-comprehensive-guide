@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { modulesBySection, sections } from '../../data/concepts';
+import { modulesBySection, sections } from '../../data/meta'; // CHANGED (s10a): meta split
 import { useLang } from '../../i18n/lang';
 import { ui } from '../../i18n/ui';
 import { useAppState } from '../../lib/appState';
