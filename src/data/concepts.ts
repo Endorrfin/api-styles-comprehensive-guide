@@ -15,6 +15,9 @@ import { m9 } from './modules/m9-graphql';
 import { m12 } from './modules/m12-websockets';
 // CHANGED (s8): WebRTC authored (real-time, signature).
 import { m14 } from './modules/m14-webrtc';
+// CHANGED (s9): Webhooks (signature) + SSE authored (real-time).
+import { m13 } from './modules/m13-sse';
+import { m15 } from './modules/m15-webhooks';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -104,19 +107,9 @@ export const modules: Module[] = [
 
   // ── Section III · Real-time, push & event-driven ───────────────────────────
   m12, // ★ s7 — WebSockets (full-duplex) + websocket-frames sim (fully authored)
-  stub({
-    id: 'm13-sse', num: 13, section: 's3-realtime-events', order: 2, level: 'middle',
-    title: { en: 'Server-Sent Events (SSE)', uk: 'Server-Sent Events (SSE)' },
-    tagline: { en: 'Server push over plain HTTP — the simple one.', uk: 'Server push через звичайний HTTP — простий варіант.' },
-    mentalModel: { en: 'A one-way text stream the browser auto-reconnects: perfect when only the server needs to talk.', uk: 'Односторонній текстовий потік, який браузер сам перепідключає: ідеально, коли говорити треба лише серверу.' },
-  }),
+  m13, // s9 — SSE (server push over plain HTTP, fully authored)
   m14, // ★ s8 — WebRTC (P2P) + webrtc-connect sim (fully authored)
-  stub({
-    id: 'm15-webhooks', num: 15, section: 's3-realtime-events', order: 4, level: 'senior', signature: true,
-    title: { en: 'Webhooks', uk: 'Webhooks' },
-    tagline: { en: 'A reverse API: they call you on an event.', uk: 'Зворотний API: вам телефонують на подію.' },
-    mentalModel: { en: 'Register a URL; the provider POSTs an event to it. At-least-once delivery means you design for retries, dedup, and signatures.', uk: 'Реєструєш URL; провайдер POST-ить подію на нього. At-least-once доставка означає дизайн під retries, dedup і підписи.' },
-  }),
+  m15, // ★ s9 — Webhooks (reverse API) + webhook-delivery sim (fully authored)
   stub({
     id: 'm16-async-messaging', num: 16, section: 's3-realtime-events', order: 5, level: 'senior',
     title: { en: 'Async messaging landscape', uk: 'Ландшафт async messaging' },

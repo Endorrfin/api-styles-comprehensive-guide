@@ -75,6 +75,7 @@ const SIM_CANARIES: Record<string, string[]> = {
   GraphqlNplus1Sim: ["posts", "DataLoader"], // s6 · query block + toggle render in any state
   WebsocketFramesSim: ["Client", "Server"], // s7 · rail headers render in any state
   WebrtcConnectSim: ["Peer A", "TURN"], // s8 · rail header + scenario tag render in any state
+  WebhookDeliverySim: ["Provider", "Consumer"], // s9 · rail headers render in any state
 };
 const FIG_CANARIES: Record<string, string[]> = {
   RestAnatomy: ["GET /articles/42"],
@@ -89,6 +90,7 @@ const FIG_CANARIES: Record<string, string[]> = {
   GraphqlOverUnderFetching: ["REST", "GraphQL"], // s6
   WebsocketFrameAnatomy: ["opcode", "MASK"], // s7
   WebrtcConnectionPaths: ["STUN", "TURN"], // s8
+  SseStreamAnatomy: ["text/event-stream", "Last-Event-ID"], // s9
 };
 
 async function main(): Promise<void> {
