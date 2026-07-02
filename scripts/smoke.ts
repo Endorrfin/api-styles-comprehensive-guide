@@ -91,6 +91,9 @@ const FIG_CANARIES: Record<string, string[]> = {
   WebsocketFrameAnatomy: ["opcode", "MASK"], // s7
   WebrtcConnectionPaths: ["STUN", "TURN"], // s8
   SseStreamAnatomy: ["text/event-stream", "Last-Event-ID"], // s9
+  OdataQueryAnatomy: ["$filter", "$expand"], // s10a
+  SoapEnvelope: ["Envelope", "WS-Security"], // s10a
+  RpcEnvelope: ["jsonrpc", "-32601"], // s10a
 };
 
 async function main(): Promise<void> {

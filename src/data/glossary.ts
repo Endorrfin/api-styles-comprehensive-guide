@@ -290,4 +290,36 @@ export const glossary: GlossaryEntry[] = [
       uk: 'HTTP над QUIC (UDP): per-stream flow control прибирає head-of-line blocking на рівні транспорту, а встановлення зʼєднання швидше (0-RTT).',
     },
   },
+  // CHANGED (s10a): Section-I right-sized terms authored with m6/m7/m8.
+  {
+    term: 'CSDL',
+    def: {
+      en: 'Common Schema Definition Language — the machine-readable schema an OData service returns at $metadata (XML, or JSON since 4.01): entity types, keys, relationships. It is what lets Excel/Power BI query an API they have never seen.',
+      uk: 'Common Schema Definition Language — машиночитна схема, яку OData-сервіс повертає на $metadata (XML або JSON з 4.01): entity types, ключі, звʼязки. Саме вона дозволяє Excel/Power BI запитувати API, якого вони ніколи не бачили.',
+    },
+    seeAlso: ['WSDL'],
+  },
+  {
+    term: 'WSDL',
+    def: {
+      en: 'Web Services Description Language — SOAP’s contract document (types via XML Schema, operations, binding, endpoint), precise enough to generate typed clients. WSDL 1.1 remains the de-facto format; 2.0 never displaced it.',
+      uk: 'Web Services Description Language — контрактний документ SOAP (types через XML Schema, операції, binding, endpoint), достатньо точний для генерації типізованих клієнтів. WSDL 1.1 — досі де-факто формат; 2.0 його не витіснив.',
+    },
+    seeAlso: ['WS-Security', 'CSDL'],
+  },
+  {
+    term: 'WS-Security',
+    def: {
+      en: 'The OASIS standard for message-level security in SOAP: XML Signature/Encryption over parts of the envelope plus token profiles (X.509, SAML) in the Header — proof that survives intermediaries and storage, unlike TLS.',
+      uk: 'Стандарт OASIS для безпеки рівня повідомлення в SOAP: XML Signature/Encryption над частинами конверта плюс профілі токенів (X.509, SAML) у Header — доказ, що переживає проміжні вузли та зберігання, на відміну від TLS.',
+    },
+    seeAlso: ['WSDL', 'HMAC'],
+  },
+  {
+    term: 'Notification (JSON-RPC)',
+    def: {
+      en: 'A JSON-RPC request without an id: the server must never reply, even on error — true fire-and-forget for telemetry-grade traffic. Anything that mutates state should carry an id instead.',
+      uk: 'JSON-RPC request без id: сервер ніколи не відповідає, навіть при помилці — справжній fire-and-forget для трафіку телеметрійного класу. Все, що мутує стан, має натомість нести id.',
+    },
+  },
 ];

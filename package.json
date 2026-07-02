@@ -8,10 +8,14 @@
   "author": "Vasyl Krupka",
   "description": "A deep, interactive, bilingual (EN/UA) guide to the architectural styles for building APIs — REST, GraphQL, gRPC, WebSockets, SSE, WebRTC, Webhooks, SOAP, OData.",
   "scripts": {
+    "predev": "npm run gen:meta",
     "dev": "vite",
+    "prebuild": "npm run gen:meta",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit",
+    "gen:meta": "tsx scripts/genMeta.ts",
+    "check:meta": "tsx scripts/checkMeta.ts",
+    "typecheck": "npm run check:meta && tsc -b --noEmit",
     "lint": "eslint .",
     "check:data": "tsx scripts/check-data.ts",
     "test": "tsx scripts/run-tests.ts",
@@ -19,7 +23,7 @@
     "verify": "npm run typecheck && npm run lint && npm run check:data && npm run test && npm run smoke && npm run build"
   },
   "//test+smoke": "standard §4.6. `test` auto-discovers scripts/test-*.ts (run-tests.ts) — green when none exist yet; add a pure engine in src/lib + scripts/test-<name>.ts and it's picked up. `smoke` SSR-renders every sim/figure/page (scripts/smoke.ts) — wire its 4 TODO spots after the golden module. Both run only meaningfully once the golden module exists; run `verify` from then on.",
-  "//meta-split": "When the guide grows, add the Claude-guide meta split (standard §4.4): scripts genMeta.ts + checkMeta.ts, then 'gen:meta': 'tsx scripts/genMeta.ts', 'predev'/'prebuild': 'npm run gen:meta', 'check:meta': 'tsx scripts/checkMeta.ts', and chain check:meta into typecheck/verify.",
+  "//meta-split": "CHANGED (s10a): the standard §4.4 meta split is live. genMeta.ts derives src/data/meta.json (committed) from concepts.ts; meta.ts is the eager nav/search API; only the lazy ModulePage imports bodies from concepts.ts. gen:meta runs as predev/prebuild; checkMeta.ts (chained into typecheck) guards the committed json against drift.",
   "dependencies": {
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

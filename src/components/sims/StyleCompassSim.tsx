@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { getSection } from '../../data/concepts';
+import { getSection } from '../../data/meta'; // CHANGED (s10a): meta split — the landing hero must stay body-free
 import { useLang } from '../../i18n/lang';
 import { ui } from '../../i18n/ui';
 import { hrefModule } from '../../lib/hashRouter';
