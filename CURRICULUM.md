@@ -127,5 +127,8 @@ Turn the whole guide into a decision. The picker and the mental-models recap.
 8. **S10a (done):** the meta split (standard §4.4) + `m6-odata`, `m7-soap-xml`, `m8-json-rpc`
    (Section I complete). **S10b (done):** `m11-trpc` (figure `trpc-inference`) + `m16-async-messaging`
    (figure `broker-topologies`) — Sections II & III content-complete. **16 / 25 modules authored.**
-9. **S11–S12:** Section IV cross-cutting (m17–m23).
+9. **S11 (done):** `m17-auth-identity` (figure `oauth-flow`) + `m18-versioning` (figure `version-strategies`)
+   + `m19-errors-status` (figure `problem-details`) — the first three cross-cutting concerns. **19 / 25
+   modules authored.** **S12:** the remainder — `m20-pagination-limits`, `m21-idempotency`,
+   `m22-security-threats`, `m23-observability`.
 10. **S13:** `m24-decision-framework` + `style-picker`; `m25-mental-models`; glossary; polish; launch.

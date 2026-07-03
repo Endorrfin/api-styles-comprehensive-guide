@@ -94,6 +94,14 @@ export const figures: Record<string, ComponentType> = {
     () => import('../components/figures/BrokerTopologies'),
     'BrokerTopologies',
   ),
+  // CHANGED (s11): Section IV cross-cutting figures — m17 (OAuth code+PKCE flow), m18 (version
+  // strategies), m19 (RFC 9457 Problem Details mapped across styles).
+  'oauth-flow': lazyNamed(() => import('../components/figures/OauthFlow'), 'OauthFlow'),
+  'version-strategies': lazyNamed(
+    () => import('../components/figures/VersionStrategies'),
+    'VersionStrategies',
+  ),
+  'problem-details': lazyNamed(() => import('../components/figures/ProblemDetails'), 'ProblemDetails'),
 };
 
 export const getSim = (key: string): ComponentType | undefined => sims[key];

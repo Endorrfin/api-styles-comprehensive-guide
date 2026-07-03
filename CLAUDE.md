@@ -86,6 +86,10 @@ authored, 11 navigable stubs; 8 sim engines; smoke at 193 checks.**
 `trpc-inference`) and `m16-async-messaging` (Section III, senior; figure `broker-topologies`); +8
 glossary terms (tRPC, Message broker, MQTT, QoS (MQTT), AMQP, Kafka, Consumer group, Event-driven
 architecture). **16 modules authored, 9 navigable stubs; 8 sim engines; 18 figures; smoke at 205 checks.**
+**Built (S11):** the first three Section-IV cross-cutting modules — `m17-auth-identity` (senior; figure
+`oauth-flow` = Authorization Code + PKCE), `m18-versioning` (senior; figure `version-strategies`),
+`m19-errors-status` (middle; figure `problem-details` = RFC 9457 mapped across REST/gRPC/GraphQL). **19
+modules authored, 6 navigable stubs; 8 sim engines; 21 figures; smoke at 223 checks.**
 
 ## 4. Content / data model (the contract)
 **Terminology:** **Section** (top-level) → **Module** (navigable, skippable) → **Topic** (deep-linkable
@@ -168,7 +172,10 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   `m7-soap-xml`, `m8-json-rpc` (Section I complete).
 - **S10b (done)** — `m11-trpc` + `m16-async-messaging` (the remaining right-sized styles; Sections II & III
   now content-complete except the still-stubbed cross-cutting/choosing modules).
-- **S11–S12** — Section IV cross-cutting (m17–m23).
+- **S11 (done)** — `m17-auth-identity` (+ `oauth-flow`) + `m18-versioning` (+ `version-strategies`) +
+  `m19-errors-status` (+ `problem-details`) — the first three cross-cutting modules.
+- **S12** — Section IV cross-cutting remainder: `m20-pagination-limits`, `m21-idempotency`,
+  `m22-security-threats`, `m23-observability`.
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
 
 ## 14. Status / progress log
@@ -410,3 +417,42 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   *Open items:* S11–S12 = Section IV cross-cutting (`m17`–`m23`); S13 = `m24-decision-framework` +
   `style-picker`, `m25-mental-models`, glossary/polish/launch. All 9 signature sims now spent except
   `style-picker` (S13); the remaining modules are figure-first.
+- **S11** (2026-07-03) — **Cross-cutting I: auth · versioning · errors.** Authored the first three
+  Section-IV modules. **`m17-auth-identity`** (senior; 7 topics: api-keys → oauth2-1 (figure) → oidc →
+  jwt-and-pitfalls → mtls → scopes-consent → per-style-auth + verdict; the AuthN-vs-AuthZ spine, the
+  long-lived-secret → short-lived-token → sender-constrained arc, and “a valid token authenticates, never
+  authorizes”; 6 key points, 3 pitfalls, 2 senior interview Q&A, 9 sources) + the figure **`oauth-flow`**
+  (Authorization Code + PKCE as a 4-actor sequence: User · Client · Auth Server · API — challenge → consent
+  → code → verifier → token → Bearer). **`m18-versioning`** (senior; 5 topics: uri-vs-header-vs-media-type
+  (figure) → breaking-change-taxonomy → graphql-protobuf-evolution (a protobuf `reserved` code sample) →
+  deprecation-sunset → consumer-driven-contracts + verdict; “add, never remove; deprecate then sunset;
+  version rarely”; the two-sided tolerant-reader contract; 6 key points, 3 pitfalls, 1 senior + 1 staff
+  interview, 7 sources) + figure **`version-strategies`** (one GET versioned three ways).
+  **`m19-errors-status`** (middle; 6 topics: http-status-semantics → problem-details-rfc9457 (figure) →
+  grpc-status → graphql-errors → retry-and-backoff → error-taxonomy + verdict; “an error is data, not a
+  stack trace”; never 200-on-failure; branch on `type` not prose; retries safe+gentle; a compare of
+  expected vs unexpected errors; 6 key points, 3 pitfalls, 1 middle + 1 senior interview, 7 sources) +
+  figure **`problem-details`** (an RFC 9457 body annotated + mapped across REST/gRPC/GraphQL). Wired the
+  three figures into `registry.tsx`, swapped the three `concepts.ts` stubs for real imports, added the
+  three smoke `FIG_CANARIES`, regenerated `meta.json`. **Web-verified the version-sensitive facts** (OAuth
+  2.1 still an IETF *draft* — draft-ietf-oauth-v2-1-15, PKCE mandatory, Implicit + ROPC removed, exact
+  redirect match; OIDC Core 1.0, ID-token-is-a-JWT; JWT RFC 7519 / JWS 7515 / BCP 8725 — `alg:none` +
+  RS256→HS256 confusion; mTLS cert-bound tokens RFC 8705 `cnf.x5t#S256`, DPoP RFC 9449 `cnf.jkt`, both in
+  FAPI 2.0; BOLA/IDOR = OWASP API #1; Problem Details **RFC 9457 obsoletes 7807**, adds multiple-problems +
+  a type registry; Deprecation **RFC 9745** + Sunset **RFC 8594** with Sunset ≥ Deprecation; HTTP status +
+  Retry-After = RFC 9110 §10.2.3; the 16 gRPC canonical codes + `google.rpc.Status` details; GraphQL 200 +
+  errors[] + partial data + “errors as data”; protobuf field-number-is-the-contract + `reserved`; Pact CDC
+  + `buf` breaking). **QA pass:** rendered all three figures to PNG (EN+UK) and eyeballed geometry —
+  caught + fixed that the new figures used inline-flowing `<tspan>`s (house convention is positioned
+  `<text>`; librsvg/some engines don’t advance x between bare tspans) by rewriting `version-strategies`,
+  `problem-details` (two-column key/value), and `oauth-flow` step 4 to positioned segments, and shortened
+  the UK `problem-details` annotations that overflowed the viewBox. An independent subagent content review
+  found **no P1/P2** (every RFC number, the draft-vs-standard status, all HTTP + gRPC code numbers,
+  bilingual parity, and all seeAlso/inline refs verified). **All gates GREEN**: typecheck (+check:meta) ·
+  lint · check:data (**19 authored** / 25) · test (8 engines) · smoke (**223 checks**, 8 sims + 21 figures
+  EN+UK) · build (`--outDir dist-s11b`; eager index 96 kB gzip 34, bodies in the lazy `concepts` chunk 708
+  kB). *Branch:* `s11-cross-cutting-auth-versioning-errors`. *Commit:* `feat: author m17 (auth) + m18
+  (versioning) + m19 (errors/status) + oauth-flow, version-strategies, problem-details figures`. **Commit
+  `src/data/meta.json`** (check:meta guards it). *Open items:* S12 = `m20-pagination-limits`,
+  `m21-idempotency`, `m22-security-threats`, `m23-observability`; S13 = choosing section + `style-picker`,
+  mental-models gallery, glossary, polish, launch.
