@@ -22,6 +22,9 @@ import { m15 } from './modules/m15-webhooks';
 import { m6 } from './modules/m6-odata';
 import { m7 } from './modules/m7-soap-xml';
 import { m8 } from './modules/m8-json-rpc';
+// CHANGED (s10b): the remaining right-sized styles authored (tRPC, async messaging).
+import { m11 } from './modules/m11-trpc';
+import { m16 } from './modules/m16-async-messaging';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -87,24 +90,14 @@ export const modules: Module[] = [
   // ── Section II · Contract-first & typed ────────────────────────────────────
   m9, // ★ s6 — GraphQL (contract-first) + graphql-nplus1 sim (fully authored)
   m10, // ★ s5 — gRPC (contract-first) + grpc-wire sim (fully authored)
-  stub({
-    id: 'm11-trpc', num: 11, section: 's2-contract-first', order: 3, level: 'senior',
-    title: { en: 'tRPC', uk: 'tRPC' },
-    tagline: { en: 'End-to-end types with no schema, no codegen.', uk: 'Наскрізні типи без schema, без codegen.' },
-    mentalModel: { en: 'The TypeScript type IS the contract: import server types into the client — zero drift, TS-only.', uk: 'Тип TypeScript І Є контрактом: імпортуй серверні типи в клієнт — нуль дрейфу, тільки TS.' },
-  }),
+  m11, // s10b — tRPC (TS-native RPC, no codegen) + trpc-inference figure (fully authored)
 
   // ── Section III · Real-time, push & event-driven ───────────────────────────
   m12, // ★ s7 — WebSockets (full-duplex) + websocket-frames sim (fully authored)
   m13, // s9 — SSE (server push over plain HTTP, fully authored)
   m14, // ★ s8 — WebRTC (P2P) + webrtc-connect sim (fully authored)
   m15, // ★ s9 — Webhooks (reverse API) + webhook-delivery sim (fully authored)
-  stub({
-    id: 'm16-async-messaging', num: 16, section: 's3-realtime-events', order: 5, level: 'senior',
-    title: { en: 'Async messaging landscape', uk: 'Ландшафт async messaging' },
-    tagline: { en: 'MQTT, AMQP, Kafka — when an API is a message.', uk: 'MQTT, AMQP, Kafka — коли API — це повідомлення.' },
-    mentalModel: { en: 'A broker decouples sender from receiver in time: publish an event, let consumers read at their own pace.', uk: 'Брокер розчіплює відправника й отримувача в часі: публікуй подію, хай consumers читають у своєму темпі.' },
-  }),
+  m16, // s10b — Async messaging (MQTT/AMQP/Kafka) + broker-topologies figure (fully authored)
 
   // ── Section IV · Cross-cutting concerns ────────────────────────────────────
   stub({

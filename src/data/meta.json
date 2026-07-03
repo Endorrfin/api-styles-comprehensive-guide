@@ -886,13 +886,62 @@
         "uk": "Наскрізні типи без schema, без codegen."
       },
       "mentalModel": {
-        "en": "The TypeScript type IS the contract: import server types into the client — zero drift, TS-only.",
-        "uk": "Тип TypeScript І Є контрактом: імпортуй серверні типи в клієнт — нуль дрейфу, тільки TS."
+        "en": "The TypeScript type **is** the contract. The server exports its router’s *type* — `export type AppRouter = typeof appRouter` — and the client `import type`s it. No IDL, no generated files, no wire format of its own: the compiler keeps both ends in sync, so a refactor on the server lights up red on the client before you run anything. gRPC and GraphQL translate the contract into a neutral language (proto, SDL) *because* the two ends might differ; tRPC bets the opposite — if both ends are TypeScript, delete the translation.",
+        "uk": "Тип TypeScript **І Є** контрактом. Сервер експортує *тип* свого router-а — `export type AppRouter = typeof appRouter` — а клієнт робить `import type`. Жодного IDL, жодних згенерованих файлів, жодного власного wire-формату: компілятор тримає обидва кінці в синхроні, тож рефактор на сервері засвічується червоним на клієнті ще до запуску. gRPC і GraphQL перекладають контракт у нейтральну мову (proto, SDL), *бо* кінці можуть різнитися; tRPC ставить на протилежне — якщо обидва кінці TypeScript, викинь переклад."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 12,
+      "topics": [
+        {
+          "id": "ts-native-rpc",
+          "title": {
+            "en": "TypeScript-native RPC",
+            "uk": "TypeScript-native RPC"
+          }
+        },
+        {
+          "id": "no-codegen-inference",
+          "title": {
+            "en": "No codegen: inference is the contract",
+            "uk": "Без codegen: inference — це контракт"
+          }
+        },
+        {
+          "id": "routers-procedures",
+          "title": {
+            "en": "Routers, procedures & links",
+            "uk": "Routers, procedures і links"
+          }
+        },
+        {
+          "id": "end-to-end-types",
+          "title": {
+            "en": "End-to-end types: one refactor loop",
+            "uk": "Наскрізні типи: один цикл рефактора"
+          }
+        },
+        {
+          "id": "boundaries-monorepo",
+          "title": {
+            "en": "Boundaries: why it needs a monorepo",
+            "uk": "Межі: чому потрібен monorepo"
+          }
+        },
+        {
+          "id": "vs-grpc-graphql",
+          "title": {
+            "en": "tRPC vs gRPC vs GraphQL — and the verdict",
+            "uk": "tRPC проти gRPC проти GraphQL — і вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m10-grpc",
+        "m9-graphql",
+        "m5-rest",
+        "m13-sse",
+        "m22-security-threats"
+      ],
+      "authored": true
     },
     {
       "id": "m12-websockets",
@@ -1233,13 +1282,69 @@
         "uk": "MQTT, AMQP, Kafka — коли API — це повідомлення."
       },
       "mentalModel": {
-        "en": "A broker decouples sender from receiver in time: publish an event, let consumers read at their own pace.",
-        "uk": "Брокер розчіплює відправника й отримувача в часі: публікуй подію, хай consumers читають у своєму темпі."
+        "en": "A **broker** decouples sender from receiver **in time**: the producer drops a message and moves on; consumers read at their own pace. The API stops being a call you *wait on* and becomes a fact you *drop in a buffer* — buying temporal decoupling, load-leveling, and fan-out, at the price of the immediate answer. The three brokers you meet — MQTT, AMQP/RabbitMQ, Kafka — differ mainly in one axis: does the *broker* hold the bookkeeping (route + ack + forget), or does the *log* keep everything and let the *consumer* track its own position?",
+        "uk": "**Брокер** розчіплює відправника й отримувача **в часі**: producer кидає повідомлення й іде далі; consumers читають у своєму темпі. API перестає бути викликом, на який ти *чекаєш*, і стає фактом, який ти *кидаєш у буфер* — купуючи темпоральне розчеплення, load-leveling і fan-out ціною негайної відповіді. Три брокери, які ти зустрінеш — MQTT, AMQP/RabbitMQ, Kafka — різняться головно однією віссю: чи *брокер* тримає облік (маршрут + ack + забути), чи *лог* зберігає все й дає *consumer*-у самому відстежувати свою позицію?"
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 14,
+      "topics": [
+        {
+          "id": "broker-vs-point-to-point",
+          "title": {
+            "en": "Broker vs point-to-point",
+            "uk": "Брокер проти point-to-point"
+          }
+        },
+        {
+          "id": "mqtt-iot-qos",
+          "title": {
+            "en": "MQTT: pub/sub for IoT & QoS levels",
+            "uk": "MQTT: pub/sub для IoT і рівні QoS"
+          }
+        },
+        {
+          "id": "amqp-exchanges-queues",
+          "title": {
+            "en": "AMQP / RabbitMQ: exchanges & queues",
+            "uk": "AMQP / RabbitMQ: exchanges і queues"
+          }
+        },
+        {
+          "id": "kafka-log-partitions-consumer-groups",
+          "title": {
+            "en": "Kafka: the partitioned log",
+            "uk": "Kafka: партиціонований лог"
+          }
+        },
+        {
+          "id": "delivery-guarantees",
+          "title": {
+            "en": "Delivery guarantees: the exactly-once myth",
+            "uk": "Гарантії доставки: міф exactly-once"
+          }
+        },
+        {
+          "id": "when-an-api-should-be-a-message",
+          "title": {
+            "en": "When an API should be a message",
+            "uk": "Коли API має бути повідомленням"
+          }
+        },
+        {
+          "id": "event-driven-arch",
+          "title": {
+            "en": "Event-driven architecture & the verdict",
+            "uk": "Event-driven архітектура і вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m15-webhooks",
+        "m12-websockets",
+        "m5-rest",
+        "m21-idempotency",
+        "m2-decision-axes"
+      ],
+      "authored": true
     },
     {
       "id": "m17-auth-identity",
