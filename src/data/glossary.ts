@@ -322,4 +322,69 @@ export const glossary: GlossaryEntry[] = [
       uk: 'JSON-RPC request без id: сервер ніколи не відповідає, навіть при помилці — справжній fire-and-forget для трафіку телеметрійного класу. Все, що мутує стан, має натомість нести id.',
     },
   },
+  // CHANGED (s10b): tRPC + async-messaging terms authored with m11/m16.
+  {
+    term: 'tRPC',
+    def: {
+      en: 'TypeScript-native RPC with no IDL and no codegen: the server exports its router’s type (`type AppRouter = typeof appRouter`) and the client `import type`s it, so TypeScript inference — not a build step — carries the contract. Plain HTTP+JSON; TypeScript-only and internal by design.',
+      uk: 'TypeScript-native RPC без IDL і без codegen: сервер експортує тип свого router-а (`type AppRouter = typeof appRouter`), а клієнт робить `import type`, тож inference TypeScript — а не build-крок — переносить контракт. Звичайний HTTP+JSON; за задумом лише TypeScript і внутрішній.',
+    },
+    seeAlso: ['gRPC', 'GraphQL'],
+  },
+  {
+    term: 'Message broker',
+    def: {
+      en: 'A middleman that decouples producers from consumers in time: the producer publishes a message and moves on; consumers read at their own pace. Buys temporal decoupling, buffering/load-leveling, and fan-out — at the cost of the synchronous answer.',
+      uk: 'Посередник, що розчіплює producer-ів і consumer-ів у часі: producer публікує повідомлення й іде далі; consumers читають у своєму темпі. Купує темпоральне розчеплення, буферизацію/load-leveling і fan-out — ціною синхронної відповіді.',
+    },
+    seeAlso: ['AMQP', 'Kafka'],
+  },
+  {
+    term: 'MQTT',
+    def: {
+      en: 'A lightweight pub/sub protocol for IoT (fixed header from just 2 bytes) over lossy networks: clients publish/subscribe to hierarchical topics via a broker, with retained messages and a Last-Will. Three QoS levels; 3.1.1 and 5.0 are both current OASIS Standards.',
+      uk: 'Легкий pub/sub-протокол для IoT (фіксований header від 2 байтів) над втратними мережами: клієнти публікують/підписуються на ієрархічні topics через брокер, із retained messages і Last-Will. Три рівні QoS; 3.1.1 і 5.0 — обидва чинні OASIS Standards.',
+    },
+    seeAlso: ['QoS (MQTT)', 'Message broker'],
+  },
+  {
+    term: 'QoS (MQTT)',
+    def: {
+      en: 'MQTT’s per-hop delivery levels: 0 = at most once (fire-and-forget, may be lost), 1 = at least once (PUBACK, may duplicate), 2 = exactly once (a four-packet handshake). QoS is negotiated per hop, not end-to-end across the broker.',
+      uk: 'Per-hop рівні доставки MQTT: 0 = at most once (fire-and-forget, може загубитися), 1 = at least once (PUBACK, може дублюватися), 2 = exactly once (чотирипакетне рукостискання). QoS узгоджується на хоп, а не наскрізь через брокер.',
+    },
+    seeAlso: ['MQTT', 'At-least-once delivery'],
+  },
+  {
+    term: 'AMQP',
+    def: {
+      en: 'Two different protocols share the name. AMQP 0-9-1 (RabbitMQ’s model) bakes exchanges → bindings → queues into the wire with per-message acks. AMQP 1.0 (ISO/IEC 19464) defines only the peer-to-peer wire — no exchanges or queues in the spec.',
+      uk: 'Дві різні протоколи ділять назву. AMQP 0-9-1 (модель RabbitMQ) вбудовує exchanges → bindings → queues у wire з per-message acks. AMQP 1.0 (ISO/IEC 19464) визначає лише peer-to-peer wire — без exchanges і queues у специфікації.',
+    },
+    seeAlso: ['Message broker'],
+  },
+  {
+    term: 'Kafka',
+    def: {
+      en: 'A distributed, append-only log you can replay: topics split into partitions (order only within a partition), consumers track their own offset and pull, and messages are retained by time/size rather than deleted on read. Kafka 4.0 (2025) is KRaft-only.',
+      uk: 'Розподілений append-only лог, який можна реплеїти: topics діляться на partitions (порядок лише в межах partition), consumers самі відстежують offset і тягнуть, а повідомлення зберігаються за часом/розміром, а не видаляються при читанні. Kafka 4.0 (2025) — лише KRaft.',
+    },
+    seeAlso: ['Consumer group', 'Message broker'],
+  },
+  {
+    term: 'Consumer group',
+    def: {
+      en: 'A set of Kafka consumers sharing a topic’s partitions so each partition is read by exactly one member — horizontal scaling with per-group offsets. Two groups read the same log independently, each at its own position.',
+      uk: 'Набір Kafka-consumer-ів, що ділять partitions topic-а так, що кожну partition читає рівно один член — горизонтальне масштабування з per-group offset-ами. Дві групи читають той самий лог незалежно, кожна на своїй позиції.',
+    },
+    seeAlso: ['Kafka'],
+  },
+  {
+    term: 'Event-driven architecture',
+    def: {
+      en: 'A style where services communicate by emitting and reacting to events (facts about the past) via a broker, rather than calling each other — coordinated by choreography or orchestration. Buys decoupling and scale; costs eventual consistency and harder tracing (use the outbox pattern for state-changing events).',
+      uk: 'Стиль, де сервіси спілкуються, випускаючи й реагуючи на події (факти про минуле) через брокер, а не кличучи одне одного — координація через choreography чи orchestration. Купує розчеплення й масштаб; коштує eventual consistency й важче трасування (для подій, що змінюють стан, — outbox pattern).',
+    },
+    seeAlso: ['Message broker', 'Webhook'],
+  },
 ];

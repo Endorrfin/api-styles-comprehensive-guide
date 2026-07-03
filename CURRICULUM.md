@@ -125,6 +125,7 @@ Turn the whole guide into a decision. The picker and the mental-models recap.
 6. **S7 (done):** `m12-websockets` + `websocket-frames`. **S8 (done):** `m14-webrtc` + `webrtc-connect`.
 7. **S9 (done):** `m15-webhooks` + `webhook-delivery`; `m13-sse`.
 8. **S10a (done):** the meta split (standard §4.4) + `m6-odata`, `m7-soap-xml`, `m8-json-rpc`
-   (Section I complete). **S10b:** `m11-trpc`, `m16-async-messaging` (right-sized).
+   (Section I complete). **S10b (done):** `m11-trpc` (figure `trpc-inference`) + `m16-async-messaging`
+   (figure `broker-topologies`) — Sections II & III content-complete. **16 / 25 modules authored.**
 9. **S11–S12:** Section IV cross-cutting (m17–m23).
 10. **S13:** `m24-decision-framework` + `style-picker`; `m25-mental-models`; glossary; polish; launch.

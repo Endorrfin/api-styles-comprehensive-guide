@@ -82,6 +82,10 @@ authored, 14 navigable stubs; 8 sim engines; smoke at 175 checks.**
 450→78 kB) + the right-sized Section-I styles `m6-odata` (figure `odata-query-anatomy`), `m7-soap-xml`
 (figure `soap-envelope`), `m8-json-rpc` (figure `rpc-envelope`); +4 glossary terms. **14 modules
 authored, 11 navigable stubs; 8 sim engines; smoke at 193 checks.**
+**Built (S10b):** the remaining right-sized styles `m11-trpc` (Section II, senior; figure
+`trpc-inference`) and `m16-async-messaging` (Section III, senior; figure `broker-topologies`); +8
+glossary terms (tRPC, Message broker, MQTT, QoS (MQTT), AMQP, Kafka, Consumer group, Event-driven
+architecture). **16 modules authored, 9 navigable stubs; 8 sim engines; 18 figures; smoke at 205 checks.**
 
 ## 4. Content / data model (the contract)
 **Terminology:** **Section** (top-level) → **Module** (navigable, skippable) → **Topic** (deep-linkable
@@ -162,7 +166,8 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S9 (done)** — `m15-webhooks` + `webhook-delivery`; `m13-sse`.
 - **S10a (done)** — the **meta split** (standard §4.4; eager index 450→78 kB) + `m6-odata`,
   `m7-soap-xml`, `m8-json-rpc` (Section I complete).
-- **S10b** — `m11-trpc` + `m16-async-messaging` (the remaining right-sized styles).
+- **S10b (done)** — `m11-trpc` + `m16-async-messaging` (the remaining right-sized styles; Sections II & III
+  now content-complete except the still-stubbed cross-cutting/choosing modules).
 - **S11–S12** — Section IV cross-cutting (m17–m23).
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
 
@@ -373,3 +378,35 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   index 78 kB). *Branch:* `s10a-meta-split-section1`. *Commit:* `feat: meta split (450→78 kB eager) +
   author m6 (OData), m7 (SOAP), m8 (JSON-RPC)`. **Commit `src/data/meta.json`** — check:meta fails CI
   without it. *Open items:* S10b = `m11-trpc` + `m16-async-messaging`.
+- **S10b** (2026-07-03) — **The last two right-sized styles.** Authored **`m11-trpc`** (Section II,
+  senior; 6 topics: ts-native-rpc → no-codegen-inference (figure) → routers-procedures → end-to-end-types
+  → boundaries-monorepo → vs-grpc-graphql, closing on a use/avoid verdict + a tRPC/gRPC/GraphQL compare;
+  6 key points, 3 pitfalls, 2 senior interview Q&A, 6 sources) and **`m16-async-messaging`** (Section III,
+  senior; 7 topics: broker-vs-point-to-point (figure) → mqtt-iot-qos → amqp-exchanges-queues →
+  kafka-log-partitions-consumer-groups → delivery-guarantees → when-an-api-should-be-a-message (compare)
+  → event-driven-arch + verdict; 6 key points, 3 pitfalls, 2 senior interview Q&A, 7 sources). Figures
+  **`trpc-inference`** (the server exports a TYPE, the client `import type`s it — inference, not codegen,
+  carries the contract; a danger banner on runtime validation) and **`broker-topologies`** (three shapes:
+  sync point-to-point · a queue with competing consumers · a replayable log with two consumer groups at
+  independent offsets). +8 glossary terms (tRPC, Message broker, MQTT, QoS (MQTT), AMQP, Kafka, Consumer
+  group, Event-driven architecture). Wired both figures into `registry.tsx`, swapped the two `concepts.ts`
+  stubs for real imports, added the two smoke `FIG_CANARIES`. Web-verified the version-sensitive facts
+  (**tRPC v11** current major, TS-only/no-codegen, `import type` erased at runtime, HTTP+JSON via
+  httpBatchLink, v11 SSE subscriptions, zod `.input()` → inferred type; **MQTT 3.1.1 (2014) + 5.0 (2019)**
+  both current OASIS Standards, QoS 0/1/2 = at-most/at-least/exactly-once, QoS 2 = 4-packet handshake,
+  per-hop; **AMQP 0-9-1 vs 1.0 are different protocols** — 0-9-1 = RabbitMQ exchange/binding/queue,
+  1.0 = ISO/IEC 19464 wire-only; **Kafka 4.0** (2025-03-18) KRaft-only, ZooKeeper removed, partitions/
+  consumer-groups/offsets/retention, EOS = idempotent producer + transactions within its boundary;
+  end-to-end exactly-once is a myth → at-least-once + idempotent consumer + outbox). **QA pass:**
+  independent subagent review → no P1s; fixed 1 P2 (the m16 figure’s UK panel-2 caption overflowed its
+  panel past the separators — shortened to “рівно один consumer”) + P3s (invalid zod shorthand in the
+  trpc figure → `z.object({ id: z.string() })`; MQTT header precision “as small as 2 bytes”; UK «бэклог»→
+  «беклог»; strike-line + caption geometry; added a “via exchange” hint to the AMQP panel); re-verified
+  green. **All gates GREEN**: typecheck (+check:meta) · lint · check:data (**16 authored** / 25) · test
+  (8 engines) · smoke (**205 checks**, 8 sims + 18 figures EN+UK) · build (`--outDir dist-s10b`, rebuilt
+  clean into `dist-s10b2` after QA; eager index 88 kB gzip 31, bodies in the lazy `concepts` chunk).
+  *Branch:* `s10b-trpc-async-messaging`. *Commit:* `feat: author m11 (tRPC) + m16 (async messaging) +
+  trpc-inference & broker-topologies figures`. **Commit `src/data/meta.json`** (check:meta guards it).
+  *Open items:* S11–S12 = Section IV cross-cutting (`m17`–`m23`); S13 = `m24-decision-framework` +
+  `style-picker`, `m25-mental-models`, glossary/polish/launch. All 9 signature sims now spent except
+  `style-picker` (S13); the remaining modules are figure-first.

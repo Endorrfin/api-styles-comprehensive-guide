@@ -88,6 +88,12 @@ export const figures: Record<string, ComponentType> = {
   ),
   'soap-envelope': lazyNamed(() => import('../components/figures/SoapEnvelope'), 'SoapEnvelope'),
   'rpc-envelope': lazyNamed(() => import('../components/figures/RpcEnvelope'), 'RpcEnvelope'),
+  // CHANGED (s10b): figures for the remaining right-sized styles — m11 (tRPC inference), m16 (broker topologies).
+  'trpc-inference': lazyNamed(() => import('../components/figures/TrpcInference'), 'TrpcInference'),
+  'broker-topologies': lazyNamed(
+    () => import('../components/figures/BrokerTopologies'),
+    'BrokerTopologies',
+  ),
 };
 
 export const getSim = (key: string): ComponentType | undefined => sims[key];

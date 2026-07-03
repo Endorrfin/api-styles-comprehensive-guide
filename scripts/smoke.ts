@@ -94,6 +94,8 @@ const FIG_CANARIES: Record<string, string[]> = {
   OdataQueryAnatomy: ["$filter", "$expand"], // s10a
   SoapEnvelope: ["Envelope", "WS-Security"], // s10a
   RpcEnvelope: ["jsonrpc", "-32601"], // s10a
+  TrpcInference: ["AppRouter", "import type"], // s10b · m11 (type flows server→client, no codegen)
+  BrokerTopologies: ["Producer", "Kafka"], // s10b · m16 (point-to-point vs queue vs log)
 };
 
 async function main(): Promise<void> {
