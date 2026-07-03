@@ -8,6 +8,7 @@ scripts/_*
 .DS_Store
 .idea/
 _test_ops/        # stray sandbox test dir — not part of the site
+_figsnap/         # s11 throwaway figure QA renders (svg/png) — safe to delete
 _arhive/
 
 *.log

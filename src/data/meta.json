@@ -1358,17 +1358,73 @@
         "uk": "Автентифікація та авторизація"
       },
       "tagline": {
-        "en": "API keys, OAuth 2.1, OIDC, JWT, mTLS.",
-        "uk": "API keys, OAuth 2.1, OIDC, JWT, mTLS."
+        "en": "API keys, OAuth 2.1, OIDC, JWT, mTLS — carried per style.",
+        "uk": "API keys, OAuth 2.1, OIDC, JWT, mTLS — по-різному в кожному стилі."
       },
       "mentalModel": {
-        "en": "AuthN proves who; AuthZ decides what. Every style carries the proof differently — header, metadata, or signature.",
-        "uk": "AuthN доводить хто; AuthZ вирішує що. Кожен стиль несе доказ по-своєму — header, metadata чи підпис."
+        "en": "**AuthN proves who you are; AuthZ decides what you may do** — two separate questions, never one. Every API carries the *proof* the same way in principle: a credential is presented at the boundary, validated, and mapped to an identity plus a set of permissions. Only the *carrier* differs by style — a header (REST/GraphQL), call metadata (gRPC), a first message or ticket (WebSockets), or a signature the sender computes (Webhooks). The whole field is one long move away from **long-lived shared secrets** (an API key that is a password in disguise) toward **short-lived, scoped, delegated tokens** (OAuth/OIDC/JWT), and then toward **sender-constrained tokens** (mTLS/DPoP) that are useless to a thief because they are bound to a key only the real caller holds. And the trap that outlives every mechanism: a valid token proves *who*, never that *this* user may touch *this* object.",
+        "uk": "**AuthN доводить, хто ти; AuthZ вирішує, що тобі можна** — два окремі питання, ніколи не одне. Кожен API несе *доказ* у принципі однаково: креденшел подається на межі, валідується й мапиться на ідентичність плюс набір дозволів. Різниться лише *носій* залежно від стилю — header (REST/GraphQL), metadata виклику (gRPC), перше повідомлення чи ticket (WebSockets) або підпис, який обчислює відправник (Webhooks). Уся галузь — це один довгий рух від **довгоживучих спільних секретів** (API key, що є паролем у масці) до **короткоживучих, scoped, делегованих токенів** (OAuth/OIDC/JWT), а потім до **sender-constrained токенів** (mTLS/DPoP), безкорисних для злодія, бо привʼязані до ключа, який має лише справжній викликач. І пастка, що переживає будь-який механізм: валідний токен доводить *хто*, а не що *цей* користувач може чіпати *цей* обʼєкт."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 16,
+      "topics": [
+        {
+          "id": "api-keys",
+          "title": {
+            "en": "API keys: the shared secret",
+            "uk": "API keys: спільний секрет"
+          }
+        },
+        {
+          "id": "oauth2-1",
+          "title": {
+            "en": "OAuth 2.1: delegated authorization",
+            "uk": "OAuth 2.1: делегована авторизація"
+          }
+        },
+        {
+          "id": "oidc",
+          "title": {
+            "en": "OIDC: the identity layer",
+            "uk": "OIDC: шар ідентичності"
+          }
+        },
+        {
+          "id": "jwt-and-pitfalls",
+          "title": {
+            "en": "JWT & its pitfalls",
+            "uk": "JWT і його пастки"
+          }
+        },
+        {
+          "id": "mtls",
+          "title": {
+            "en": "mTLS & sender-constrained tokens",
+            "uk": "mTLS і sender-constrained токени"
+          }
+        },
+        {
+          "id": "scopes-consent",
+          "title": {
+            "en": "Scopes, consent & authorization",
+            "uk": "Scopes, consent та авторизація"
+          }
+        },
+        {
+          "id": "per-style-auth",
+          "title": {
+            "en": "Auth per style & the verdict",
+            "uk": "Auth у кожному стилі та вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m22-security-threats",
+        "m15-webhooks",
+        "m12-websockets",
+        "m10-grpc",
+        "m5-rest"
+      ],
+      "authored": true
     },
     {
       "id": "m18-versioning",
@@ -1386,13 +1442,55 @@
         "uk": "Змінюй контракт, не ламаючи клієнтів."
       },
       "mentalModel": {
-        "en": "A public API is a promise you must keep: add, never remove; deprecate, then sunset — or version explicitly.",
-        "uk": "Публічний API — це обіцянка: додавай, не прибирай; deprecate, потім sunset — або версіонуй явно."
+        "en": "A published API is **a promise you have to keep**: the moment a client depends on a field, you can no longer remove or redefine it without breaking them. So evolution has one golden rule — **add, never take away; make new things optional; and when you must remove, deprecate on a clock, then sunset.** Explicit versioning (`/v1` → `/v2`) is the escape hatch for a *true* breaking change, but every version you ship is a version you must run, test, and support forever. The senior instinct is therefore inverted from the junior one: the best versioning strategy is the one you **rarely need**, because you designed the surface — and the clients — to **evolve compatibly**. Contract-first styles (GraphQL, protobuf) take this furthest: they drop version numbers entirely and evolve the schema under machine-checked compatibility rules.",
+        "uk": "Опублікований API — це **обіцянка, яку треба тримати**: щойно клієнт залежить від поля, ти вже не можеш прибрати чи перевизначити його, не зламавши його. Тож еволюція має одне золоте правило — **додавай, ніколи не забирай; роби нове опційним; а коли мусиш прибрати — deprecate за годинником, потім sunset.** Явне версіонування (`/v1` → `/v2`) — це аварійний вихід для *справжньої* ламкої зміни, але кожна версія, яку ти випустив, — це версія, яку треба вічно запускати, тестувати й підтримувати. Тому senior-інстинкт обернений до junior-івського: найкраща стратегія версіонування — та, яка **рідко потрібна**, бо ти спроєктував поверхню — і клієнтів — **еволюціонувати сумісно**. Contract-first стилі (GraphQL, protobuf) доводять це найдалі: вони зовсім прибирають номери версій і еволюціонують схему за машинно-перевіреними правилами сумісності."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 15,
+      "topics": [
+        {
+          "id": "uri-vs-header-vs-media-type",
+          "title": {
+            "en": "URI vs header vs media type",
+            "uk": "URI проти header проти media type"
+          }
+        },
+        {
+          "id": "breaking-change-taxonomy",
+          "title": {
+            "en": "What actually breaks a client",
+            "uk": "Що насправді ламає клієнта"
+          }
+        },
+        {
+          "id": "graphql-protobuf-evolution",
+          "title": {
+            "en": "Contract-first evolution (no /v2)",
+            "uk": "Contract-first еволюція (без /v2)"
+          }
+        },
+        {
+          "id": "deprecation-sunset",
+          "title": {
+            "en": "Deprecate on a clock, then sunset",
+            "uk": "Deprecate за годинником, потім sunset"
+          }
+        },
+        {
+          "id": "consumer-driven-contracts",
+          "title": {
+            "en": "Consumer-driven contracts & the verdict",
+            "uk": "Consumer-driven contracts і вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m5-rest",
+        "m9-graphql",
+        "m10-grpc",
+        "m19-errors-status",
+        "m23-observability"
+      ],
+      "authored": true
     },
     {
       "id": "m19-errors-status",
@@ -1410,13 +1508,62 @@
         "uk": "Problem Details (RFC 9457), gRPC status, GraphQL errors."
       },
       "mentalModel": {
-        "en": "An error is data, not a stack trace: a typed, machine-readable shape the client can act on.",
-        "uk": "Помилка — це дані, а не stack trace: типізована машиночитна форма, на яку клієнт може реагувати."
+        "en": "An error is **data the caller acts on, not a stack trace it will never see.** The client cannot read your logs; it can only branch on what you return — so a good error answers three questions in a machine-readable shape: **what** went wrong (a stable code the client can switch on), **whose fault** it is (client vs server → whether the request can ever succeed as-is), and **whether a retry could help**. Every style has a native error channel — an **HTTP status + a Problem Details body** for REST, the **`grpc-status` trailer** for gRPC, the **`errors` array** for GraphQL — but the discipline underneath is identical: **consistent, categorised, actionable, and free of leaked internals.** The happy path is half a contract; the error model is the other half.",
+        "uk": "Помилка — це **дані, на які реагує викликач, а не stack trace, якого він ніколи не побачить.** Клієнт не читає твої логи; він може лише розгалужуватися на те, що ти повернув — тож добра помилка відповідає на три питання в машиночитній формі: **що** пішло не так (стабільний код, на який клієнт перемикається), **чия провина** (клієнт чи сервер → чи може запит узагалі вдатися як є) і **чи допоможе retry**. Кожен стиль має нативний канал помилок — **HTTP-статус + тіло Problem Details** для REST, трейлер **`grpc-status`** для gRPC, масив **`errors`** для GraphQL — але дисципліна під ними однакова: **послідовно, категоризовано, дієво й без витоку внутрішнього.** Щасливий шлях — це половина контракту; модель помилок — друга половина."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 14,
+      "topics": [
+        {
+          "id": "http-status-semantics",
+          "title": {
+            "en": "HTTP status: the coarse contract",
+            "uk": "HTTP status: грубий контракт"
+          }
+        },
+        {
+          "id": "problem-details-rfc9457",
+          "title": {
+            "en": "Problem Details (RFC 9457)",
+            "uk": "Problem Details (RFC 9457)"
+          }
+        },
+        {
+          "id": "grpc-status",
+          "title": {
+            "en": "gRPC status codes & rich details",
+            "uk": "gRPC status-коди й багаті деталі"
+          }
+        },
+        {
+          "id": "graphql-errors",
+          "title": {
+            "en": "GraphQL errors & partial data",
+            "uk": "GraphQL errors і часткові дані"
+          }
+        },
+        {
+          "id": "retry-and-backoff",
+          "title": {
+            "en": "Retries, backoff & Retry-After",
+            "uk": "Retries, backoff і Retry-After"
+          }
+        },
+        {
+          "id": "error-taxonomy",
+          "title": {
+            "en": "One taxonomy & the verdict",
+            "uk": "Одна таксономія й вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m5-rest",
+        "m10-grpc",
+        "m9-graphql",
+        "m21-idempotency",
+        "m20-pagination-limits"
+      ],
+      "authored": true
     },
     {
       "id": "m20-pagination-limits",

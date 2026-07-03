@@ -25,6 +25,10 @@ import { m8 } from './modules/m8-json-rpc';
 // CHANGED (s10b): the remaining right-sized styles authored (tRPC, async messaging).
 import { m11 } from './modules/m11-trpc';
 import { m16 } from './modules/m16-async-messaging';
+// CHANGED (s11): Section IV cross-cutting begins — auth/identity, versioning, errors/status authored.
+import { m17 } from './modules/m17-auth-identity';
+import { m18 } from './modules/m18-versioning';
+import { m19 } from './modules/m19-errors-status';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -100,24 +104,9 @@ export const modules: Module[] = [
   m16, // s10b — Async messaging (MQTT/AMQP/Kafka) + broker-topologies figure (fully authored)
 
   // ── Section IV · Cross-cutting concerns ────────────────────────────────────
-  stub({
-    id: 'm17-auth-identity', num: 17, section: 's4-cross-cutting', order: 1, level: 'senior',
-    title: { en: 'Authentication & authorization', uk: 'Автентифікація та авторизація' },
-    tagline: { en: 'API keys, OAuth 2.1, OIDC, JWT, mTLS.', uk: 'API keys, OAuth 2.1, OIDC, JWT, mTLS.' },
-    mentalModel: { en: 'AuthN proves who; AuthZ decides what. Every style carries the proof differently — header, metadata, or signature.', uk: 'AuthN доводить хто; AuthZ вирішує що. Кожен стиль несе доказ по-своєму — header, metadata чи підпис.' },
-  }),
-  stub({
-    id: 'm18-versioning', num: 18, section: 's4-cross-cutting', order: 2, level: 'senior',
-    title: { en: 'Versioning & evolution', uk: 'Версіонування та еволюція' },
-    tagline: { en: 'Change the contract without breaking callers.', uk: 'Змінюй контракт, не ламаючи клієнтів.' },
-    mentalModel: { en: 'A public API is a promise you must keep: add, never remove; deprecate, then sunset — or version explicitly.', uk: 'Публічний API — це обіцянка: додавай, не прибирай; deprecate, потім sunset — або версіонуй явно.' },
-  }),
-  stub({
-    id: 'm19-errors-status', num: 19, section: 's4-cross-cutting', order: 3, level: 'middle',
-    title: { en: 'Errors & status semantics', uk: 'Помилки та семантика статусів' },
-    tagline: { en: 'Problem Details (RFC 9457), gRPC status, GraphQL errors.', uk: 'Problem Details (RFC 9457), gRPC status, GraphQL errors.' },
-    mentalModel: { en: 'An error is data, not a stack trace: a typed, machine-readable shape the client can act on.', uk: 'Помилка — це дані, а не stack trace: типізована машиночитна форма, на яку клієнт може реагувати.' },
-  }),
+  m17, // s11 — Authentication & authorization + oauth-flow figure (fully authored)
+  m18, // s11 — Versioning & evolution + version-strategies figure (fully authored)
+  m19, // s11 — Errors & status semantics + problem-details figure (fully authored)
   stub({
     id: 'm20-pagination-limits', num: 20, section: 's4-cross-cutting', order: 4, level: 'senior',
     title: { en: 'Pagination & rate limiting', uk: 'Пагінація та rate limiting' },

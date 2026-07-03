@@ -96,6 +96,9 @@ const FIG_CANARIES: Record<string, string[]> = {
   RpcEnvelope: ["jsonrpc", "-32601"], // s10a
   TrpcInference: ["AppRouter", "import type"], // s10b · m11 (type flows server→client, no codegen)
   BrokerTopologies: ["Producer", "Kafka"], // s10b · m16 (point-to-point vs queue vs log)
+  OauthFlow: ["PKCE", "Bearer"], // s11 · m17 (Authorization Code + PKCE sequence)
+  VersionStrategies: ["API-Version", "Accept"], // s11 · m18 (URI vs header vs media-type)
+  ProblemDetails: ["problem+json", "grpc-status"], // s11 · m19 (RFC 9457 mapped across styles)
 };
 
 async function main(): Promise<void> {
