@@ -106,6 +106,16 @@ export const m8: Module = {
             uk: 'Немає id — немає відповіді, помилки чи сигналу для retry: специфікація забороняє серверу казати будь-що, включно з «такого методу не існує». Якщо виклик змінює стан чи гроші — дай йому id. Notifications — для трафіку телеметрійного класу, де тиха втрата прийнятна.',
           },
         },
+        // CHANGED (s12a): §D(7) — the module's top security threat, named explicitly.
+        {
+          kind: 'callout',
+          tone: 'security',
+          title: { en: 'Top threat: one URL hides every method', uk: 'Головна загроза: один URL ховає всі методи' },
+          md: {
+            en: 'Everything arrives as `POST /rpc`, so every HTTP-layer defence — per-path authorization, gateway rate limits, WAF rules, audit logs — sees *one* opaque endpoint while the real surface is the `method` string inside the body. The classic failures: an internal/admin method reachable because authorization checked the URL, not the method (the Ethereum-node lesson — an exposed port answering `eth_sendRawTransaction`), and **batch amplification** — one request carrying thousands of calls past a per-request limiter. Enforce authorization *per method* from an explicit allowlist, validate `params` against a schema per method, cap batch length, and rate-limit by the calls *inside* the envelope, not the envelope (m17 · m20 · m22).',
+            uk: 'Все прибуває як `POST /rpc`, тож кожен захист HTTP-рівня — per-path авторизація, ліміти gateway, правила WAF, audit-логи — бачить *один* непрозорий endpoint, тоді як справжня поверхня — рядок `method` всередині тіла. Класичні провали: internal/admin-метод, досяжний бо авторизація перевіряла URL, а не метод (урок Ethereum-нод — відкритий порт, що відповідає на `eth_sendRawTransaction`), і **batch-ампліфікація** — один запит, що проносить тисячі викликів повз per-request limiter. Авторизуй *на метод* за явним allowlist-ом, валідуй `params` за схемою на метод, обмежуй довжину batch і лімітуй за викликами *всередині* конверта, а не за конвертом (m17 · m20 · m22).',
+          },
+        },
       ],
     },
     // ── T4 · XML-RPC origins ──────────────────────────────────────────────────

@@ -387,4 +387,61 @@ export const glossary: GlossaryEntry[] = [
     },
     seeAlso: ['Message broker', 'Webhook'],
   },
+  // CHANGED (s12a): pagination/rate-limiting + reliability terms (m20, m21).
+  {
+    term: 'Cursor pagination',
+    def: {
+      en: 'Paging where the boundary is a VALUE — an opaque token naming the last row the client saw (Stripe starting_after) — instead of a position. Exact under concurrent writes; no random access.',
+      uk: 'Пагінація, де межа — ЗНАЧЕННЯ: opaque-токен, що називає останній побачений клієнтом рядок (starting_after у Stripe), а не позиція. Точна під паралельними записами; без довільного доступу.',
+    },
+    seeAlso: ['Keyset pagination'],
+  },
+  {
+    term: 'Keyset pagination',
+    def: {
+      en: 'The database half of a cursor: WHERE (created_at, id) < boundary ORDER BY … LIMIT n — an index seek at any depth (the "seek method"), unlike OFFSET which scans and discards.',
+      uk: 'Базова половина cursor-а: WHERE (created_at, id) < межа ORDER BY … LIMIT n — index seek на будь-якій глибині («seek method»), на відміну від OFFSET, що сканує і викидає.',
+    },
+    seeAlso: ['Cursor pagination'],
+  },
+  {
+    term: 'Rate limiting',
+    def: {
+      en: 'Bounding each caller\'s request budget and shedding the excess cheaply with 429 + Retry-After. Enforced at the edge with a shared counter; advertised via rate-limit headers.',
+      uk: 'Обмеження бюджету запитів кожного викликача і дешеве скидання надлишку через 429 + Retry-After. Застосовується на краю зі спільним лічильником; рекламується rate-limit заголовками.',
+    },
+    seeAlso: ['Token bucket'],
+  },
+  {
+    term: 'Token bucket',
+    def: {
+      en: 'The default rate-limiting algorithm: tokens refill at a steady rate up to a capacity, so short bursts pass while the average rate holds. Leaky bucket is its smoothing sibling.',
+      uk: 'Алгоритм rate limiting за замовчуванням: токени поповнюються зі сталою швидкістю до ємності, тож короткі burst-и проходять, а середня швидкість тримається. Leaky bucket — його згладжувальний родич.',
+    },
+    seeAlso: ['Rate limiting'],
+  },
+  {
+    term: 'Outbox pattern',
+    def: {
+      en: 'Fix for the dual-write bug: write the business row AND the event row in one local transaction; a relay (poller/CDC) publishes from the outbox table at-least-once; consumers dedup by event id.',
+      uk: 'Ліки від багу dual-write: бізнес-рядок І рядок події пишуться в одній локальній транзакції; relay (poller/CDC) публікує з таблиці outbox at-least-once; consumer-и дедуплікують за id події.',
+    },
+    seeAlso: ['At-least-once delivery', 'Saga'],
+  },
+  {
+    term: 'Saga',
+    def: {
+      en: 'A distributed business operation as a chain of LOCAL transactions, each with a compensating action that runs backwards on failure. Coordinated by choreography (events) or orchestration (a coordinator).',
+      uk: 'Розподілена бізнес-операція як ланцюжок ЛОКАЛЬНИХ транзакцій, кожна з компенсувальною дією, що біжить назад при відмові. Координується через choreography (події) або orchestration (координатор).',
+    },
+    seeAlso: ['Outbox pattern', 'Idempotency key'],
+  },
+  {
+    term: 'Circuit breaker',
+    def: {
+      en: 'A guard that stops calling a persistently failing dependency: closed (normal) → open (fail fast, let it recover) → half-open (probe). Pairs with nested timeouts and bulkheads.',
+      uk: 'Запобіжник, що припиняє кликати стійко відмовляючу залежність: closed (норма) → open (падай швидко, дай відновитись) → half-open (проба). У парі з вкладеними timeout-ами та bulkhead-ами.',
+    },
+    seeAlso: ['Idempotent'],
+  },
 ];

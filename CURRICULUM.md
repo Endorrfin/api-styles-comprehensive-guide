@@ -129,6 +129,8 @@ Turn the whole guide into a decision. The picker and the mental-models recap.
    (figure `broker-topologies`) — Sections II & III content-complete. **16 / 25 modules authored.**
 9. **S11 (done):** `m17-auth-identity` (figure `oauth-flow`) + `m18-versioning` (figure `version-strategies`)
    + `m19-errors-status` (figure `problem-details`) — the first three cross-cutting concerns. **19 / 25
-   modules authored.** **S12:** the remainder — `m20-pagination-limits`, `m21-idempotency`,
-   `m22-security-threats`, `m23-observability`.
+   modules authored.** **S12a (done):** `m20-pagination-limits` (+ the `pagination-compare` sim,
+   promoted from optional per PROJECT-BRIEF §10) + `m21-idempotency` (figure `outbox-saga`) + the
+   §D(7) security-threat callouts retrofitted into m8/m13/m16 — **21 / 25 modules authored.**
+   **S12b:** `m22-security-threats`, `m23-observability`.
 10. **S13:** `m24-decision-framework` + `style-picker`; `m25-mental-models`; glossary; polish; launch.

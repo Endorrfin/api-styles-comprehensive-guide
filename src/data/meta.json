@@ -1581,13 +1581,55 @@
         "uk": "Cursor проти offset; 429 і token bucket."
       },
       "mentalModel": {
-        "en": "Never return an unbounded list, never accept unbounded load: page with a cursor, shed with a limit.",
-        "uk": "Ніколи не віддавай безмежний список і не приймай безмежне навантаження: сторінкуй cursor-ом, відсікай limit-ом."
+        "en": "**Never return an unbounded list, never accept unbounded load.** Both halves of this module are the same discipline — putting a **bound on work** — applied in two directions. Pagination bounds the *response*: the client gets a page and a way to ask for the next one, and the shape of that \"way\" is the whole game — an **offset counts rows from the top** (a position, which concurrent writes silently shift), a **cursor names the last row you saw** (a value, which writes cannot move). Rate limiting bounds the *request stream*: every caller gets a budget, the server sheds what exceeds it with **`429` + `Retry-After`**, and honest headers let a well-behaved client slow down *before* hitting the wall. An API without both is an API whose worst-case cost is decided by its least careful caller.",
+        "uk": "**Ніколи не віддавай безмежний список і ніколи не приймай безмежне навантаження.** Обидві половини цього модуля — одна дисципліна, **межа на роботу**, застосована у двох напрямках. Пагінація обмежує *відповідь*: клієнт отримує сторінку і спосіб попросити наступну, і форма цього «способу» — вся гра: **offset рахує рядки від верху** (позиція, яку паралельні записи тихо зсувають), **cursor називає останній побачений рядок** (значення, яке записи зрушити не можуть). Rate limiting обмежує *потік запитів*: кожен викликач має бюджет, надлишок сервер скидає через **`429` + `Retry-After`**, а чесні заголовки дають вихованому клієнту сповільнитися *до* стіни. API без обох — це API, чию найгіршу ціну визначає його найнеобережніший викликач."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 15,
+      "topics": [
+        {
+          "id": "offset-vs-cursor-keyset",
+          "title": {
+            "en": "Offset vs cursor (keyset)",
+            "uk": "Offset проти cursor (keyset)"
+          }
+        },
+        {
+          "id": "server-driven-paging",
+          "title": {
+            "en": "Server-driven paging",
+            "uk": "Server-driven пагінація"
+          }
+        },
+        {
+          "id": "rate-limiting-429",
+          "title": {
+            "en": "Rate limiting & 429",
+            "uk": "Rate limiting і 429"
+          }
+        },
+        {
+          "id": "rate-limit-headers",
+          "title": {
+            "en": "Rate-limit headers",
+            "uk": "Rate-limit заголовки"
+          }
+        },
+        {
+          "id": "quotas-fairness",
+          "title": {
+            "en": "Quotas, fairness & the verdict",
+            "uk": "Квоти, справедливість і вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m5-rest",
+        "m6-odata",
+        "m9-graphql",
+        "m19-errors-status",
+        "m21-idempotency"
+      ],
+      "authored": true
     },
     {
       "id": "m21-idempotency",
@@ -1605,13 +1647,62 @@
         "uk": "At-least-once — це дефолт; проєктуй під retries."
       },
       "mentalModel": {
-        "en": "The network will deliver twice or not at all: an idempotency key makes a retry safe to repeat.",
-        "uk": "Мережа доставить двічі або жодного разу: idempotency key робить retry безпечним для повтору."
+        "en": "**The network will deliver twice or not at all — and a timeout tells you nothing.** When a call times out, the request may have never arrived, arrived and failed, or *succeeded* with the reply lost on the way back: three worlds, one symptom, and the caller cannot tell them apart. Everything in this module is one move against that ambiguity: **make the operation safe to repeat, then repeat it.** An **idempotency key** makes a retry recognizable; **at-least-once delivery + a deduplicating consumer** is what \"exactly-once\" actually means in production; the **outbox** makes \"write the database AND tell the world\" atomic; a **saga** stretches the same discipline across several APIs; **timeouts and circuit breakers** decide when to stop repeating and fail fast. Retries without idempotency aren't reliability — they're a duplicate-effect generator with good intentions.",
+        "uk": "**Мережа доставить двічі або жодного разу — а timeout не каже нічого.** Коли виклик тайм-аутиться, запит міг не дійти, дійти і впасти, або *вдатися* з загубленою на зворотному шляху відповіддю: три світи, один симптом, і викликач їх не розрізнить. Усе в цьому модулі — один хід проти цієї неоднозначності: **зроби операцію безпечною для повтору, тоді повторюй.** **Idempotency key** робить retry впізнаваним; **at-least-once доставка + consumer, що дедуплікує** — ось що «exactly-once» означає в production насправді; **outbox** робить «запиши в базу І скажи світові» атомарним; **saga** розтягує ту саму дисципліну на кілька API; **timeout-и й circuit breaker-и** вирішують, коли перестати повторювати і впасти швидко. Retry без idempotency — це не надійність, це генератор подвійних ефектів із добрими намірами."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 16,
+      "topics": [
+        {
+          "id": "idempotency-keys",
+          "title": {
+            "en": "Idempotency keys",
+            "uk": "Idempotency keys"
+          }
+        },
+        {
+          "id": "at-least-once-vs-exactly-once",
+          "title": {
+            "en": "At-least-once vs exactly-once",
+            "uk": "At-least-once проти exactly-once"
+          }
+        },
+        {
+          "id": "retries-and-dedup",
+          "title": {
+            "en": "Retries & dedup",
+            "uk": "Retries і dedup"
+          }
+        },
+        {
+          "id": "outbox-pattern",
+          "title": {
+            "en": "The outbox pattern",
+            "uk": "Патерн outbox"
+          }
+        },
+        {
+          "id": "sagas-across-apis",
+          "title": {
+            "en": "Sagas across APIs",
+            "uk": "Saga через API"
+          }
+        },
+        {
+          "id": "timeouts-circuit-breakers",
+          "title": {
+            "en": "Timeouts, circuit breakers & the verdict",
+            "uk": "Timeout-и, circuit breaker-и і вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m10-grpc",
+        "m15-webhooks",
+        "m16-async-messaging",
+        "m19-errors-status",
+        "m20-pagination-limits"
+      ],
+      "authored": true
     },
     {
       "id": "m22-security-threats",

@@ -29,6 +29,9 @@ import { m16 } from './modules/m16-async-messaging';
 import { m17 } from './modules/m17-auth-identity';
 import { m18 } from './modules/m18-versioning';
 import { m19 } from './modules/m19-errors-status';
+// CHANGED (s12a): pagination & rate limiting + idempotency/reliability authored.
+import { m20 } from './modules/m20-pagination-limits';
+import { m21 } from './modules/m21-idempotency';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -107,18 +110,8 @@ export const modules: Module[] = [
   m17, // s11 — Authentication & authorization + oauth-flow figure (fully authored)
   m18, // s11 — Versioning & evolution + version-strategies figure (fully authored)
   m19, // s11 — Errors & status semantics + problem-details figure (fully authored)
-  stub({
-    id: 'm20-pagination-limits', num: 20, section: 's4-cross-cutting', order: 4, level: 'senior',
-    title: { en: 'Pagination & rate limiting', uk: 'Пагінація та rate limiting' },
-    tagline: { en: 'Cursor vs offset; 429 and the token bucket.', uk: 'Cursor проти offset; 429 і token bucket.' },
-    mentalModel: { en: 'Never return an unbounded list, never accept unbounded load: page with a cursor, shed with a limit.', uk: 'Ніколи не віддавай безмежний список і не приймай безмежне навантаження: сторінкуй cursor-ом, відсікай limit-ом.' },
-  }),
-  stub({
-    id: 'm21-idempotency', num: 21, section: 's4-cross-cutting', order: 5, level: 'staff',
-    title: { en: 'Idempotency, reliability & delivery', uk: 'Idempotency, надійність і доставка' },
-    tagline: { en: 'At-least-once is the default; design for retries.', uk: 'At-least-once — це дефолт; проєктуй під retries.' },
-    mentalModel: { en: 'The network will deliver twice or not at all: an idempotency key makes a retry safe to repeat.', uk: 'Мережа доставить двічі або жодного разу: idempotency key робить retry безпечним для повтору.' },
-  }),
+  m20, // s12a — Pagination & rate limiting + pagination-compare interactive (fully authored)
+  m21, // s12a — Idempotency, reliability & delivery + outbox-saga figure (fully authored)
   stub({
     id: 'm22-security-threats', num: 22, section: 's4-cross-cutting', order: 6, level: 'staff',
     title: { en: 'Security & threat models', uk: 'Безпека та моделі загроз' },

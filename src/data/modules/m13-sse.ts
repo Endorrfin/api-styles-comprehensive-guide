@@ -163,6 +163,16 @@ es.addEventListener('price', (e) => render(JSON.parse(e.data)));`,
             uk: 'Класичний SSE-інцидент: у dev події течуть ідеально, а в проді приходять грудками раз на 30 секунд (або ніколи) — бо на шляху стоїть reverse proxy, шар gzip чи serverless-платформа, що буферизує цілі відповіді. Проаудитуй кожен хоп на підтримку стримінгу та flush; платформи, що вміють лише завершені відповіді, SSE не віддадуть узагалі.',
           },
         },
+        // CHANGED (s12a): §D(7) — the module's top security threat, named explicitly.
+        {
+          kind: 'callout',
+          tone: 'security',
+          title: { en: 'Top threat: the stream outlives its credentials', uk: 'Головна загроза: потік переживає свої credentials' },
+          md: {
+            en: 'An SSE connection is authenticated **once, at the request** — then lives for minutes or hours while the token that opened it expires, or the user is deactivated, mid-stream. Enforce a **max stream lifetime** and re-authenticate on every reconnect (the auto-reconnect makes this cheap), and push access re-checks into event *generation*, not just the connection. The constraint feeding this: native `EventSource` **cannot set an `Authorization` header**, so tokens land in **cookies** (now the endpoint needs CSRF/`SameSite` discipline and a strict CORS allowlist — never `*` with credentials) or **query strings** (they leak into proxy and access logs — prefer short-lived, single-use stream tickets). And because each stream pins server resources for its lifetime, **cap concurrent streams per user/token** — connection exhaustion is this style’s cheapest DoS (m17 · m20 · m22).',
+            uk: 'SSE-зʼєднання автентифікується **раз, на запиті** — а живе хвилини чи години, поки токен, що його відкрив, спливає, або користувача деактивовано, посеред потоку. Введи **максимальний вік потоку** і ре-автентифікуй на кожному reconnect (авто-reconnect робить це дешевим), а перевірки доступу перенеси в *генерацію* подій, не лише на зʼєднання. Обмеження, що це живить: нативний `EventSource` **не вміє ставити заголовок `Authorization`**, тож токени осідають у **cookies** (тепер endpoint-у потрібна дисципліна CSRF/`SameSite` і суворий CORS-allowlist — ніколи `*` з credentials) або в **query string** (вони течуть у логи proxy й access-логи — кращими є короткоживучі одноразові stream-квитки). А оскільки кожен потік утримує ресурси сервера на весь свій вік, **обмежуй паралельні потоки на user/token**: вичерпання зʼєднань — найдешевший DoS цього стилю (m17 · m20 · m22).',
+          },
+        },
       ],
     },
     // ── T5 · When SSE is enough + the verdict ─────────────────────────────────
