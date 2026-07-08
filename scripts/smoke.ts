@@ -76,6 +76,7 @@ const SIM_CANARIES: Record<string, string[]> = {
   WebsocketFramesSim: ["Client", "Server"], // s7 · rail headers render in any state
   WebrtcConnectSim: ["Peer A", "TURN"], // s8 · rail header + scenario tag render in any state
   WebhookDeliverySim: ["Provider", "Consumer"], // s9 · rail headers render in any state
+  PaginationCompareSim: ["offset", "cursor"], // s12a · m20 (rail headers render in any state)
 };
 const FIG_CANARIES: Record<string, string[]> = {
   RestAnatomy: ["GET /articles/42"],
@@ -99,6 +100,7 @@ const FIG_CANARIES: Record<string, string[]> = {
   OauthFlow: ["PKCE", "Bearer"], // s11 · m17 (Authorization Code + PKCE sequence)
   VersionStrategies: ["API-Version", "Accept"], // s11 · m18 (URI vs header vs media-type)
   ProblemDetails: ["problem+json", "grpc-status"], // s11 · m19 (RFC 9457 mapped across styles)
+  OutboxSaga: ["outbox", "Relay"], // s12a · m21 (dual-write vs outbox; saga compensation chain)
 };
 
 async function main(): Promise<void> {

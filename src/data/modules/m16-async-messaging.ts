@@ -214,6 +214,16 @@ export const m16: Module = {
             uk: 'Віддалимося: async messaging — це субстрат **event-driven архітектури (EDA)**, де сервіси спілкуються, випускаючи й реагуючи на **події** — факти про минуле («PaymentCaptured») — а не кличучи одне одного. Два стилі координації: **choreography** (кожен сервіс реагує на події й випускає власні — децентралізовано й слабко звʼязано, але наскрізний потік емерджентний і його важче трасувати) проти **orchestration** (центральний координатор веде кроки — явно й трасовно, але сам є точкою звʼязності). Класична пастка надійності — **dual write**: оновлення БД і публікація події — дві окремі операції, тож збій між ними або губить подію, або оголошує її для зміни, що відкотилася. Фікс — **outbox pattern** (m21): запиши подію в outbox-таблицю в *тій самій* транзакції БД, що й зміну стану, а relay її публікує — один атомарний запис, at-least-once назовні. EDA купує масштабованість і розчеплення; коштує eventual consistency, важчий дебаг і операційну вагу утримання брокера.',
           },
         },
+        // CHANGED (s12a): §D(7) — the module's top security threat, named explicitly.
+        {
+          kind: 'callout',
+          tone: 'security',
+          title: { en: 'Top threat: the broker widens the trust boundary', uk: 'Головна загроза: брокер розширює trust boundary' },
+          md: {
+            en: 'A shared broker means the consumer no longer sees *who called* — it sees a message. Any principal with publish rights to a topic can **spoof or poison events** ("PaymentCaptured" from a compromised batch job looks exactly like the real one), and captured messages can be **replayed** through legitimate redelivery machinery. Defend in layers: **mTLS + per-topic, per-principal ACLs** on the broker (least-privilege publish/subscribe — never one shared app credential), **schema validation** at consume time so poison messages die at the boundary, event ids + timestamps so replay collapses into the dedup you already built (m21), and for events that cross org boundaries, **sign the payload itself** — authenticate the *message*, not just the pipe (m15’s HMAC discipline, m17 · m22).',
+            uk: 'Спільний брокер означає, що consumer більше не бачить, *хто викликав*, — він бачить повідомлення. Будь-який principal з правом publish у topic може **підробити чи отруїти події** («PaymentCaptured» від зламаної batch-джоби виглядає точно як справжня), а перехоплені повідомлення можна **відтворити** через легітимну машинерію redelivery. Захищайся шарами: **mTLS + per-topic, per-principal ACL** на брокері (least-privilege publish/subscribe — ніколи один спільний credential застосунку), **валідація схеми** при споживанні, щоб отруйні повідомлення вмирали на межі, id подій + timestamps, щоб replay сколапсував у dedup, який ти вже збудував (m21), а для подій через межі організацій — **підписуй сам payload**: автентифікуй *повідомлення*, а не лише трубу (HMAC-дисципліна m15, m17 · m22).',
+          },
+        },
         {
           kind: 'callout',
           tone: 'tip',

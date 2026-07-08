@@ -32,6 +32,11 @@ export const sims: Record<string, ComponentType> = {
   'webrtc-connect': lazyNamed(() => import('../components/sims/WebrtcConnectSim'), 'WebrtcConnectSim'),
   // CHANGED (s9): webhook-delivery — signature interactive for m15 (at-least-once + backoff + dedup).
   'webhook-delivery': lazyNamed(() => import('../components/sims/WebhookDeliverySim'), 'WebhookDeliverySim'),
+  // CHANGED (s12a): pagination-compare — interactive for m20 (offset drift vs cursor exactness).
+  'pagination-compare': lazyNamed(
+    () => import('../components/sims/PaginationCompareSim'),
+    'PaginationCompareSim',
+  ),
 };
 
 // ── Figures ───────────────────────────────────────────────────────────────────
@@ -102,6 +107,8 @@ export const figures: Record<string, ComponentType> = {
     'VersionStrategies',
   ),
   'problem-details': lazyNamed(() => import('../components/figures/ProblemDetails'), 'ProblemDetails'),
+  // CHANGED (s12a): outbox-saga — dual-write bug vs outbox relay + saga compensations for m21.
+  'outbox-saga': lazyNamed(() => import('../components/figures/OutboxSaga'), 'OutboxSaga'),
 };
 
 export const getSim = (key: string): ComponentType | undefined => sims[key];

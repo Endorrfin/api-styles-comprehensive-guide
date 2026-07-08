@@ -174,8 +174,10 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   now content-complete except the still-stubbed cross-cutting/choosing modules).
 - **S11 (done)** — `m17-auth-identity` (+ `oauth-flow`) + `m18-versioning` (+ `version-strategies`) +
   `m19-errors-status` (+ `problem-details`) — the first three cross-cutting modules.
-- **S12** — Section IV cross-cutting remainder: `m20-pagination-limits`, `m21-idempotency`,
-  `m22-security-threats`, `m23-observability`.
+- **S12a (done)** — `m20-pagination-limits` (+ the `pagination-compare` interactive, promoted from
+  the optional figure per PROJECT-BRIEF §10) + `m21-idempotency` (+ figure `outbox-saga`) + the §D(7)
+  security-threat callouts retrofitted into m8/m13/m16.
+- **S12b** — Section IV remainder: `m22-security-threats`, `m23-observability`.
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
 
 ## 14. Status / progress log
@@ -456,3 +458,56 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   `src/data/meta.json`** (check:meta guards it). *Open items:* S12 = `m20-pagination-limits`,
   `m21-idempotency`, `m22-security-threats`, `m23-observability`; S13 = choosing section + `style-picker`,
   mental-models gallery, glossary, polish, launch.
+- **S12a** (2026-07-08) — **Cross-cutting II: pagination/limits + idempotency/reliability (+ the §D
+  retrofit).** Session opened with a **polish-stage audit** (independent subagent + verify): all gates
+  green, content bar held; findings = 3 modules missing the §D(7) named-security-threat clause (m8, m13,
+  m16), copy-code buttons + `og:image` missing (deferred to the polish batch), and pagination/CORS as the
+  highest-value remaining interactives. Owner approved S12 modules + §D patches. Authored
+  **`m20-pagination-limits`** (senior; 5 topics: offset-vs-cursor-keyset (sim) → server-driven-paging
+  (compare + Link/`has_more`/`@odata.nextLink`/Connections) → rate-limiting-429 (algorithm table) →
+  rate-limit-headers (X-RateLimit-* vs the IETF structured pair, code sample) → quotas-fairness +
+  security callout + verdict; 6 key points, 3 pitfalls, 1 senior + 1 staff interview, 8 sources) and
+  **`m21-idempotency`** (staff; 6 topics: idempotency-keys (SQL reservation sample) →
+  at-least-once-vs-exactly-once (compare; Two Generals; EOS boundaries) → retries-and-dedup (full-jitter
+  TS sample) → outbox-pattern (figure) → sagas-across-apis (choreography/orchestration table) →
+  timeouts-circuit-breakers + security callout (replay) + verdict; 6 key points, 3 pitfalls, 2 staff
+  interviews, 9 sources). Built the **`pagination-compare` interactive** (promoted from optional figure
+  per §10 — the offset-drift insight must be felt): pure engine `src/lib/pagination.ts` (one newest-first
+  feed walked 3 pages by offset AND cursor while scripted writes land between fetches; inserts ⇒ offset
+  re-serves exactly the shifted rows, deletes ⇒ offset silently skips the rows that slid up, cursor exact
+  in all scenarios; `missed` = passed-over-forever, floor-rule documented) + `scripts/test-pagination.ts`
+  (golden: stable parity, dup/miss counts = mutation sizes, keyset continuation, determinism) +
+  `PaginationCompareSim.tsx` (two rails, scenario switch, mutation banner, play/step/reset,
+  reduced-motion jump, ARIA live region; `pgc-*` styles in guide.css). Figure **`outbox-saga`**
+  (dual-write bug vs one-tx outbox + relay; saga chain with backwards compensations,
+  choreography-vs-orchestration footnote) — **rendered EN+UK to PNG and eyeballed geometry** (house S11
+  practice): fixed a label running under the tx box, a right-edge overflow (split to two lines), an
+  overflowing compensation box, and a UK choreography-column overlap. **§D(7) retrofit:** added the named
+  top-threat security callout to **m8** (one URL hides every method — per-method authz, batch
+  amplification, the Ethereum-node lesson), **m13** (the stream outlives its credentials — EventSource
+  header limits, cookie/query trade-offs, connection-exhaustion DoS), **m16** (the broker widens the
+  trust boundary — spoofed/replayed events, per-topic ACLs, sign the message not the pipe). +7 glossary
+  terms (Cursor pagination, Keyset pagination, Rate limiting, Token bucket, Outbox pattern, Saga,
+  Circuit breaker → 55 total). **Web-verified the version-sensitive facts** (RateLimit/RateLimit-Policy =
+  draft-ietf-httpapi-ratelimit-headers-**11**, 2026-05-23, Standards Track, still a DRAFT — structured
+  syntax `"hour";q=5000;w=3600` / `"hour";r=0;t=30` confirmed against the draft text; Idempotency-Key =
+  draft-ietf-httpapi-idempotency-key-header, still a WG draft; Stripe `starting_after`/`ending_before`,
+  limit 1–100 default 10, `has_more`; Stripe Idempotency-Key ≤255 chars, V4 UUID, 24 h retention,
+  first-outcome replay; GitHub 5,000 req/h auth · 60 unauth · secondary ~900 points/min ⇒ 403/429;
+  429 = RFC 6585; Retry-After = RFC 9110 §10.2.3; Link = RFC 8288; outbox/saga = microservices.io;
+  full jitter = AWS; breaker = Nygard/Fowler). **QA pass:** independent subagent review → **no factual
+  errors, engine/test/sim logic verified by hand-trace**; fixed 2 P1s (corrupted UK strings
+  «переиспользування», «перут-на») + 4 P2s (SQL-note transaction-boundary wording made consistent with
+  the two-commit design; the http sample's mid-header blank lines removed (headers contiguous, real
+  body split); «голодоморити» ×2 → neutral phrasing; m13 «пінить» → «утримує») + the P3 cluster
+  (label-first live-region counts, «Закривай»→«Обмежуй», dashes, «поза столом»/«злий ownership»/
+  «темпує» de-calqued); re-verified green. **All gates GREEN**: typecheck (+check:meta) · lint ·
+  check:data (**21 authored** / 25) · test (**9 engines**) · smoke (**235 checks**, 9 sims + 22 figures
+  EN+UK) · build (`--outDir dist-s12a`; eager index 105 kB gzip 37, bodies in the lazy `concepts` chunk
+  810 kB). *Branch:* `s12a-pagination-idempotency`. *Commit:* `feat: author m20 (pagination & limits) +
+  pagination-compare sim + m21 (idempotency) + outbox-saga figure + §D security callouts (m8/m13/m16)`.
+  **Commit `src/data/meta.json`** (check:meta guards it). *Cleanup:* `rm -rf dist-s12a` (scratch build) +
+  `rm scripts/_render-outbox.ts` (QA render helper; the sandbox couldn't unlink it). *Open items:*
+  S12b = `m22-security-threats` + `m23-observability`; S13 = `m24-decision-framework` + `style-picker`,
+  `m25-mental-models`, glossary/polish/launch; polish batch (owner-approved backlog): copy-code buttons,
+  `og:image` share card, topic copy-links, sticky table headers, S/W tables for m6/m11.
