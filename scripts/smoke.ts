@@ -77,6 +77,7 @@ const SIM_CANARIES: Record<string, string[]> = {
   WebrtcConnectSim: ["Peer A", "TURN"], // s8 · rail header + scenario tag render in any state
   WebhookDeliverySim: ["Provider", "Consumer"], // s9 · rail headers render in any state
   PaginationCompareSim: ["offset", "cursor"], // s12a · m20 (rail headers render in any state)
+  StylePickerSim: ["REST", "gRPC"], // s13a · m24 + #/decide (style names render in the field in any state)
 };
 const FIG_CANARIES: Record<string, string[]> = {
   RestAnatomy: ["GET /articles/42"],

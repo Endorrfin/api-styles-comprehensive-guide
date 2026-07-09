@@ -37,6 +37,9 @@ export const sims: Record<string, ComponentType> = {
     () => import('../components/sims/PaginationCompareSim'),
     'PaginationCompareSim',
   ),
+  // CHANGED (s13a): style-picker — the last signature interactive, for m24 + the #/decide page
+  // (five boundary questions → ranked verdict with named reasons + the winner's when-NOT line).
+  'style-picker': lazyNamed(() => import('../components/sims/StylePickerSim'), 'StylePickerSim'),
 };
 
 // ── Figures ───────────────────────────────────────────────────────────────────
