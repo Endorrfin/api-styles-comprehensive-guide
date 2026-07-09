@@ -1,5 +1,8 @@
 import type { Localized } from './types';
-import { getSection, modules } from './concepts';
+// CHANGED (s13b): derive from meta.ts (mentalModel lives in meta.json) — the gallery page no
+// longer drags every module BODY into its chunk; the SSOT guarantee is unchanged (meta is
+// generated from concepts and drift-guarded by check:meta).
+import { getSection, modules } from './meta';
 
 /*
  * Mental-model gallery cards — derived from the SSOT so they can never drift from the modules.

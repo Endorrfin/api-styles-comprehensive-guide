@@ -37,11 +37,12 @@ import { m22 } from './modules/m22-security-threats';
 import { m23 } from './modules/m23-observability';
 // CHANGED (s13a): Section V begins — the decision framework + the style-picker signature interactive.
 import { m24 } from './modules/m24-decision-framework';
+// CHANGED (s13b): the last module — mental models & when-NOT gallery. 25/25 authored; stub() retired.
+import { m25 } from './modules/m25-mental-models';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
- * 6 sections · 25 modules. m1, m2, m5-rest are fully authored; the rest are navigable stubs (empty
- * topics) filled in later sessions per CURRICULUM.md §G. A `stub()` produces the skeleton Module.
+ * 6 sections · 25 modules — ALL fully authored as of s13b (the stub() era ended with m25).
  */
 
 export const sections: Section[] = [
@@ -52,39 +53,6 @@ export const sections: Section[] = [
   { id: 's4-cross-cutting', roman: 'IV', accent: '#5cc0a4', title: { en: 'Cross-cutting concerns', uk: 'Наскрізні аспекти' } },
   { id: 's5-choosing', roman: 'V', accent: '#c58bd6', title: { en: 'Choosing', uk: 'Вибір' } },
 ];
-
-type StubInput = {
-  id: string;
-  num: number;
-  section: string;
-  order: number;
-  level: Level;
-  signature?: boolean;
-  title: Localized;
-  tagline: Localized;
-  mentalModel: Localized;
-  readMins?: number;
-};
-
-function stub(s: StubInput): Module {
-  return {
-    id: s.id,
-    num: s.num,
-    section: s.section,
-    order: s.order,
-    level: s.level,
-    signature: s.signature,
-    title: s.title,
-    tagline: s.tagline,
-    readMins: s.readMins ?? 8,
-    mentalModel: s.mentalModel,
-    topics: [],
-    keyPoints: [],
-    pitfalls: [],
-    seeAlso: [],
-    sources: [],
-  };
-}
 
 export const modules: Module[] = [
   // ── Section 0 · Foundations ────────────────────────────────────────────────
@@ -122,12 +90,7 @@ export const modules: Module[] = [
 
   // ── Section V · Choosing ───────────────────────────────────────────────────
   m24, // ★ s13a — the decision framework + style-picker (the last signature sim; fully authored)
-  stub({
-    id: 'm25-mental-models', num: 25, section: 's5-choosing', order: 2, level: 'beginner',
-    title: { en: 'Mental models & when-NOT gallery', uk: 'Ментальні моделі та галерея коли-НЕ' },
-    tagline: { en: 'One line per style; when NOT to use each.', uk: 'Один рядок на стиль; коли НЕ використовувати кожен.' },
-    mentalModel: { en: 'Master the one-liners and you can place, compare, and reject any style on demand.', uk: 'Опануй однорядковики — і зможеш розмістити, порівняти й відкинути будь-який стиль на вимогу.' },
-  }),
+  m25, // s13b — mental models & when-NOT gallery (fully authored — the guide is content-complete)
 ];
 
 // ── Lookups ────────────────────────────────────────────────────────────────

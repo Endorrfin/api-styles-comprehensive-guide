@@ -1,7 +1,9 @@
 // CHANGED (S12): Suspense added for lazy sims/figures (code-split via registry.tsx).
-import { Suspense } from 'react';
+// CHANGED (s13b): copy-code button on code blocks.
+import { Suspense, useEffect, useRef, useState } from 'react';
 import type { Block, Localized } from '../../data/types';
 import { useLang } from '../../i18n/lang';
+import { ui } from '../../i18n/ui';
 import { getFigure, getSim } from '../../lib/registry';
 import { Md } from './Md';
 
@@ -75,8 +77,19 @@ function TableBlock({
   caption?: Localized;
 }) {
   const { t } = useLang();
+  // CHANGED (s13b): long tables get a capped-height scroll area with a sticky header —
+  // sticky can't work against the viewport inside the overflow-x wrapper, so it works within.
+  // QA (s13b): the scroll region must be keyboard-operable (Safari doesn't auto-focus scrollers).
+  const tall = rows.length >= 8;
   return (
-    <div className="dtable-wrap">
+    <div
+      className={tall ? 'dtable-wrap dtable-wrap--tall' : 'dtable-wrap'}
+      {...(tall && {
+        tabIndex: 0,
+        role: 'region',
+        'aria-label': t(caption ?? { en: 'Scrollable table', uk: 'Прокручувана таблиця' }),
+      })}
+    >
       <table className="dtable">
         <thead>
           <tr>
@@ -102,12 +115,36 @@ function TableBlock({
   );
 }
 
+// CHANGED (s13b): copy button (clipboard API, graceful no-op where unavailable, live feedback).
 function CodeBlock({ lang, code, note }: { lang: string; code: string; note?: Localized }) {
   const { t } = useLang();
+  const [copied, setCopied] = useState(false);
+  const timer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      window.clearTimeout(timer.current);
+      timer.current = window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* clipboard unavailable (permissions/insecure context) — leave the button quiet */
+    }
+  };
+
   return (
     <div className="code">
       <div className="code-head">
         <span className="code-lang mono">{lang}</span>
+        <button
+          type="button"
+          className={copied ? 'code-copy code-copy--ok' : 'code-copy'}
+          onClick={copy}
+          aria-label={t(ui.copyCode)}
+        >
+          <span aria-live="polite">{copied ? `✓ ${t(ui.copied)}` : t(ui.copyCode)}</span>
+        </button>
       </div>
       <pre>
         <code>{code}</code>

@@ -1957,10 +1957,43 @@
         "en": "Master the one-liners and you can place, compare, and reject any style on demand.",
         "uk": "Опануй однорядковики — і зможеш розмістити, порівняти й відкинути будь-який стиль на вимогу."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 11,
+      "topics": [
+        {
+          "id": "one-liner-per-style",
+          "title": {
+            "en": "One-liner per style",
+            "uk": "Один рядок на стиль"
+          }
+        },
+        {
+          "id": "when-not-to-use-each",
+          "title": {
+            "en": "When NOT to use each",
+            "uk": "Коли НЕ використовувати кожен"
+          }
+        },
+        {
+          "id": "the-axes-recap",
+          "title": {
+            "en": "The axes recap",
+            "uk": "Рекап осей"
+          }
+        },
+        {
+          "id": "glossary-bridge",
+          "title": {
+            "en": "The glossary bridge",
+            "uk": "Місток до глосарію"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m2-decision-axes",
+        "m24-decision-framework",
+        "m5-rest"
+      ],
+      "authored": true
     }
   ]
 }

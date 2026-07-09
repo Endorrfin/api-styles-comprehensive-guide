@@ -9,6 +9,8 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { sections, modules } from '../src/data/concepts';
+// CHANGED (s13b): glossary integrity joins the gate (terms unique + bilingual, seeAlso resolve).
+import { glossary } from '../src/data/glossary';
 import type { Localized, Module, Section } from '../src/data/types';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -84,6 +86,18 @@ for (const m of modules as Module[]) {
 // seeAlso targets exist
 for (const m of modules as Module[]) for (const sa of m.seeAlso) err(moduleIds.has(sa), `${m.id} seeAlso -> unknown ${sa}`);
 
+// --- glossary integrity (s13b) ----------------------------------------------
+const termSet = new Set<string>();
+for (const g of glossary) {
+  err(!termSet.has(g.term), `glossary duplicate term "${g.term}"`); termSet.add(g.term);
+  err(g.term.trim(), 'glossary empty term');
+  locOk(g.def, `glossary "${g.term}".def`);
+  for (const sa of g.seeAlso ?? []) {
+    err(sa !== g.term, `glossary "${g.term}" seeAlso self-reference`);
+    err(glossary.some((x) => x.term === sa), `glossary "${g.term}" seeAlso -> unknown term "${sa}"`);
+  }
+}
+
 // --- COUNTS (adapt to the guide) ------------------------------------------
 const EXPECTED_SECTIONS = sections.length; // set to a hard number once the curriculum is locked
 const EXPECTED_MODULES = modules.length;   // e.g. 36
@@ -96,4 +110,4 @@ if (errors.length) {
   for (const e of errors) console.error('  - ' + e);
   process.exit(1);
 }
-console.log(`✓ check:data — ${sections.length} sections, ${modules.length} modules, all bilingual, registry + links resolve.`);
+console.log(`✓ check:data — ${sections.length} sections, ${modules.length} modules, ${glossary.length} glossary terms, all bilingual, registry + links resolve.`);

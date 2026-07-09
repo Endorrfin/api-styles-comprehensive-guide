@@ -175,8 +175,14 @@ async function main(): Promise<void> {
     check("GlossaryPage", h(GlossaryPage), lang, 400);
   }
 
-  // ── Layer C: per-module page header/TOC/nav for all modules (lazy body blocks → Suspense fallback) ──
+  // ── Layer C: per-module page for all modules ────────────────────────────────────────────────────────
+  // CHANGED (s13b): bodies live in per-section lazy chunks (data/bodies.ts). First a COLD render —
+  // the header/TOC + loading placeholder must be SSR-safe — then warm the cache so every module
+  // renders its FULL body synchronously (same coverage as before the split).
   const { ModulePage } = await import("../src/components/module/ModulePage");
+  check("ModulePage:cold(m5-rest)", h(ModulePage, { moduleId: "m5-rest" }), "en", 300);
+  const { loadModule } = await import("../src/data/bodies");
+  for (const m of MODULES) await loadModule(m.id);
   for (const m of MODULES)
     for (const lang of langs) check(`ModulePage:${m.id}`, h(ModulePage, { moduleId: m.id }), lang, 300);
 
