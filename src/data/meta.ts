@@ -51,6 +51,14 @@ export function modulesBySection(sectionId: string): ModuleMeta[] {
 export function isAuthored(m: ModuleMeta): boolean {
   return m.authored;
 }
+// CHANGED (s13b): mirrors concepts.adjacentModules — ModulePage now navigates from meta.
+/** Previous / next module in global order (by `num`). */
+export function adjacentModules(id: string): { prev?: ModuleMeta; next?: ModuleMeta } {
+  const ordered = [...modules].sort((a, b) => a.num - b.num);
+  const i = ordered.findIndex((m) => m.id === id);
+  if (i === -1) return {};
+  return { prev: ordered[i - 1], next: ordered[i + 1] };
+}
 
 export const LEVELS: Level[] = ['beginner', 'middle', 'senior', 'staff'];
 

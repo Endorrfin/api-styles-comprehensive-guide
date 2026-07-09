@@ -60,6 +60,11 @@ export const ui = {
   searchKindTopic: { en: 'Topic', uk: 'Тема' },
   searchKindGlossary: { en: 'Term', uk: 'Термін' },
 
+  // CHANGED (s13b): copy-code buttons + topic copy-links.
+  copyCode: { en: 'Copy code', uk: 'Копіювати код' },
+  copied: { en: 'Copied', uk: 'Скопійовано' },
+  copyLink: { en: 'Copy link to this topic', uk: 'Копіювати посилання на цю тему' },
+
   // Sim controls (shared)
   play: { en: 'Play', uk: 'Відтворити' },
   pause: { en: 'Pause', uk: 'Пауза' },

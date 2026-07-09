@@ -178,6 +178,41 @@ const u = await trpc.user.byId.query({ id: '42' }); // u: User — typed + autoc
             uk: 'Постав три типізовані стилі поруч. Усі три дають наскрізну типобезпеку; різняться вони тим, **що вимагають за неї**. **gRPC** (m10): `.proto` IDL, codegen, компактний бінарний wire-формат над HTTP/2 — polyglot і швидкий, найважчий тулчейн. **GraphQL** (m9): SDL-схема, runtime із resolver-ів, один гнучкий endpoint, де кожен клієнт формує власний запит — чудово для багатьох різнорідних клієнтів, приносить власний сервер. **tRPC**: без IDL, без codegen, звичайний HTTP+JSON — найлегший, але тільки TypeScript і внутрішній. Вісь, що вирішує, — **reach (охоплення)**: що різнорідніші й менш довірені твої споживачі, то більше тобі потрібен явний, мовно-нейтральний контракт — і то менше пасує tRPC.',
           },
         },
+        // CHANGED (s13b): the §D(5) honest strengths/weaknesses table — each strength paired
+        // with the shadow it casts (the audit flagged m6/m11 as the two style modules missing it).
+        {
+          kind: 'table',
+          head: [
+            { en: 'Strength', uk: 'Сильна сторона' },
+            { en: '…and its shadow', uk: '…і її тінь' },
+          ],
+          rows: [
+            [
+              { en: 'End-to-end types at near-zero ceremony — no IDL, no codegen; a server refactor lights up the client at compile time.', uk: 'Наскрізні типи майже без церемоній — без IDL, без codegen; рефактор сервера засвічує клієнта на compile time.' },
+              { en: 'The contract is invisible: nothing to publish, diff or review — a breaking API change hides inside an ordinary type change.', uk: 'Контракт невидимий: нічого публікувати, diff-ати чи ревʼювати — breaking-зміна API ховається у звичайній зміні типу.' },
+            ],
+            [
+              { en: 'Plain HTTP + JSON underneath — no new wire format, proxies and DevTools just work.', uk: 'Під низом звичайний HTTP + JSON — без нового wire-формату, proxy та DevTools просто працюють.' },
+              { en: 'The URL is an implementation detail — REST\'s resource semantics (caching, per-route authz at the edge) don\'t apply.', uk: 'URL є деталлю реалізації — семантика ресурсів REST (кешування, per-route authz на краю) не застосовується.' },
+            ],
+            [
+              { en: 'One zod schema per procedure yields both the runtime validation and the inferred static type.', uk: 'Одна zod-схема на процедуру дає і runtime-валідацію, і виведений статичний тип.' },
+              { en: 'Skip that validator and the "type safety" is a compile-time illusion — the wire checks nothing by itself.', uk: 'Пропусти цей валідатор — і «типобезпека» стане ілюзією compile-time: сам дріт не перевіряє нічого.' },
+            ],
+            [
+              { en: 'httpBatchLink folds same-tick calls into one HTTP request for free.', uk: 'httpBatchLink безкоштовно згортає виклики одного tick в один HTTP-запит.' },
+              { en: 'Batches blur the edge: per-call rate limiting, logging and tracing see one request carrying N procedures.', uk: 'Батчі розмивають edge: per-call rate limiting, логування і tracing бачать один запит, що несе N процедур.' },
+            ],
+            [
+              { en: 'Zero contract drift inside the monorepo — the compiler is the CI for your API.', uk: 'Нуль дрейфу контракту всередині monorepo — компілятор є CI для твого API.' },
+              { en: 'The first non-TS consumer (Swift/Kotlin app, a partner) forces a second, real contract — the delete-the-translation bet inverts.', uk: 'Перший не-TS споживач (Swift/Kotlin застосунок, партнер) змушує до другого, справжнього контракту — ставка «викинь переклад» перевертається.' },
+            ],
+          ],
+          caption: {
+            en: 'The honest table: tRPC\'s strengths all come from having no contract artifact — and so do its weaknesses.',
+            uk: 'Чесна таблиця: усі сильні сторони tRPC походять із відсутності артефакту контракту — і слабкості теж.',
+          },
+        },
         {
           kind: 'compare',
           a: { en: 'tRPC', uk: 'tRPC' },

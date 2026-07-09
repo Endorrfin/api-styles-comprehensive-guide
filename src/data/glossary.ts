@@ -558,4 +558,102 @@ export const glossary: GlossaryEntry[] = [
     },
     seeAlso: ['Strangler fig', 'Schema registry'],
   },
+  // CHANGED (s13b): glossary gap sweep — the styles that lacked their own entry (SOAP, OData,
+  // JSON-RPC), the auth/identity cluster (m17), and cross-style mechanics named daily in reviews.
+  {
+    term: 'SOAP',
+    def: {
+      en: 'An XML protocol where every call is an Envelope (Header for security/addressing, Body for payload) described by a WSDL contract; transport-independent, extended by the WS-* stack inside the message.',
+      uk: 'XML-протокол, де кожен виклик є Envelope (Header для безпеки/адресації, Body для payload), описаним WSDL-контрактом; незалежний від транспорту, розширюваний стеком WS-* всередині повідомлення.',
+    },
+    seeAlso: ['WSDL', 'WS-Security'],
+  },
+  {
+    term: 'OData',
+    def: {
+      en: 'An OASIS standard (4.01 current) that adds a standardized query grammar over REST resources — $filter, $select, $expand, $orderby, paging — plus a machine-readable $metadata schema generic clients can discover.',
+      uk: 'Стандарт OASIS (актуальна 4.01), що додає стандартизовану граматику запитів над REST-ресурсами — $filter, $select, $expand, $orderby, пагінацію — плюс машиночитну схему $metadata, яку генеричні клієнти можуть відкривати самі.',
+    },
+    seeAlso: ['CSDL', 'REST'],
+  },
+  {
+    term: 'JSON-RPC',
+    def: {
+      en: 'A minimal RPC envelope (2.0): name a method, pass params, correlate the reply by id — over any transport (HTTP, WebSockets, stdio). Spoken today by LSP, Ethereum nodes and MCP.',
+      uk: 'Мінімальний RPC-конверт (2.0): назви метод, передай params, скорелюй відповідь за id — через будь-який транспорт (HTTP, WebSockets, stdio). Сьогодні ним говорять LSP, вузли Ethereum і MCP.',
+    },
+    seeAlso: ['Notification (JSON-RPC)'],
+  },
+  {
+    term: 'OAuth 2.0',
+    def: {
+      en: 'The delegation framework for API access: the client obtains a scoped, short-lived access token from an authorization server instead of holding the user\'s credentials. OAuth 2.1 (an IETF draft) consolidates practice: PKCE required, implicit flow removed.',
+      uk: 'Фреймворк делегування доступу до API: клієнт отримує scoped, короткоживучий access token від authorization server-а замість тримати креденшели користувача. OAuth 2.1 (draft IETF) консолідує практику: PKCE обов\'язковий, implicit flow прибрано.',
+    },
+    seeAlso: ['PKCE', 'OIDC', 'JWT'],
+  },
+  {
+    term: 'OIDC',
+    def: {
+      en: 'OpenID Connect — the identity layer on top of OAuth 2.0: adds an ID token (a JWT about the user), turning "may this app call the API?" into "who is this user?". AuthN where OAuth alone is delegation.',
+      uk: 'OpenID Connect — шар ідентичності над OAuth 2.0: додає ID token (JWT про користувача), перетворюючи «чи може цей застосунок викликати API?» на «хто цей користувач?». AuthN там, де сам OAuth є делегуванням.',
+    },
+    seeAlso: ['OAuth 2.0', 'JWT'],
+  },
+  {
+    term: 'JWT',
+    def: {
+      en: 'JSON Web Token (RFC 7519): a signed, self-contained claims token — base64url header.payload.signature — verifiable from its signature alone, no session store. The flip side: hard to revoke before expiry, so keep lifetimes short.',
+      uk: 'JSON Web Token (RFC 7519): підписаний самодостатній токен із claims — base64url header.payload.signature — верифікується самим підписом, без session store. Зворотний бік: важко відкликати до закінчення строку, тож тримай lifetimes короткими.',
+    },
+    seeAlso: ['OAuth 2.0', 'HMAC'],
+  },
+  {
+    term: 'PKCE',
+    def: {
+      en: 'Proof Key for Code Exchange (RFC 7636): the client sends a hashed one-time challenge with the authorization request and the plain verifier with the token request, binding the two so a stolen code alone is useless. Required in the OAuth 2.1 draft.',
+      uk: 'Proof Key for Code Exchange (RFC 7636): клієнт шле хешований одноразовий challenge з authorization-запитом і відкритий verifier з token-запитом, зв\'язуючи їх так, що сам украдений code є марним. Обов\'язковий у draft-і OAuth 2.1.',
+    },
+    seeAlso: ['OAuth 2.0'],
+  },
+  {
+    term: 'mTLS',
+    def: {
+      en: 'Mutual TLS: both ends present certificates, so the client is authenticated at the transport before any request is read — the workhorse of service-to-service identity; RFC 8705 can bind access tokens to the client cert.',
+      uk: 'Mutual TLS: обидва кінці пред\'являють сертифікати, тож клієнт автентифікований на транспорті ще до читання запиту — робоча конячка service-to-service ідентичності; RFC 8705 може прив\'язати access tokens до клієнтського сертифіката.',
+    },
+    seeAlso: ['OAuth 2.0'],
+  },
+  {
+    term: 'OpenAPI',
+    def: {
+      en: 'The machine-readable contract format for HTTP APIs (3.2.0 current): paths, schemas, security — powering docs, codegen, mocks and diff-based breaking-change checks. Opt-in for REST, where gRPC and GraphQL ship their contract built-in.',
+      uk: 'Машиночитний формат контракту для HTTP API (актуальна 3.2.0): paths, схеми, security — живить доки, codegen, моки та diff-перевірки breaking changes. Opt-in для REST — тоді як gRPC і GraphQL несуть контракт вбудованим.',
+    },
+    seeAlso: ['Contract testing', 'IDL'],
+  },
+  {
+    term: 'IDL',
+    def: {
+      en: 'Interface Definition Language — a language-neutral contract both ends generate code from: .proto for gRPC, WSDL for SOAP, SDL for GraphQL, CSDL for OData. The tighter the IDL, the earlier a break is caught — and the more the coupling costs.',
+      uk: 'Interface Definition Language — мовно-нейтральний контракт, з якого обидва кінці генерують код: .proto для gRPC, WSDL для SOAP, SDL для GraphQL, CSDL для OData. Що тісніший IDL, то раніше ловиться злам — і то дорожчий coupling.',
+    },
+    seeAlso: ['Protocol Buffers', 'WSDL', 'CSDL'],
+  },
+  {
+    term: 'Backpressure',
+    def: {
+      en: 'The consumer\'s ability to slow the producer so buffers don\'t grow without bound. TCP and HTTP/2 flow control give it to you; over raw WebSockets you build it yourself (watch bufferedAmount) or the server\'s memory pays.',
+      uk: 'Здатність consumer-а сповільнити producer-а, щоб буфери не росли без межі. TCP і flow control HTTP/2 дають її безкоштовно; над сирими WebSockets будуєш сам (стеж за bufferedAmount) — інакше платить пам\'ять сервера.',
+    },
+    seeAlso: ['Full-duplex', 'HTTP/2'],
+  },
+  {
+    term: 'Long polling',
+    def: {
+      en: 'The pre-SSE push workaround: the server holds a request open until an event arrives (or a timeout), the client re-asks immediately. Works through everything HTTP works through; costs one full request cycle per event.',
+      uk: 'Обхідний push до появи SSE: сервер тримає запит відкритим, доки не з\'явиться подія (або timeout), клієнт одразу питає знову. Проходить крізь усе, крізь що проходить HTTP; коштує повний цикл запиту на кожну подію.',
+    },
+    seeAlso: ['SSE', 'WebSocket'],
+  },
 ];

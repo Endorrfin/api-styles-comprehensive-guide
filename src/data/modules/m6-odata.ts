@@ -136,6 +136,41 @@ export const m6: Module = {
             uk: 'OData сяє там, де робота API — **відкрити модель даних генеричним, спраглим до запитів споживачам**: enterprise/внутрішні data-сервіси за адмін-UI та data-грідами; BI і звітність (Excel, Power BI і друзі підключаються нативно); продукти в гравітаційному полі Microsoft/SAP, де екосистема вже ним говорить; будь-яке місце, де інакше розростається endpoint-на-звіт. Він розвʼязує той самий біль over-/under-fetching, що й GraphQL (m9), але простішим HTTP: GET-и з query string — у принципі кешовані, без нового runtime, без resolver-ів. Якщо твої споживачі — *відомі застосунки з кураторськими екранами*, REST-endpoint-и простіші; якщо це *аналітики з питаннями, яких не передбачиш*, — граматика OData відпрацьовує своє.',
           },
         },
+        // CHANGED (s13b): the §D(5) honest strengths/weaknesses table — each strength paired
+        // with the shadow it casts (the audit flagged m6/m11 as the two style modules missing it).
+        {
+          kind: 'table',
+          head: [
+            { en: 'Strength', uk: 'Сильна сторона' },
+            { en: '…and its shadow', uk: '…і її тінь' },
+          ],
+          rows: [
+            [
+              { en: 'One resource family answers unpredictable queries — no endpoint-per-report sprawl.', uk: 'Одна родина ресурсів відповідає на непередбачувані запити — без розростання endpoint-на-звіт.' },
+              { en: 'You are operating a public query planner: cost control ($top caps, $expand depth, timeouts) becomes your job.', uk: 'Ти експлуатуєш публічний query planner: контроль вартості ($top-ліміти, глибина $expand, timeouts) стає твоєю роботою.' },
+            ],
+            [
+              { en: '$metadata (CSDL) lets generic clients — Excel, Power BI, admin grids — connect with zero custom code.', uk: '$metadata (CSDL) дає генеричним клієнтам — Excel, Power BI, адмін-грідам — підключатися без жодного кастомного коду.' },
+              { en: 'Full-spec conformance is heavy, so solid server libraries thin out fast outside the .NET/Java gravity well.', uk: 'Повна відповідність специфікації важка, тож солідні серверні бібліотеки швидко ріднуть поза гравітаційним полем .NET/Java.' },
+            ],
+            [
+              { en: 'Plain GETs keep HTTP semantics: cacheable in principle, curl-debuggable, gateway-friendly.', uk: 'Звичайні GET-и зберігають семантику HTTP: у принципі кешовані, дебажні через curl, дружні до gateway.' },
+              { en: 'In practice hit rates crater — every $filter/$select permutation is a distinct URL the cache has never seen.', uk: 'На практиці hit rate провалюється — кожна пермутація $filter/$select є окремим URL, якого кеш ніколи не бачив.' },
+            ],
+            [
+              { en: 'Change sets in $batch give atomic multi-entity writes over plain HTTP.', uk: 'Change set-и в $batch дають атомарні мульти-entity записи через звичайний HTTP.' },
+              { en: 'A batch is an opaque POST — per-request authz, rate limits and observability go blind at the gateway.', uk: 'Batch є непрозорим POST-ом — per-request authz, rate limits і observability сліпнуть на gateway.' },
+            ],
+            [
+              { en: 'The typed entity model (EDM) makes the whole surface machine-checkable.', uk: 'Типізована entity-модель (EDM) робить усю поверхню машинно-перевірною.' },
+              { en: 'Your data model IS the contract — storage-shape refactors leak straight into consumers you cannot see.', uk: 'Твоя модель даних І Є контрактом — рефактори форми сховища протікають прямо у споживачів, яких ти не бачиш.' },
+            ],
+          ],
+          caption: {
+            en: 'The honest table: every OData strength is a query-power feature, and every weakness is the bill for exactly that power.',
+            uk: 'Чесна таблиця: кожна сильна сторона OData є фічею сили запитів, і кожна слабкість — рахунком саме за цю силу.',
+          },
+        },
         {
           kind: 'compare',
           a: { en: 'Reach for OData', uk: 'Бери OData' },

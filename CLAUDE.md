@@ -27,6 +27,11 @@ model it assumes · its limits · its alternatives · strengths/weaknesses · wh
 - **Meta split (live since S10a):** `gen:meta` derives `src/data/meta.json` (committed; `check:meta` in
   `typecheck` guards drift); the eager shell imports `src/data/meta.ts`, not `concepts.ts`, so module
   bodies stay out of the initial bundle (eager index ~78 kB; bodies in the lazy `concepts` chunk).
+- **Per-section body split (live since S13b):** module BODIES load via `src/data/bodies.ts`
+  (`loadModule`/`getLoadedModule` over `src/data/sections/s*.ts`) — six lazy chunks instead of one
+  ~1 MB `concepts` chunk; a cold module open pulls only its own section (36–112 kB gzip). ModulePage
+  renders header/TOC from meta synchronously; `concepts.ts` stays the node-side SSOT (genMeta /
+  check-data / smoke). The smoke warms the cache, then renders full bodies synchronously.
 - **Guide-specific:** **decision-first framing** (§ PROJECT-BRIEF §5); **REST is the baseline** every later
   style is taught as a delta from; **Webhooks belong to Section III** (event/callback), not req/resp.
 
@@ -34,8 +39,8 @@ model it assumes · its limits · its alternatives · strengths/weaknesses · wh
 ```
 src/
   main.tsx · App.tsx · vite-env.d.ts
-  data/      concepts.ts (SSOT aggregator) · modules/mN-*.ts · types.ts · glossary.ts · mentalModels.ts ·
-             decide.ts · meta.ts · meta.json (generated)
+  data/      concepts.ts (SSOT aggregator) · modules/mN-*.ts · sections/s*.ts + bodies.ts (per-section
+             lazy body chunks, s13b) · types.ts · glossary.ts · mentalModels.ts · meta.ts · meta.json (generated)
   i18n/      lang.ts (useLang) · LangProvider.tsx · ui.ts
   lib/       hashRouter.ts · registry.tsx (sims+figures) · search.ts · appState.ts · utils.ts ·
              rest.ts + other sim engines
@@ -182,10 +187,58 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S13a (done)** — `m24-decision-framework` (staff, Section V) + the **`style-picker`** signature
   interactive (engine `lib/picker.ts` + `scripts/test-picker.ts` + `StylePickerSim`) wired as the
   `#/decide` page. **24 / 25 authored; all 9 signature sims spent.**
-- **S13b** — `m25-mental-models` (the last module), glossary polish, the polish backlog (copy-code
-  buttons, `og:image`, topic copy-links, sticky table headers, S/W tables m6/m11), launch.
+- **S13b (done)** — `m25-mental-models` (25/25 — content-complete), glossary polish (+12 terms → 81,
+  clickable seeAlso, A–Z row, check:data guard), the polish backlog (copy-code buttons, `og:image`
+  share card, topic copy-links, sticky long-table headers, S/W tables m6/m11), the per-section body
+  split (six lazy chunks replace the ~1 MB `concepts` chunk), launch-readiness. **Owner launches:**
+  merge to `main` → Actions deploys.
 
 ## 14. Status / progress log
+- **S13b** (2026-07-09) — **CONTENT-COMPLETE (25/25) + polish batch + per-section body split +
+  launch-ready.** Authored **`m25-mental-models`** (beginner, s5-choosing order 2; 4 topics:
+  one-liner-per-style (12-style table: one-liner · buys · costs, compressing each module's
+  mentalModel) → when-not-to-use-each (12-style tell + reach-for-instead gallery, substance-matched
+  to `lib/picker.ts` WHEN_NOT so `#/decide` and the module can't contradict) → the-axes-recap (the 7
+  compass axes, one line each; the MCP-placed-in-30-seconds proof) → glossary-bridge (7 term-clusters
+  pinned to their teaching modules — every named term verified to exist); 6 keyPoints, 3 pitfalls,
+  1 middle + 1 staff interview, 6 canonical sources; `stub()` retired from concepts.ts. **Glossary
+  polish:** +12 gap-sweep terms (SOAP, OData, JSON-RPC, OAuth 2.0, OIDC, JWT, PKCE, mTLS, OpenAPI,
+  IDL, Backpressure, Long polling → **81**; facts pinned: JWT 7519, PKCE 7636, mTLS 8705, OData 4.01,
+  OpenAPI 3.2.0, OAuth 2.1 still an IETF draft); GlossaryPage: **clickable seeAlso** (`#/glossary/<term>`
+  deep-links; `%2F` survives the router split — verified), **A–Z jump row**, term count; **check:data
+  now guards the glossary** (unique/bilingual/seeAlso-resolve). **Polish backlog shipped:** copy-code
+  buttons (clipboard + aria-live "Copied", bilingual); topic copy-links (anchor on every h2 — navigates
+  AND copies the absolute deep URL, `hover:none` always-visible, SR live region); sticky headers for
+  long tables (rows ≥ 8 → `.dtable-wrap--tall` capped-height scroll region, sticky thead inside —
+  viewport-sticky is impossible inside the overflow-x wrapper; keyboard-operable per QA);
+  **`og:image`** 1200×630 brand share card (violet×cyan compass motif; rendered via scratch
+  `scripts/_render-og.ts` + resvg; og/twitter meta with absolute URLs) + S/W honest tables (§D(5))
+  for **m6** and **m11** (strength ↔ its shadow pairs). **Per-section body split** (S12b's open
+  suggestion): new `data/sections/s*.ts` (6) + `data/bodies.ts` (cached `loadModule`, inflight
+  de-dupe, failure retryable); ModulePage renders header/TOC from meta sync + body async (derived
+  from cache — no stale frame; error state with Try-again; reduced-motion-gated deep-link scroll);
+  mentalModels.ts now derives from meta (gallery chunk body-free); `meta.ts` grew `adjacentModules`;
+  smoke Layer C = 1 cold render + cache-warm full-body renders. **The ~974 kB (gzip 323) `concepts`
+  chunk is GONE** → s0 45 · s1 44 · s2 39 · s3 69 · s4 112 · s5 36 kB gzip; eager index 129.5 kB
+  gzip 46. Also fixed the S13a `var(--bg2)` ghost (undefined token → transparent picker panels/bars;
+  now `--surface`, all 6 uses). **QA pass** (independent subagent: gates re-run, picker/compass/m8
+  cross-checks, web-verified version facts, a11y sweep): **no P1s**; fixed all 3 P2s (chunk-load
+  failure was permanent+silent → `.finally` inflight cleanup + retry UI; module deep-link scroll now
+  respects reduced-motion; tall tables keyboard-operable `role="region"` + tabIndex) + the P3 batch
+  («в цифровому одязі»→«записаним числом», «як підлога»→«як нижня межа», «гайд навчив»→«розібрав» ×2,
+  «оціненими»→«з відомою ціною», UK «дворічної давності»→«двох версій тому» EN-parity, "draggable"→
+  "interactive" compass caption, picker-caption veto/verdict-card conflation, copy-link SR live
+  region, one-frame stale-body). **All gates GREEN**: typecheck (+check:meta) · lint · check:data
+  (**25 authored** / 25, **81 terms**) · test (10 engines) · smoke (**254 checks** — +1 cold-render) ·
+  build (`--outDir dist-s13b`/`-s13b2`/`-s13b3`). README Status rewritten for launch; deploy.yml
+  verified (gates → Pages, uploads `dist`). *Branch:* `s13b-mental-models-launch`. *Commit:* `feat:
+  author m25 (mental models & when-NOT gallery) + glossary polish + copy-code/copy-links/sticky/og
+  polish + per-section body split — content-complete`. **Commit `src/data/meta.json`** (check:meta
+  guards it). *Cleanup:* `rm -rf dist-s13b dist-s13b2 dist-s13b3 && rm scripts/_render-og.ts` (scratch
+  builds + og render helper; sandbox can't unlink) — `@resvg/resvg-js` was installed `--no-save`, so
+  a fresh owner `npm install`/`npm ci` ignores it. *Open items:* **owner launch** = merge to `main` →
+  Actions deploys; optional post-launch: LinkedIn pack (deferred §9), refresh `og-image.png` if the
+  brand evolves.
 - **S13a** (2026-07-09) — **Section V opens: the decision framework + the last signature sim.**
   Authored **`m24-decision-framework`** (staff, signature; 6 topics: the-decision-tree (sim) →
   the-trade-off-matrix (8-style × 6-column table, "read by columns") → anti-patterns (6 named failure

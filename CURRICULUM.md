@@ -136,4 +136,7 @@ Turn the whole guide into a decision. The picker and the mental-models recap.
    `gateway-topology`) — **Section IV complete; 23 / 25 modules authored.**
 10. **S13a (done):** `m24-decision-framework` + the `style-picker` signature interactive (engine +
     golden test + sim), wired as the `#/decide` page — **24 / 25 modules authored; all 9 signature
-    sims shipped.** **S13b:** `m25-mental-models`; glossary polish; the polish backlog; launch.
+    sims shipped.** **S13b (done):** `m25-mental-models` — **25 / 25, content-complete**; glossary
+    polish (81 terms, clickable seeAlso, A–Z, check:data guard); the polish backlog (copy-code,
+    `og:image`, topic copy-links, sticky long-table headers, S/W tables m6/m11); the per-section
+    body split (6 lazy chunks). **Launch:** owner merges to `main` → Actions deploys.

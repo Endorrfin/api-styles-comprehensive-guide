@@ -2220,7 +2220,9 @@
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 0.6rem 0.7rem;
-  background: var(--bg2);
+  /* CHANGED (s13b): --bg2 was never defined (rendered transparent) — house token is --surface.
+     Same fix applied to every var(--bg2) in this file. */
+  background: var(--surface);
 }
 .spk-q-head {
   display: flex;
@@ -2291,7 +2293,7 @@
   border-left-width: 4px;
   border-radius: 10px;
   padding: 0.6rem 0.8rem;
-  background: color-mix(in srgb, var(--sc, var(--accent)) 7%, var(--bg2));
+  background: color-mix(in srgb, var(--sc, var(--accent)) 7%, var(--surface));
 }
 .spk-win-tag {
   font-size: 0.72rem;
@@ -2382,7 +2384,7 @@
   border-radius: 7px;
 }
 .spk-row:hover {
-  background: var(--bg2);
+  background: var(--surface);
   color: var(--tx);
 }
 .spk-row.lead .spk-row-name {
@@ -2396,7 +2398,7 @@
 .spk-row-bar {
   height: 5px;
   border-radius: 999px;
-  background: var(--bg2);
+  background: var(--surface);
   overflow: hidden;
 }
 .spk-row-fill {
@@ -2416,4 +2418,117 @@
     grid-template-columns: 6.5rem 2.6rem 1fr;
     gap: 0.4rem;
   }
+}
+
+/* ── Glossary polish (s13b): A–Z jump row + clickable seeAlso links ───────── */
+.gloss-az {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.9rem 0 0.4rem;
+}
+.gloss-az-btn {
+  min-width: 1.9rem;
+  padding: 0.22rem 0.45rem;
+  font-size: 0.78rem;
+  color: var(--tx2);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+}
+.gloss-az-btn:hover,
+.gloss-az-btn:focus-visible {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.gloss-see-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-underline-offset: 2px;
+}
+.gloss-see-link:hover,
+.gloss-see-link:focus-visible {
+  color: var(--accent);
+}
+
+/* ── Copy-code button (s13b) ──────────────────────────────────────────────── */
+.code-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+.code-copy {
+  font: inherit;
+  font-size: 0.72rem;
+  color: var(--tx2);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.12rem 0.6rem;
+  cursor: pointer;
+  transition: color 120ms, border-color 120ms;
+}
+.code-copy:hover,
+.code-copy:focus-visible {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.code-copy--ok,
+.code-copy--ok:hover {
+  color: var(--accent-2);
+  border-color: color-mix(in srgb, var(--accent-2) 55%, transparent);
+}
+
+/* ── Topic copy-links (s13b) ──────────────────────────────────────────────── */
+.topic-h {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+.topic-link {
+  opacity: 0;
+  font-size: 0.85em;
+  font-weight: 400;
+  color: var(--tx3);
+  text-decoration: none;
+  transition: opacity 120ms, color 120ms;
+}
+.topic-h:hover .topic-link,
+.topic-link:focus-visible,
+.topic-link--ok {
+  opacity: 1;
+}
+.topic-link:hover,
+.topic-link:focus-visible {
+  color: var(--accent);
+}
+.topic-link--ok {
+  color: var(--accent-2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .code-copy,
+  .topic-link {
+    transition: none;
+  }
+}
+/* Touch devices have no hover — keep the anchor visible. */
+@media (hover: none) {
+  .topic-link {
+    opacity: 1;
+  }
+}
+
+/* ── Sticky table headers for long tables (s13b) ──────────────────────────── */
+.dtable-wrap--tall {
+  max-height: min(72vh, 42rem);
+  overflow: auto;
+}
+.dtable-wrap--tall .dtable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg);
 }

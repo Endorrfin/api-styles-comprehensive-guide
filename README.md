@@ -47,7 +47,8 @@ npm run verify     # all of the above + build
 ## Project layout
 ```
 src/
-  data/        concepts.ts (SSOT) · modules/ · meta.ts/meta.json · glossary · mentalModels · decide · types
+  data/        concepts.ts (SSOT) · modules/ · sections/ + bodies.ts (per-section lazy chunks) ·
+               meta.ts/meta.json · glossary · mentalModels · types
   i18n/        ui strings + EN/UA language provider
   theme/       tokens.css · global.css · components.css
   lib/         hashRouter · search · registry (sims + figures) · appState · utils · sim engines
@@ -60,10 +61,11 @@ Edit **only** `src/data/*`. Add a module file under `src/data/modules/`, referen
 and register new widgets in `src/lib/registry.tsx`. Author EN first, UA second. Run `npm run check:data`.
 
 ## Status
-**S1 delivered:** scaffold + the four meta-docs (this README, `PROJECT-BRIEF.md`, `CURRICULUM.md`,
-`CLAUDE.md`) with the full 6-section / 25-module plan. **Next:** the golden **REST** module + its
-signature simulator, on top of the ported React shell. Subsequent sessions author the remaining modules
-and signature sims, 1–2 per session.
+**Content-complete (S13b, July 2026): all 25 modules authored across 6 sections, all 9 signature
+interactives shipped**, 24 figures, an 81-term cross-linked glossary, and the polish batch (copy-code
+buttons, topic deep-links, sticky long-table headers, share card). Bodies load per section
+(6 lazy chunks), so a cold module open pulls only its own section. Every deploy passes the full gate:
+typecheck · lint · data integrity · 10 engine test suites · 254 SSR smoke checks (EN + UK) · build.
 
 ---
 

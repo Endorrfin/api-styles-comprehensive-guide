@@ -2,10 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { glossary } from '../../data/glossary';
 import { useLang } from '../../i18n/lang';
 import { ui } from '../../i18n/ui';
+import { hrefGlossary } from '../../lib/hashRouter';
 import { cx } from '../../lib/utils';
 
 // Accepts an optional `term` (deep-link from global search → #/glossary/<term>); scrolls that entry
 // into view and highlights it briefly. The local filter box still works.
+// CHANGED (s13b): seeAlso rendered as real #/glossary/<term> links (was plain text), A–Z jump row,
+// and a live term count. Sorting/highlight behaviour unchanged.
 export function GlossaryPage({ term }: { term?: string } = {}) {
   const { t, lang } = useLang();
   const [q, setQ] = useState('');
@@ -22,13 +25,28 @@ export function GlossaryPage({ term }: { term?: string } = {}) {
     )
     .sort((a, b) => a.term.localeCompare(b.term));
 
+  // CHANGED (s13b): first entry per initial letter (A–Z; anything else groups under '#').
+  const letterOf = (s: string) => {
+    const c = s[0]?.toUpperCase() ?? '#';
+    return c >= 'A' && c <= 'Z' ? c : '#';
+  };
+  const firstByLetter = new Map<string, string>();
+  for (const g of entries) {
+    const l = letterOf(g.term);
+    if (!firstByLetter.has(l)) firstByLetter.set(l, g.term);
+  }
+
+  const scrollToTerm = (name: string, center: boolean) => {
+    const el = refs.current.get(name);
+    if (!el) return;
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: center ? 'center' : 'start' });
+  };
+
   useEffect(() => {
     setHighlight(term);
     if (!term) return;
-    const el = refs.current.get(term);
-    if (!el) return;
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    scrollToTerm(term, true);
     const id = window.setTimeout(() => setHighlight(undefined), 2400);
     return () => window.clearTimeout(id);
   }, [term]);
@@ -40,7 +58,10 @@ export function GlossaryPage({ term }: { term?: string } = {}) {
         {t({
           en: 'Core terms, bilingual. Technical terms stay English; the explanation follows the language toggle.',
           uk: 'Базові терміни, двомовно. Технічні терміни лишаються англійською; пояснення йде за перемикачем мови.',
-        })}
+        })}{' '}
+        <span className="dim">
+          {glossary.length} {t({ en: 'terms', uk: 'термінів' })}
+        </span>
       </p>
       <div className="searchbox glossary-search">
         <span className="search-ic" aria-hidden="true">
@@ -57,6 +78,20 @@ export function GlossaryPage({ term }: { term?: string } = {}) {
           aria-label={t(ui.search)}
         />
       </div>
+      {!needle && firstByLetter.size > 1 && (
+        <nav className="gloss-az" aria-label={t({ en: 'Jump to letter', uk: 'Перейти до літери' })}>
+          {[...firstByLetter.entries()].map(([l, first]) => (
+            <button
+              key={l}
+              type="button"
+              className="gloss-az-btn mono"
+              onClick={() => scrollToTerm(first, false)}
+            >
+              {l}
+            </button>
+          ))}
+        </nav>
+      )}
       <dl className="glossary">
         {entries.map((g) => (
           <div
@@ -71,7 +106,18 @@ export function GlossaryPage({ term }: { term?: string } = {}) {
             <dd>
               {g.def[lang] || g.def.en}
               {g.seeAlso && g.seeAlso.length > 0 && (
-                <span className="gloss-see dim"> → {g.seeAlso.join(', ')}</span>
+                <span className="gloss-see dim">
+                  {' '}
+                  →{' '}
+                  {g.seeAlso.map((sa, i) => (
+                    <span key={sa}>
+                      {i > 0 && ', '}
+                      <a className="gloss-see-link" href={hrefGlossary(sa)}>
+                        {sa}
+                      </a>
+                    </span>
+                  ))}
+                </span>
               )}
             </dd>
           </div>
