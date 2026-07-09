@@ -132,5 +132,6 @@ Turn the whole guide into a decision. The picker and the mental-models recap.
    modules authored.** **S12a (done):** `m20-pagination-limits` (+ the `pagination-compare` sim,
    promoted from optional per PROJECT-BRIEF §10) + `m21-idempotency` (figure `outbox-saga`) + the
    §D(7) security-threat callouts retrofitted into m8/m13/m16 — **21 / 25 modules authored.**
-   **S12b:** `m22-security-threats`, `m23-observability`.
+   **S12b (done):** `m22-security-threats` (figure `trust-boundaries`) + `m23-observability` (figure
+   `gateway-topology`) — **Section IV complete; 23 / 25 modules authored.**
 10. **S13:** `m24-decision-framework` + `style-picker`; `m25-mental-models`; glossary; polish; launch.

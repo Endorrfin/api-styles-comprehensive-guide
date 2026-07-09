@@ -177,10 +177,50 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
 - **S12a (done)** — `m20-pagination-limits` (+ the `pagination-compare` interactive, promoted from
   the optional figure per PROJECT-BRIEF §10) + `m21-idempotency` (+ figure `outbox-saga`) + the §D(7)
   security-threat callouts retrofitted into m8/m13/m16.
-- **S12b** — Section IV remainder: `m22-security-threats`, `m23-observability`.
+- **S12b (done)** — Section IV remainder: `m22-security-threats` (+ figure `trust-boundaries`) +
+  `m23-observability` (+ figure `gateway-topology`). **Section IV complete; 23 / 25 authored.**
 - **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
 
 ## 14. Status / progress log
+- **S12b** (2026-07-09) — **Section IV complete.** Authored **`m22-security-threats`** (staff, 8
+  deep-link topics: injection · ssrf · cors · csrf · dos-complexity-attacks · deserialization ·
+  tls-everywhere · secrets-and-replay+verdict; 6 keyPoints, 3 pitfalls, 2 staff interviews, 9 sources)
+  with figure **`trust-boundaries`** (untrusted→edge→trusted zones; injection/CSRF/SSRF drawn by the
+  line each crosses) and **`m23-observability`** (senior, 6 topics: logging-metrics-tracing ·
+  opentelemetry-traceparent · api-gateways-bff · schema-registries · contract-testing ·
+  versioned-docs-openapi+verdict; 6/3/2, 9 sources) with figure **`gateway-topology`** (clients →
+  gateway → per-client BFFs → services, with a `traceparent` rail carrying one trace_id edge-to-hop).
+  **Scope-fenced against overlap:** authz/BOLA/mTLS mechanics stay in m17, rate-limiting in m20, TLS
+  termination cross-ref only, Pact intro in m18, broker/Kafka in m16 — the new modules point back
+  rather than re-teach. **Both figures PNG-rendered EN+UK and eyeballed** (house S11/S12a practice, via
+  a scratch `scripts/_render-fig.ts` + resvg): fixed the SSRF arrow that speared the DB box and its
+  colliding label (rerouted clear + relabelled to open space), and pulled the injection/CSRF labels back
+  inside the untrusted zone. +12 glossary terms (SSRF, CORS, CSRF, SameSite, Prototype pollution,
+  traceparent, OpenTelemetry, Span, API gateway, BFF, Schema registry, Contract testing → 67 total).
+  **Web-verified the version-sensitive facts** (OWASP API Top 10 **2023**: SSRF = **API7:2023**,
+  Unrestricted Resource Consumption = **API4:2023**; IMDS = link-local **169.254.169.254**, IMDSv2
+  token-gated, Capital One 2019 = SSRF→IMDS; `SameSite=Lax` Chromium default since Chrome 80 / 2020-02
+  with the ~120 s unspecified-cookie top-level-POST window, not default in FF/Safari; HTTP/2 Rapid Reset
+  = **CVE-2023-44487**, disclosed 2023-10, ~**398M rps** Google; TLS = **BCP 195 / RFC 9325** (2022),
+  prefer 1.3, 1.2 floor; **OpenTelemetry** traces/metrics/logs **GA** + OTLP; **W3C Trace Context**
+  `traceparent` = version-traceid(16 B)-spanid(8 B)-flags, `01`=sampled, Level 2 = CR not REC;
+  **OpenAPI 3.2.0** = 2025-09; Confluent compat modes BACKWARD/FORWARD/FULL; Pact consumer-driven +
+  PactFlow BDCT). **Self-QA pass** (independent subagent was cut off by a session limit, so ran the
+  checks directly): bilingual scan clean (no U+FFFD, no mixed-script words, technical tokens kept
+  English), hand-traced the prototype-pollution example (`__proto__` via a naive merge → poisoned
+  `Object.prototype`), and **fixed one factual imprecision** — the BACKWARD-compatibility callout wrongly
+  said "never remove a required field" (under BACKWARD a new reader can drop fields; the real constraint
+  is that an *added* field needs a default) → corrected EN+UK, re-verified green. **All gates GREEN**:
+  typecheck (+check:meta) · lint · check:data (**23 authored** / 25) · test (**9 engines**) · smoke
+  (**247 checks**, 9 sims + **24 figures** EN+UK) · build (`--outDir dist-s12b`/`dist-s12b2`; eager index
+  119 kB gzip 42, bodies in the lazy `concepts` chunk 915 kB gzip 303). *Branch:*
+  `s12b-security-observability`. *Commit:* `feat: author m22 (security & threat models) + trust-boundaries
+  figure + m23 (observability & gateways) + gateway-topology figure + 12 glossary terms`. **Commit
+  `src/data/meta.json`** (check:meta guards it). *Cleanup:* `rm -rf dist-s12b dist-s12b2` (scratch builds)
+  + `rm scripts/_render-fig.ts` (scratch figure-QA helper; the sandbox couldn't unlink it). *Open items:*
+  **S13** = `m24-decision-framework` + `style-picker` (the last signature sim — this is what the owner's
+  screenshot shows), `m25-mental-models`, glossary polish, launch; polish backlog still open (copy-code
+  buttons, `og:image`, topic copy-links, sticky table headers, S/W tables for m6/m11).
 - **S1** (2026-07-01) — **Bootstrap.** Ran `guide-factory` scaffolder (`API Styles guide`, slug
   `api-styles-comprehensive-guide`, self-check ✓). Authored all four meta-docs: PROJECT-BRIEF (locked
   decisions, golden = REST), CURRICULUM (6 sections · 25 modules · 9 signature sims), CLAUDE, bilingual

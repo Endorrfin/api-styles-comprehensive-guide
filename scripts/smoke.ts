@@ -101,6 +101,8 @@ const FIG_CANARIES: Record<string, string[]> = {
   VersionStrategies: ["API-Version", "Accept"], // s11 · m18 (URI vs header vs media-type)
   ProblemDetails: ["problem+json", "grpc-status"], // s11 · m19 (RFC 9457 mapped across styles)
   OutboxSaga: ["outbox", "Relay"], // s12a · m21 (dual-write vs outbox; saga compensation chain)
+  TrustBoundaries: ["CORS", "169.254.169.254"], // s12b · m22 (untrusted/edge/trusted; injection/CSRF/SSRF)
+  GatewayTopology: ["API Gateway", "traceparent"], // s12b · m23 (clients→gateway→BFF→services; trace rail)
 };
 
 async function main(): Promise<void> {

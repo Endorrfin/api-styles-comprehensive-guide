@@ -1720,13 +1720,76 @@
         "uk": "Injection, SSRF, CORS/CSRF, DoS, deserialization."
       },
       "mentalModel": {
-        "en": "Every input is hostile until proven otherwise: validate at the boundary, least-privilege behind it.",
-        "uk": "Кожен вхід ворожий, доки не доведено інше: валідуй на межі, least-privilege за нею."
+        "en": "**Every input is hostile until proven otherwise, and every hop is untrusted until it is authenticated.** Security at an API boundary is two disciplines wearing one badge. The first is a *data* discipline: everything that crosses the boundary — a query string, a JSON body, a header, a URL you are asked to fetch, a blob you are asked to deserialize — is untrusted **data**, never trusted **code**, and the whole catalogue of injection, SSRF, and deserialization bugs is what happens when that line blurs and data gets to *act*. The second is a *trust* discipline: the network is not a security boundary (a foothold inside the perimeter must buy nothing), credentials the browser attaches automatically are ambient authority an attacker can borrow (CSRF), and the browser controls that guard cross-origin reads (CORS) protect the *user*, not your server. Two questions carry the module: **\"where is my trust boundary?\"** and **\"what am I letting cross it?\"** Authentication and authorization — who the caller is and what they may touch — is the other half of the story, and it lives in m17; this module is everything else the OWASP API Top 10 warns about.",
+        "uk": "**Кожен вхід ворожий, доки не доведено інше, і кожен хоп недовірений, доки не автентифікований.** Безпека на межі API — це дві дисципліни під одним значком. Перша — дисципліна *даних*: усе, що перетинає межу — query string, JSON-тіло, заголовок, URL, який тебе просять зафетчити, blob, який просять десеріалізувати, — це недовірені **дані**, ніколи не довірений **код**, і весь каталог injection, SSRF і deserialization-багів — це те, що стається, коли ця межа розмивається і дані отримують право *діяти*. Друга — дисципліна *довіри*: мережа не є межею безпеки (плацдарм усередині периметра має не купувати нічого), креденшели, які браузер чіпляє автоматично, — це ambient authority, яку атакер може позичити (CSRF), а браузерні контролі, що стережуть cross-origin читання (CORS), захищають *користувача*, а не твій сервер. Два питання несуть модуль: **«де моя межа довіри?»** і **«що я пускаю крізь неї?»** Автентифікація й авторизація — хто викликач і що йому можна чіпати — це інша половина історії, і вона в m17; цей модуль — усе решта, про що попереджає OWASP API Top 10."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 18,
+      "topics": [
+        {
+          "id": "injection",
+          "title": {
+            "en": "Injection",
+            "uk": "Injection"
+          }
+        },
+        {
+          "id": "ssrf",
+          "title": {
+            "en": "SSRF — the confused deputy",
+            "uk": "SSRF — заплутаний депутат"
+          }
+        },
+        {
+          "id": "cors",
+          "title": {
+            "en": "CORS — what it is and is not",
+            "uk": "CORS — що це і що ні"
+          }
+        },
+        {
+          "id": "csrf",
+          "title": {
+            "en": "CSRF & ambient authority",
+            "uk": "CSRF та ambient authority"
+          }
+        },
+        {
+          "id": "dos-complexity-attacks",
+          "title": {
+            "en": "DoS by complexity, not volume",
+            "uk": "DoS складністю, а не обсягом"
+          }
+        },
+        {
+          "id": "deserialization",
+          "title": {
+            "en": "Unsafe deserialization",
+            "uk": "Небезпечна десеріалізація"
+          }
+        },
+        {
+          "id": "tls-everywhere",
+          "title": {
+            "en": "TLS everywhere",
+            "uk": "TLS усюди"
+          }
+        },
+        {
+          "id": "secrets-and-replay",
+          "title": {
+            "en": "Secrets, replay & the verdict",
+            "uk": "Секрети, replay і вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m7-soap-xml",
+        "m9-graphql",
+        "m15-webhooks",
+        "m17-auth-identity",
+        "m21-idempotency"
+      ],
+      "authored": true
     },
     {
       "id": "m23-observability",
@@ -1744,13 +1807,62 @@
         "uk": "Tracing, gateways/BFF, schema registries, contract testing."
       },
       "mentalModel": {
-        "en": "You cannot fix what you cannot see: a request carries a trace id from edge gateway to the last hop.",
-        "uk": "Не полагодиш те, чого не бачиш: запит несе trace id від edge gateway до останнього стрибка."
+        "en": "**You cannot fix what you cannot see — and in a distributed system, \"seeing\" means following one request across every hop it touches.** A single call now fans out through a gateway, a backend-for-frontend, three services, and a queue; when it is slow or wrong, the logs of any one box are a keyhole view. Observability is the discipline of making the whole path legible, and it rests on **three signals with three different jobs**: **metrics** tell you *that* something is wrong (the error rate climbed, p99 doubled), **traces** tell you *where* (the 6 seconds were spent in the payments span), and **logs** tell you *why* (that span logged a slow query). The thread that ties them together is a **trace id** minted at the edge and propagated — unbroken — to the last hop, via the W3C Trace Context `traceparent` header and the vendor-neutral OpenTelemetry standard. The same \"make the boundary legible and enforced\" instinct extends past runtime into the *contract*: an **API gateway** centralizes the edge concerns, a **schema registry** and **consumer-driven contract tests** turn m18's evolution rules from hope into a build-time gate, and a **versioned OpenAPI/AsyncAPI spec** keeps docs, validation, and generated code from ever drifting apart.",
+        "uk": "**Не полагодиш те, чого не бачиш — а в розподіленій системі «бачити» означає стежити за одним запитом крізь кожен хоп, якого він торкається.** Один виклик тепер розгортається крізь gateway, backend-for-frontend, три сервіси й чергу; коли він повільний чи хибний, логи будь-якої окремої коробки — це погляд крізь замкову шпарину. Observability — це дисципліна робити весь шлях легким для читання, і вона стоїть на **трьох сигналах із трьома різними задачами**: **metrics** кажуть *що* щось не так (error rate зріс, p99 подвоївся), **traces** кажуть *де* (6 секунд провели у span-і payments), а **logs** кажуть *чому* (той span залогував повільний запит). Нитка, що їх звʼязує, — це **trace id**, викарбуваний на edge і пропагований — безперервно — до останнього хопа, через заголовок W3C Trace Context `traceparent` і вендор-нейтральний стандарт OpenTelemetry. Той самий інстинкт «зроби межу читаною й забезпеченою» тягнеться поза рантайм у *контракт*: **API gateway** централізує edge-турботи, **schema registry** й **consumer-driven contract-тести** перетворюють правила еволюції з m18 зі сподівання на build-time gate, а **версійована OpenAPI/AsyncAPI-специфікація** не дає докам, валідації й згенерованому коду ніколи розійтися."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 16,
+      "topics": [
+        {
+          "id": "logging-metrics-tracing",
+          "title": {
+            "en": "Logs, metrics & traces",
+            "uk": "Logs, metrics і traces"
+          }
+        },
+        {
+          "id": "opentelemetry-traceparent",
+          "title": {
+            "en": "OpenTelemetry & traceparent",
+            "uk": "OpenTelemetry і traceparent"
+          }
+        },
+        {
+          "id": "api-gateways-bff",
+          "title": {
+            "en": "Gateways & Backend-for-Frontend",
+            "uk": "Gateways та Backend-for-Frontend"
+          }
+        },
+        {
+          "id": "schema-registries",
+          "title": {
+            "en": "Schema registries",
+            "uk": "Schema registries"
+          }
+        },
+        {
+          "id": "contract-testing",
+          "title": {
+            "en": "Contract testing",
+            "uk": "Contract testing"
+          }
+        },
+        {
+          "id": "versioned-docs-openapi",
+          "title": {
+            "en": "Versioned docs & the verdict",
+            "uk": "Версійовані доки і вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m16-async-messaging",
+        "m17-auth-identity",
+        "m18-versioning",
+        "m20-pagination-limits",
+        "m22-security-threats"
+      ],
+      "authored": true
     },
     {
       "id": "m24-decision-framework",
