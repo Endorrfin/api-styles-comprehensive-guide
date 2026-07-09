@@ -109,6 +109,10 @@ export const figures: Record<string, ComponentType> = {
   'problem-details': lazyNamed(() => import('../components/figures/ProblemDetails'), 'ProblemDetails'),
   // CHANGED (s12a): outbox-saga — dual-write bug vs outbox relay + saga compensations for m21.
   'outbox-saga': lazyNamed(() => import('../components/figures/OutboxSaga'), 'OutboxSaga'),
+  // CHANGED (s12b): trust-boundaries — untrusted/edge/trusted zones + injection/CSRF/SSRF crossings for m22.
+  'trust-boundaries': lazyNamed(() => import('../components/figures/TrustBoundaries'), 'TrustBoundaries'),
+  // CHANGED (s12b): gateway-topology — clients→gateway→BFF→services + traceparent rail for m23.
+  'gateway-topology': lazyNamed(() => import('../components/figures/GatewayTopology'), 'GatewayTopology'),
 };
 
 export const getSim = (key: string): ComponentType | undefined => sims[key];

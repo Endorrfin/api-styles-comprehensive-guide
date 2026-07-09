@@ -444,4 +444,101 @@ export const glossary: GlossaryEntry[] = [
     },
     seeAlso: ['Idempotent'],
   },
+  // CHANGED (s12b): security + observability terms (m22, m23).
+  {
+    term: 'SSRF',
+    def: {
+      en: 'Server-Side Request Forgery: tricking the server into fetching an attacker-chosen URL — internal services or the cloud metadata endpoint 169.254.169.254 (the confused deputy). OWASP API7:2023.',
+      uk: 'Server-Side Request Forgery: обман сервера, щоб він зафетчив обраний атакером URL — внутрішні сервіси чи хмарний metadata endpoint 169.254.169.254 (заплутаний депутат). OWASP API7:2023.',
+    },
+    seeAlso: ['CORS', 'CSRF'],
+  },
+  {
+    term: 'CORS',
+    def: {
+      en: 'Cross-Origin Resource Sharing: a server\'s controlled relaxation of the browser Same-Origin Policy (Access-Control-Allow-Origin). A browser guard for the user, NOT a server firewall — non-browser clients ignore it.',
+      uk: 'Cross-Origin Resource Sharing: кероване послаблення сервером браузерної Same-Origin Policy (Access-Control-Allow-Origin). Браузерний вартовий для користувача, а НЕ серверний фаєрвол — не-браузерні клієнти його ігнорують.',
+    },
+    seeAlso: ['CSRF', 'SameSite'],
+  },
+  {
+    term: 'CSRF',
+    def: {
+      en: 'Cross-Site Request Forgery: a malicious site triggers a state-changing request that rides the victim\'s auto-attached cookie. Bearer-token-in-header APIs are immune; cookie sessions need SameSite + a CSRF token.',
+      uk: 'Cross-Site Request Forgery: зловмисний сайт запускає запит, що змінює стан, їдучи на автоматично причепленому cookie жертви. API з bearer-token-in-header імунні; cookie-сесії потребують SameSite + CSRF-токен.',
+    },
+    seeAlso: ['CORS', 'SameSite'],
+  },
+  {
+    term: 'SameSite',
+    def: {
+      en: 'A cookie attribute (Lax/Strict/None) limiting cross-site sending. Chromium defaults unspecified cookies to Lax, so they are withheld on cross-site POST — defense-in-depth against CSRF, not a complete defence.',
+      uk: 'Атрибут cookie (Lax/Strict/None), що обмежує cross-site надсилання. Chromium дефолтить незазначені cookie в Lax, тож їх притримують на cross-site POST — defense-in-depth проти CSRF, а не повний захист.',
+    },
+    seeAlso: ['CSRF'],
+  },
+  {
+    term: 'Prototype pollution',
+    def: {
+      en: 'A JavaScript deserialization flaw: a payload with a __proto__ key mutates Object.prototype during a careless merge, poisoning every object. Guard __proto__/constructor/prototype or use a null-proto target.',
+      uk: 'Вада десеріалізації в JavaScript: payload із ключем __proto__ мутує Object.prototype під час недбалого merge, отруюючи кожен обʼєкт. Стережи __proto__/constructor/prototype або бери null-proto ціль.',
+    },
+    seeAlso: ['SSRF'],
+  },
+  {
+    term: 'traceparent',
+    def: {
+      en: 'The W3C Trace Context request header (version-trace_id-span_id-flags) that carries one trace_id across every hop, stitching a distributed request into a single trace. Propagated by OpenTelemetry.',
+      uk: 'Заголовок запиту W3C Trace Context (version-trace_id-span_id-flags), що несе один trace_id крізь кожен хоп, зшиваючи розподілений запит в один trace. Пропагується OpenTelemetry.',
+    },
+    seeAlso: ['OpenTelemetry', 'Span'],
+  },
+  {
+    term: 'OpenTelemetry',
+    def: {
+      en: 'The vendor-neutral observability standard: one set of SDKs + the OTLP protocol emitting traces, metrics, and logs to any compatible backend, so instrumentation is not locked to a vendor.',
+      uk: 'Вендор-нейтральний стандарт observability: один набір SDK + протокол OTLP, що емітить traces, metrics і logs у будь-який сумісний бекенд, тож інструментація не прив\'язана до вендора.',
+    },
+    seeAlso: ['traceparent', 'Span'],
+  },
+  {
+    term: 'Span',
+    def: {
+      en: 'One timed unit of work in a trace (a start, a duration, a parent). A distributed request is a tree of spans under one trace_id, rendered as a waterfall that shows where the time went.',
+      uk: 'Одна виміряна одиниця роботи в trace (старт, тривалість, батько). Розподілений запит — це дерево span-ів під одним trace_id, показане водоспадом, що видно, куди пішов час.',
+    },
+    seeAlso: ['traceparent', 'OpenTelemetry'],
+  },
+  {
+    term: 'API gateway',
+    def: {
+      en: 'The single front door in front of many services: it terminates TLS, authenticates, rate-limits, routes, and injects the trace id — cross-cutting edge concerns solved once instead of per service.',
+      uk: 'Єдині парадні двері перед багатьма сервісами: термінує TLS, автентифікує, rate-лімітить, маршрутизує й інʼєктить trace id — наскрізні edge-турботи, розвʼязані раз, а не на сервіс.',
+    },
+    seeAlso: ['BFF', 'Schema registry'],
+  },
+  {
+    term: 'BFF',
+    def: {
+      en: 'Backend-for-Frontend: a tailored backend per client type (web/mobile/partner) that aggregates and trims services to that client\'s needs, instead of one general-purpose API. Keep it free of business logic.',
+      uk: 'Backend-for-Frontend: пошитий бекенд на тип клієнта (web/mobile/partner), що агрегує й підрізає сервіси під потреби того клієнта, замість одного загального API. Тримай його без бізнес-логіки.',
+    },
+    seeAlso: ['API gateway'],
+  },
+  {
+    term: 'Schema registry',
+    def: {
+      en: 'The shared contract for brokered events: producers register a schema (Avro/Protobuf/JSON Schema), messages carry a schema id, and a compatibility mode (backward/forward/full) is enforced at publish time.',
+      uk: 'Спільний контракт для брокерних подій: producer-и реєструють схему (Avro/Protobuf/JSON Schema), повідомлення несуть schema id, а compatibility mode (backward/forward/full) забезпечується на публікації.',
+    },
+    seeAlso: ['Contract testing', 'API gateway'],
+  },
+  {
+    term: 'Contract testing',
+    def: {
+      en: 'Verifying an API contract without full integration: consumer-driven (Pact) collects consumer expectations the provider must verify in CI, so a breaking change fails the build, not production.',
+      uk: 'Перевірка контракту API без повної інтеграції: consumer-driven (Pact) збирає очікування consumer-ів, які provider мусить верифікувати в CI, тож breaking change валить білд, а не продакшн.',
+    },
+    seeAlso: ['Schema registry'],
+  },
 ];

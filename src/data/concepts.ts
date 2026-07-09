@@ -32,6 +32,9 @@ import { m19 } from './modules/m19-errors-status';
 // CHANGED (s12a): pagination & rate limiting + idempotency/reliability authored.
 import { m20 } from './modules/m20-pagination-limits';
 import { m21 } from './modules/m21-idempotency';
+// CHANGED (s12b): Section IV complete — security & threat models, observability & gateways authored.
+import { m22 } from './modules/m22-security-threats';
+import { m23 } from './modules/m23-observability';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -112,18 +115,8 @@ export const modules: Module[] = [
   m19, // s11 — Errors & status semantics + problem-details figure (fully authored)
   m20, // s12a — Pagination & rate limiting + pagination-compare interactive (fully authored)
   m21, // s12a — Idempotency, reliability & delivery + outbox-saga figure (fully authored)
-  stub({
-    id: 'm22-security-threats', num: 22, section: 's4-cross-cutting', order: 6, level: 'staff',
-    title: { en: 'Security & threat models', uk: 'Безпека та моделі загроз' },
-    tagline: { en: 'Injection, SSRF, CORS/CSRF, DoS, deserialization.', uk: 'Injection, SSRF, CORS/CSRF, DoS, deserialization.' },
-    mentalModel: { en: 'Every input is hostile until proven otherwise: validate at the boundary, least-privilege behind it.', uk: 'Кожен вхід ворожий, доки не доведено інше: валідуй на межі, least-privilege за нею.' },
-  }),
-  stub({
-    id: 'm23-observability', num: 23, section: 's4-cross-cutting', order: 7, level: 'senior',
-    title: { en: 'Observability & gateways', uk: 'Observability та gateways' },
-    tagline: { en: 'Tracing, gateways/BFF, schema registries, contract testing.', uk: 'Tracing, gateways/BFF, schema registries, contract testing.' },
-    mentalModel: { en: 'You cannot fix what you cannot see: a request carries a trace id from edge gateway to the last hop.', uk: 'Не полагодиш те, чого не бачиш: запит несе trace id від edge gateway до останнього стрибка.' },
-  }),
+  m22, // s12b — Security & threat models + trust-boundaries figure (fully authored)
+  m23, // s12b — Observability & gateways + gateway-topology figure (fully authored)
 
   // ── Section V · Choosing ───────────────────────────────────────────────────
   stub({
