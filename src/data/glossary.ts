@@ -541,4 +541,21 @@ export const glossary: GlossaryEntry[] = [
     },
     seeAlso: ['Schema registry'],
   },
+  // CHANGED (s13a): decision-framework terms (m24).
+  {
+    term: 'Strangler fig',
+    def: {
+      en: 'Fowler\'s incremental-replacement pattern applied to APIs: stand the new interface up beside the old one, route consumers over gradually, sunset the old one last — never a big-bang cutover.',
+      uk: 'Патерн інкрементальної заміни від Fowler-а, застосований до API: підніми новий інтерфейс поруч зі старим, переводь споживачів поступово, старий вимикай останнім — ніколи не big-bang cutover.',
+    },
+    seeAlso: ['Contract testing'],
+  },
+  {
+    term: 'Lock-in (exit cost)',
+    def: {
+      en: 'What leaving a style costs: consumers × contract tightness × wire assumptions. REST is cheapest to exit; brokered events are contracts with consumers you don\'t know about.',
+      uk: 'Скільки коштує покинути стиль: споживачі × тісність контракту × припущення щодо дроту. З REST вийти найдешевше; брокерні події — контракти зі споживачами, про яких ти не знаєш.',
+    },
+    seeAlso: ['Strangler fig', 'Schema registry'],
+  },
 ];

@@ -134,4 +134,6 @@ Turn the whole guide into a decision. The picker and the mental-models recap.
    §D(7) security-threat callouts retrofitted into m8/m13/m16 — **21 / 25 modules authored.**
    **S12b (done):** `m22-security-threats` (figure `trust-boundaries`) + `m23-observability` (figure
    `gateway-topology`) — **Section IV complete; 23 / 25 modules authored.**
-10. **S13:** `m24-decision-framework` + `style-picker`; `m25-mental-models`; glossary; polish; launch.
+10. **S13a (done):** `m24-decision-framework` + the `style-picker` signature interactive (engine +
+    golden test + sim), wired as the `#/decide` page — **24 / 25 modules authored; all 9 signature
+    sims shipped.** **S13b:** `m25-mental-models`; glossary polish; the polish backlog; launch.

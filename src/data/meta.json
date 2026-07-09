@@ -1883,10 +1883,60 @@
         "en": "There is no best style, only a best fit per boundary: latency, payload, streaming, reach, and coupling decide.",
         "uk": "Немає найкращого стилю, є найкращий fit під boundary: latency, payload, streaming, reach і coupling вирішують."
       },
-      "readMins": 8,
-      "topics": [],
-      "seeAlso": [],
-      "authored": false
+      "readMins": 16,
+      "topics": [
+        {
+          "id": "the-decision-tree",
+          "title": {
+            "en": "The decision tree",
+            "uk": "Дерево рішення"
+          }
+        },
+        {
+          "id": "the-trade-off-matrix",
+          "title": {
+            "en": "The trade-off matrix",
+            "uk": "Матриця trade-off-ів"
+          }
+        },
+        {
+          "id": "anti-patterns",
+          "title": {
+            "en": "Anti-patterns",
+            "uk": "Анти-патерни"
+          }
+        },
+        {
+          "id": "migration-paths",
+          "title": {
+            "en": "Migration paths",
+            "uk": "Шляхи міграції"
+          }
+        },
+        {
+          "id": "polyglot-apis-in-one-system",
+          "title": {
+            "en": "Polyglot APIs in one system",
+            "uk": "Polyglot API в одній системі"
+          }
+        },
+        {
+          "id": "cost-of-change",
+          "title": {
+            "en": "Cost of change & the verdict",
+            "uk": "Ціна зміни і вердикт"
+          }
+        }
+      ],
+      "seeAlso": [
+        "m2-decision-axes",
+        "m5-rest",
+        "m9-graphql",
+        "m10-grpc",
+        "m18-versioning",
+        "m23-observability"
+      ],
+      "authored": true
     },
     {
       "id": "m25-mental-models",

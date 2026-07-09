@@ -11,7 +11,8 @@ const LandscapeMap = lazy(() => import('./components/map/LandscapeMap').then((m)
 const ModulePage = lazy(() => import('./components/module/ModulePage').then((m) => ({ default: m.ModulePage })));
 const GlossaryPage = lazy(() => import('./components/pages/GlossaryPage').then((m) => ({ default: m.GlossaryPage })));
 const MentalModelsPage = lazy(() => import('./components/pages/MentalModelsPage').then((m) => ({ default: m.MentalModelsPage })));
-const ComingSoon = lazy(() => import('./components/pages/ComingSoon').then((m) => ({ default: m.ComingSoon })));
+// CHANGED (s13a): #/decide now renders the style-picker signature interactive (ComingSoon no longer needed here).
+const StylePickerSim = lazy(() => import('./components/sims/StylePickerSim').then((m) => ({ default: m.StylePickerSim })));
 
 export function App() {
   const route = useRoute();
@@ -56,11 +57,11 @@ export function App() {
                 <h1>{t(ui.decide)}</h1>
                 <p className="muted">
                   {t({
-                    en: 'The interactive style picker — answer a few questions about your boundary (latency, payload shape, streaming, browser reach, coupling) and it ranks the best-fit API styles. Shipping with module m24 (the decision framework).',
-                    uk: 'Інтерактивний підбір стилю — дайте відповідь на кілька питань про ваш boundary (latency, форма payload, streaming, доступність у браузері, coupling), і він проранжує найкращі API-стилі. Вийде з модулем m24 (decision framework).',
+                    en: 'Five plain-language questions about your boundary — who calls, the conversation shape, contract discipline, payload, reach — ranked live with named reasons. The method behind it is module m24, the decision framework.',
+                    uk: 'П’ять питань простою мовою про ваш boundary — хто викликає, форма розмови, контрактна дисципліна, payload, охоплення — з живим ранжуванням і названими причинами. Метод за цим — модуль m24, decision framework.',
                   })}
                 </p>
-                <ComingSoon />
+                <StylePickerSim />
               </div>
             )}
           </Suspense>

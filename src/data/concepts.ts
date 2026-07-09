@@ -35,6 +35,8 @@ import { m21 } from './modules/m21-idempotency';
 // CHANGED (s12b): Section IV complete — security & threat models, observability & gateways authored.
 import { m22 } from './modules/m22-security-threats';
 import { m23 } from './modules/m23-observability';
+// CHANGED (s13a): Section V begins — the decision framework + the style-picker signature interactive.
+import { m24 } from './modules/m24-decision-framework';
 
 /*
  * concepts.ts — the SINGLE SOURCE OF TRUTH (CLAUDE.md §2, §4).
@@ -119,12 +121,7 @@ export const modules: Module[] = [
   m23, // s12b — Observability & gateways + gateway-topology figure (fully authored)
 
   // ── Section V · Choosing ───────────────────────────────────────────────────
-  stub({
-    id: 'm24-decision-framework', num: 24, section: 's5-choosing', order: 1, level: 'staff', signature: true,
-    title: { en: 'The decision framework', uk: 'Фреймворк рішення' },
-    tagline: { en: 'Pick a style per boundary — and defend it.', uk: 'Обери стиль під boundary — і захисти вибір.' },
-    mentalModel: { en: 'There is no best style, only a best fit per boundary: latency, payload, streaming, reach, and coupling decide.', uk: 'Немає найкращого стилю, є найкращий fit під boundary: latency, payload, streaming, reach і coupling вирішують.' },
-  }),
+  m24, // ★ s13a — the decision framework + style-picker (the last signature sim; fully authored)
   stub({
     id: 'm25-mental-models', num: 25, section: 's5-choosing', order: 2, level: 'beginner',
     title: { en: 'Mental models & when-NOT gallery', uk: 'Ментальні моделі та галерея коли-НЕ' },

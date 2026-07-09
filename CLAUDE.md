@@ -179,9 +179,53 @@ make it sub-path-safe. **Agent sessions never push** — the owner deploys.
   security-threat callouts retrofitted into m8/m13/m16.
 - **S12b (done)** — Section IV remainder: `m22-security-threats` (+ figure `trust-boundaries`) +
   `m23-observability` (+ figure `gateway-topology`). **Section IV complete; 23 / 25 authored.**
-- **S13** — decision framework + `style-picker`, mental-models gallery, glossary, polish, launch.
+- **S13a (done)** — `m24-decision-framework` (staff, Section V) + the **`style-picker`** signature
+  interactive (engine `lib/picker.ts` + `scripts/test-picker.ts` + `StylePickerSim`) wired as the
+  `#/decide` page. **24 / 25 authored; all 9 signature sims spent.**
+- **S13b** — `m25-mental-models` (the last module), glossary polish, the polish backlog (copy-code
+  buttons, `og:image`, topic copy-links, sticky table headers, S/W tables m6/m11), launch.
 
 ## 14. Status / progress log
+- **S13a** (2026-07-09) — **Section V opens: the decision framework + the last signature sim.**
+  Authored **`m24-decision-framework`** (staff, signature; 6 topics: the-decision-tree (sim) →
+  the-trade-off-matrix (8-style × 6-column table, "read by columns") → anti-patterns (6 named failure
+  modes + tell/fix table) → migration-paths (strangler fig; Netflix GraphQL-monolith-as-first-subgraph,
+  AIP-127 `google.api.http` dual-surface proto sample, Shopify legacy/gate calendar) →
+  polyglot-apis-in-one-system (reference boundary→style→one-sentence-defence table + seams security
+  callout) → cost-of-change (lock-in gradient; use/avoid verdict); 6 keyPoints, 3 pitfalls, 2 staff
+  interviews (marketplace surface design; REST→GraphQL both-sides), 9 sources). Built the signature
+  interactive **`style-picker`**: pure engine `src/lib/picker.ts` — five plain-language boundary
+  questions (consumers · shape · contract · payload · reach) whose answers merge into per-axis-MEAN
+  targets over the compass STYLES (single source, no drift) plus **named boosts/vetoes with bilingual
+  reasons** (gRPC −40 browser reach, tRPC −50 public callers, GraphQL +25 client-shaped, SOAP −15 in a
+  TS monorepo…), ranked by unclamped raw so the 100-cap never erases a boost, WHEN_NOT line per style —
+  + `scripts/test-picker.ts` (structure, 10 golden boundary scenarios incl. exact-score hand-traces,
+  bounds, determinism, every-option-moves-something) + `StylePickerSim.tsx` (question chips with
+  aria-pressed, verdict card with reason rows + when-NOT, runner-up, full ranked field with bars, live
+  region, reduced-motion; SSR-safe, no timers) + `spk-*` styles in guide.css. **Wired `#/decide`** to
+  render it (ComingSoon retired from that route; ui.decide label = "Style Picker"). +2 glossary terms
+  (Strangler fig, Lock-in (exit cost) → 69 total). **Web-verified the anchors** (Shopify: REST Admin
+  legacy 2024-10-01, new public App-Store apps GraphQL-only from 2025-04-01, existing apps unaffected;
+  GitHub: REST+GraphQL peers, "use the API that best aligns with your needs", Node IDs bridge; Netflix:
+  federated supergraph via the existing *GraphQL* monolith as first subgraph — TechBlog Parts 1+2 both
+  in sources; Google AIP-127 transcoding (Endpoints/Envoy/grpc-gateway); Stripe: public REST, GraphQL
+  internal-only; Fowler strangler fig). **QA pass** (independent subagent: hand-trace + engine
+  execution + primary-source fetches): **no P1s**; fixed all 6 P2s (Netflix label "REST/monolith" →
+  "GraphQL monolith → federated supergraph"; fabricated 30×/15× polling multipliers → qualitative
+  claim; «еліминує»→«елімінує»; «систем має»→«система має»; «месседжингу»→«messaging-у»; «фіга»→
+  «фікус-душитель») + the valuable P3s (header-comment fact ledger aligned to Shopify's public-apps-only
+  wording; SSE matrix cell now the precise "survives proxies that break WS upgrades"; SOAP −15
+  counter-weight on `e2e-ts` so the runner-up isn't comic — regression-guarded in test 9; "all 10
+  scenarios" message; `.spk-opt` added to the reduced-motion block; polling/флот/строгий/поліція/
+  пере-виводити/припущення-дроту/йде-на-захід language batch). **All gates GREEN**: typecheck
+  (+check:meta) · lint · check:data (**24 authored** / 25) · test (**10 engines**) · smoke (**253
+  checks**, 10 sims + 24 figures EN+UK) · build (`--outDir dist-s13a`/`dist-s13a2`; eager index 121 kB
+  gzip 43, StylePickerSim chunk 18 kB, bodies in the lazy `concepts` chunk 974 kB gzip 323). *Branch:*
+  `s13a-decision-framework`. *Commit:* `feat: author m24 (decision framework) + style-picker sim +
+  #/decide page`. **Commit `src/data/meta.json`** (check:meta guards it). *Cleanup:* `rm -rf dist-s13a
+  dist-s13a2` (scratch builds). *Open items:* **S13b** = `m25-mental-models`, glossary polish, the
+  polish backlog (copy-code buttons, `og:image`, topic copy-links, sticky table headers, S/W tables
+  m6/m11), launch.
 - **S12b** (2026-07-09) — **Section IV complete.** Authored **`m22-security-threats`** (staff, 8
   deep-link topics: injection · ssrf · cors · csrf · dos-complexity-attacks · deserialization ·
   tls-everywhere · secrets-and-replay+verdict; 6 keyPoints, 3 pitfalls, 2 staff interviews, 9 sources)

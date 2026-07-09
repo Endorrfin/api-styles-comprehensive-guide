@@ -2406,8 +2406,7 @@
   transition: width 240ms ease;
 }
 @media (prefers-reduced-motion: reduce) {
-  .spk-row-fill,
-  .spk-opt {
+  .spk-row-fill {
     transition: none;
   }
 }
